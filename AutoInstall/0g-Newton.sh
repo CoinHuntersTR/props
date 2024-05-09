@@ -5,8 +5,8 @@ read -p "Lütfen MONIKER'ınızı girin: " MONIKER
 read -p "Lütfen wallet bilginizi girin: " WALLET
 
 # Kullanıcıya onay iste
-read -p "Girilen bilgiler doğru mu? (E/H): " CONFIRM
-if [ "$CONFIRM" != "E" ]; then
+read -p "Girilen bilgiler doğru mu?(Büyük harfle Y yaz!) (Y/N): " CONFIRM
+if [ "$CONFIRM" != "Y" ]; then
     echo "İşlem iptal edildi."
     exit 1
 fi
