@@ -12,11 +12,11 @@ if [ "$CONFIRM" != "Y" ]; then
 fi
 
 # Gerekli bağımlılıkları yükle
-echo "Gerekli bağımlılıkları yükleme işlemi başlatılıyor..."
+echo -e "\e[1m\e[32m1. Gerekli bağımlılıkları yükleme işlemi başlatılıyor... \e[0m"
 cd $HOME && source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/update-cosmos.sh)
 
 # Binleri indir ve derle
-echo "Binleri indirme ve derleme işlemi başlatılıyor..."
+echo -e "\e[1m\e[32m1. Binaries indirme ve derleme işlemi başlatılıyor... \e[0m"
 git clone -b v0.1.0 https://github.com/0glabs/0g-chain.git
 ./0g-chain/networks/testnet/install.sh
 source .profile
@@ -26,7 +26,7 @@ sudo ln -s $HOME/.0gchain/cosmovisor/genesis $HOME/.0gchain/cosmovisor/current -
 sudo ln -s $HOME/.0gchain/cosmovisor/current/bin/0gchaind /usr/local/bin/0gchaind -f
 
 # Servis dosyası oluştur
-echo "Servis dosyası oluşturuluyor..."
+echo -e "\e[1m\e[32m1. Servis dosyası oluşturuluyor... \e[0m"
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
 sudo tee /etc/systemd/system/0gchain.service > /dev/null << EOF
 [Unit]
@@ -50,7 +50,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable 0gchain
 
 # Değişkenleri ayarla
-echo "Değişkenler ayarlanıyor..."
+echo -e "\e[1m\e[32m1. Değişkenler ayarlanıyor... \e[0m"
 echo 'export CHAIN_ID="zgtendermint_16600-1"' >> ~/.bash_profile
 echo "export WALLET_NAME=\"$WALLET\"" >> ~/.bash_profile
 source $HOME/.bash_profile
@@ -59,12 +59,12 @@ source $HOME/.bash_profile
 0gchaind config keyring-backend test 
 
 # Genesis ve Addrbook dosyalarını indir
-echo "Genesis ve Addrbook dosyaları indiriliyor..."
+echo -e "\e[1m\e[32m1. Genesis ve Addrbook dosyaları indiriliyor... \e[0m"
 rm $HOME/.0gchain/config/genesis.json
 wget https://github.com/0glabs/0g-chain/releases/download/v0.1.0/genesis.json -O $HOME/.0gchain/config/genesis.json
 
 # Yapılandırma
-echo "Yapılandırma yapılıyor..."
+echo -e "\e[1m\e[32m1. Yapılandırma dosyaları Ayarlanıyor... \e[0m"
 seeds=$(curl -s https://raw.githubusercontent.com/CoinHuntersTR/props/main/0g-Newton/seeds.txt)
 sed -i.bak -e "s/^seeds *=.*/seeds = \"$seeds\"/" $HOME/.0gchain/config/config.toml
 peers=$(curl -s https://raw.githubusercontent.com/CoinHuntersTR/props/main/0g-Newton/peers.txt)
@@ -76,7 +76,7 @@ sed -i "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.00252ua0gi\"/" $HOME
 sed -i "s/^indexer *=.*/indexer = \"kv\"/" $HOME/.0gchain/config/config.toml
 
 # Snapshot
-echo "Snapshot alınıyor..."
+echo -e "\e[1m\e[32m1. Snapshot indiriliyor... \e[0m"
 sudo systemctl stop 0gchain
 cp $HOME/.0gchain/data/priv_validator_state.json $HOME/.0gchain/priv_validator_state.json.backup
 rm -rf $HOME/.0gchain/data && mkdir -p $HOME/.0gchain/data
@@ -84,5 +84,5 @@ curl -L https://snap.vnbnode.com/0g/zgtendermint_16600-1_snapshot_latest.tar.lz4
 mv $HOME/.0gchain/priv_validator_state.json.backup $HOME/.0gchain/data/priv_validator_state.json
 
 # Servisi başlat
-echo "Servis başlatılıyor..."
+echo -e "\e[1m\e[32m1. Servis yeniden başlatılıyor... \e[0m"
 sudo systemctl restart 0gchain && sudo journalctl -u 0gchain -f
