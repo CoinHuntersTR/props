@@ -30,8 +30,8 @@ echo -e "\e[1m\e[32m1. Config, Addrbook ve Genesis dosyalarını ayarlanıyor...
 junctiond config chain-id junction
 junctiond init "$MONIKER" --chain-id junction
 
-sudo wget -O $HOME/.junction/config/genesis.json https://files.dymion.cloud/junction/genesis.json
-sudo wget -O $HOME/.junction/config/addrbook.json https://files.dymion.cloud/junction/addrbook.json
+sudo wget -O $HOME/.junction/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/Airchains/genesis.json
+sudo wget -O $HOME/.junction/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/Airchains/addrbook.json
 
 sed -i.bak -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.025amf\"/;" ~/.junction/config/app.toml
 
