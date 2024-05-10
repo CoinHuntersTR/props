@@ -53,6 +53,10 @@ echo "$PEERS"
 
 sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.junction/config/config.toml
 
+echo -e "\e[1m\e[32m1. Snapshot indiriliyor... \e[0m"
+junctiond tendermint unsafe-reset-all --home ~/.junction/ --keep-addr-book
+curl https://files.dymion.cloud/junction/data.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.junction
+
 echo -e "\e[1m\e[32m1. Servis oluşturuluyor... \e[0m"
 sudo tee /etc/systemd/system/junctiond.service > /dev/null <<EOF
 [Unit]
@@ -70,13 +74,5 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable junctiond
 
-echo -e "\e[1m\e[32m1. Snapshot indiriliyor... \e[0m"
-sudo systemctl stop junctiond
-cp $HOME/.junction/data/priv_validator_state.json $HOME/.junction/data/priv_validator_state.json.backup
-rm -rf $HOME/.junction/data && mkdir -p $HOME/.junction/data
-curl -L https://files.dymion.cloud/junction/data.tar.lz4 | tar -I lz4 -xf - -C $HOME/.junction/data
-mv $HOME/.junction/data/priv_validator_state.json.backup $HOME/.junction/data/priv_validator_state.json
-sudo systemctl restart junctiond
-
 echo -e "\e[1m\e[32m1.Log kontrolü... \e[0m"
-journalctl -u junctiond -f -o cat
+sudo systemctl restart junctiond && journalctl -u junctiond -f -o cat
