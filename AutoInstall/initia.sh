@@ -91,4 +91,4 @@ curl -L https://snapshots.kjnodes.com/initia-testnet/snapshot_latest.tar.lz4 | t
 [[ -f $HOME/.initia/data/upgrade-info.json ]] && cp $HOME/.initia/data/upgrade-info.json $HOME/.initia/cosmovisor/genesis/upgrade-info.json
 
 echo -e "\e[1m\e[32m1. Start service and check the logs... \e[0m"
-sudo systemctl start initia.service && sudo journalctl -u initia.service -f --no-hostname -o c
+sudo systemctl start initia.service && sudo journalctl -u initia.service -f --no-hostname -o cat
