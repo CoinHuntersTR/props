@@ -33,7 +33,7 @@ cd $HOME
 rm -rf initia
 git clone https://github.com/initia-labs/initia.git
 cd initia
-git checkout v0.2.12
+git checkout v0.2.14
 make build
 mkdir -p $HOME/.initia/cosmovisor/genesis/bin
 mv build/initiad $HOME/.initia/cosmovisor/genesis/bin/
