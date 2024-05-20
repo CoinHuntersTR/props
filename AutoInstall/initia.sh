@@ -87,7 +87,10 @@ sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.
 sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:17917\"%; s%^address = \":8080\"%address = \":17980\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:17990\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:17991\"%; s%:8545%:17945%; s%:8546%:17946%; s%:6065%:17965%" $HOME/.initia/config/app.toml
 
 echo -e "\e[1m\e[32m1. Download latest chain snapshot... \e[0m"
-screen -dmS snapshot bash -c "curl -L https://snapshots.kjnodes.com/initia-testnet/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.initia && [[ -f $HOME/.initia/data/upgrade-info.json ]] && cp $HOME/.initia/data/upgrade-info.json $HOME/.initia/cosmovisor/genesis/upgrade-info.json"
+sudo systemctl stop initia.service
+cp $HOME/.initia/data/priv_validator_state.json $HOME/.initia/priv_validator_state.json.backup
+rm -rf $HOME/.initia/data
+nohup sh -c 'curl https://snapshots.coinhunterstr.com/snap_initia.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.initia && mv $HOME/.initia/priv_validator_state.json.backup $HOME/.initia/data/priv_validator_state.json' &
 
 echo -e "\e[1m\e[32m1. Start service and check the logs... \e[0m"
 sudo systemctl start initia.service && sudo journalctl -u initia.service -f --no-hostname -o cat
