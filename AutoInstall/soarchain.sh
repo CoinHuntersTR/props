@@ -38,6 +38,10 @@ curl -Ls https://ss-t.soarchain.nodestake.org/genesis.json > $HOME/.soarchaind/c
 # Download addrbook
 curl -Ls https://ss-t.soarchain.nodestake.org/addrbook.json > $HOME/.soarchaind/config/addrbook.json
 
+# Install libwasmvm dependency
+wget https://github.com/CosmWasm/wasmvm/releases/download/v0.14.0/wasmvm.x86_64.so -O /usr/lib/libwasmvm.x86_64.so
+sudo ldconfig
+
 # Create Service
 sudo tee /etc/systemd/system/soarchaind.service > /dev/null <<EOF
 [Unit]
