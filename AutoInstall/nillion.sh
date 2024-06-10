@@ -118,7 +118,7 @@ Environment="UNSAFE_SKIP_BACKUP=true"
 
 [Install]
 WantedBy=multi-user.target
-
+EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nilchaind tendermint unsafe-reset-all --home $HOME/.nillionapp --home $HOME/.nillionapp
