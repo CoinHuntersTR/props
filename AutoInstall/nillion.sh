@@ -20,8 +20,8 @@ source $HOME/.bash_profile
 printLine
 echo -e "Moniker:        \e[1m\e[32m$MONIKER\e[0m"
 echo -e "Wallet:         \e[1m\e[32m$WALLET\e[0m"
-echo -e "Chain id:       \e[1m\e[32m$UNION_CHAIN_ID\e[0m"
-echo -e "Node custom port:  \e[1m\e[32m$UNION_PORT\e[0m"
+echo -e "Chain id:       \e[1m\e[32m$NILLION_CHAIN_ID\e[0m"
+echo -e "Node custom port:  \e[1m\e[32m$NILLION_PORT\e[0m"
 printLine
 sleep 1
 
@@ -71,7 +71,7 @@ PEERS="a82a9f70707da1def94f26f423c30b18f2a87dd7@65.109.59.22:28156,ce05aec98558f
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.nillionapp/config/config.toml
 
 # set custom ports in app.toml
-sed -i.bak -e "s%:1317%:${UNION_PORT}317%g;
+sed -i.bak -e "s%:1317%:${NILLION_PORT}317%g;
 s%:8080%:${NILLION_PORT}080%g;
 s%:9090%:${NILLION_PORT}090%g;
 s%:9091%:${NILLION_PORT}091%g;
@@ -81,7 +81,7 @@ s%:6065%:${NILLION_PORT}065%g" $HOME/.nillionapp/config/app.toml
 
 
 # set custom ports in config.toml file
-sed -i.bak -e "s%:26658%:${UNION_PORT}658%g;
+sed -i.bak -e "s%:26658%:${NILLION_PORT}658%g;
 s%:26657%:${NILLION_PORT}657%g;
 s%:6060%:${NILLION_PORT}060%g;
 s%:26656%:${NILLION_PORT}656%g;
@@ -121,7 +121,7 @@ WantedBy=multi-user.target
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
-uniond tendermint unsafe-reset-all --home $HOME/.nillionapp --home $HOME/.nillionapp
+nilchaind tendermint unsafe-reset-all --home $HOME/.nillionapp --home $HOME/.nillionapp
 if curl -s --head curl https://snapshots.coinhunterstr.com/nillion/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
   curl https://snapshots.coinhunterstr.com/nillion/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.nillionapp
     else
