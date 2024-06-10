@@ -1,0 +1,738 @@
+{
+  "genesis_time": "2024-05-17T15:00:00Z",
+  "chain_id": "nillion-chain-testnet-1",
+  "initial_height": "1",
+  "consensus_params": {
+    "block": {
+      "max_bytes": "22020096",
+      "max_gas": "-1"
+    },
+    "evidence": {
+      "max_age_num_blocks": "100000",
+      "max_age_duration": "172800000000000",
+      "max_bytes": "1048576"
+    },
+    "validator": {
+      "pub_key_types": [
+        "ed25519"
+      ]
+    },
+    "version": {
+      "app": "0"
+    },
+    "abci": {
+      "vote_extensions_enable_height": "0"
+    }
+  },
+  "app_hash": "",
+  "app_state": {
+    "07-tendermint": null,
+    "auth": {
+      "params": {
+        "max_memo_characters": "256",
+        "tx_sig_limit": "7",
+        "tx_size_cost_per_byte": "10",
+        "sig_verify_cost_ed25519": "590",
+        "sig_verify_cost_secp256k1": "1000"
+      },
+      "accounts": [
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion19st3ccevujwlq8czwew9swaudyuqh07arlnvm0",
+          "pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion1rxrq8en7vnrtw37d304j6g9vukkkdnx4up7dmd",
+          "pub_key": null,
+          "account_number": "1",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion1zcxxdrep4taeza8gvpxlly2g7rrg8w9rej56pr",
+          "pub_key": null,
+          "account_number": "2",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion1sgaa3eke36qndk2u65uw5gp4a62w8th0h67kln",
+          "pub_key": null,
+          "account_number": "3",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion1jt9w26mpxxjsk63mvd4m2ynj0af09cslcpq4zj",
+          "pub_key": null,
+          "account_number": "4",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion1ygj9a774use99aytfhzw0sk539tvaks8ad8q40",
+          "pub_key": null,
+          "account_number": "5",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion14qekdkj2nmmwea4ufg9n002a3pud23y87z7c6n",
+          "pub_key": null,
+          "account_number": "6",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion1gwyz7t9guuj38q8avvhutjma8kp4amjnf6j5lk",
+          "pub_key": null,
+          "account_number": "7",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "nillion1xvjrk0redevc6t8qrrtmaaqlsufqfl69q9gl0d",
+          "pub_key": null,
+          "account_number": "8",
+          "sequence": "0"
+        }
+      ]
+    },
+    "authz": {
+      "authorization": []
+    },
+    "bank": {
+      "params": {
+        "send_enabled": [],
+        "default_send_enabled": true
+      },
+      "balances": [
+        {
+          "address": "nillion1zcxxdrep4taeza8gvpxlly2g7rrg8w9rej56pr",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "300000000000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion1rxrq8en7vnrtw37d304j6g9vukkkdnx4up7dmd",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "300000000000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion1ygj9a774use99aytfhzw0sk539tvaks8ad8q40",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "100000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion19st3ccevujwlq8czwew9swaudyuqh07arlnvm0",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "99999500000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion1xvjrk0redevc6t8qrrtmaaqlsufqfl69q9gl0d",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "100000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion1gwyz7t9guuj38q8avvhutjma8kp4amjnf6j5lk",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "100000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion1sgaa3eke36qndk2u65uw5gp4a62w8th0h67kln",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "300000000000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion1jt9w26mpxxjsk63mvd4m2ynj0af09cslcpq4zj",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "100000000"
+            }
+          ]
+        },
+        {
+          "address": "nillion14qekdkj2nmmwea4ufg9n002a3pud23y87z7c6n",
+          "coins": [
+            {
+              "denom": "unil",
+              "amount": "100000000"
+            }
+          ]
+        }
+      ],
+      "supply": [
+        {
+          "denom": "unil",
+          "amount": "1000000000000000"
+        }
+      ],
+      "denom_metadata": [
+        {
+          "description": "The native token of the Nillion network.",
+          "denom_units": [
+            {
+              "denom": "unil",
+              "exponent": 0,
+              "aliases": [
+                "micronil"
+              ]
+            },
+            {
+              "denom": "NIL",
+              "exponent": 6,
+              "aliases": []
+            }
+          ],
+          "base": "unil",
+          "display": "NIL",
+          "name": "NIL",
+          "symbol": "NIL",
+          "uri": "",
+          "uri_hash": ""
+        }
+      ],
+      "send_enabled": []
+    },
+    "capability": {
+      "index": "1",
+      "owners": []
+    },
+    "circuit": {
+      "account_permissions": [],
+      "disabled_type_urls": []
+    },
+    "consensus": null,
+    "distribution": {
+      "params": {
+        "community_tax": "0.020000000000000000",
+        "base_proposer_reward": "0.000000000000000000",
+        "bonus_proposer_reward": "0.000000000000000000",
+        "withdraw_addr_enabled": true
+      },
+      "fee_pool": {
+        "community_pool": []
+      },
+      "delegator_withdraw_infos": [],
+      "previous_proposer": "",
+      "outstanding_rewards": [],
+      "validator_accumulated_commissions": [],
+      "validator_historical_rewards": [],
+      "validator_current_rewards": [],
+      "delegator_starting_infos": [],
+      "validator_slash_events": []
+    },
+    "evidence": {
+      "evidence": []
+    },
+    "feegrant": {
+      "allowances": []
+    },
+    "feeibc": {
+      "identified_fees": [],
+      "fee_enabled_channels": [],
+      "registered_payees": [],
+      "registered_counterparty_payees": [],
+      "forward_relayers": []
+    },
+    "genutil": {
+      "gen_txs": [
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "P-OPS Team",
+                  "identity": "A2B9CAA088770EA6",
+                  "website": "",
+                  "security_contact": "security@pops.one",
+                  "details": "P-OPS TEAM is a decentralized organization providing you with validation and staking services, blockchain consultation, growth acceleration and investment capital for innovative Web 3.0 projects."
+                },
+                "commission": {
+                  "rate": "0.050000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.020000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "",
+                "validator_address": "nillionvaloper1xvjrk0redevc6t8qrrtmaaqlsufqfl69wnegfn",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "bHk9eyy7y/euLAi1+RmRsnO4N/XaTO8bJhc8qKzQOHI="
+                },
+                "value": {
+                  "denom": "unil",
+                  "amount": "1000000"
+                }
+              }
+            ],
+            "memo": "1f0910e8021748d24c943359b4f89c91800597e0@185.180.222.76:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "AwFU8/W3tjiwuMZhms1/XPWEbcoSGytyVKM8wEKfDC3+"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            },
+            "tip": null
+          },
+          "signatures": [
+            "A0za4jca0UUgwZOZTguQBcEpVJZISt6ISmex1XNWZoIVO97BOGGph/r+YJhEMX9lD+uouMQMnaF4upEj3PWvow=="
+          ]
+        },
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "Everstake",
+                  "identity": "EF5AC70C00BECEDC",
+                  "website": "https://everstake.one",
+                  "security_contact": "account-nillion@everstake.one",
+                  "details": "Everstake is a staking-as-a-service company. We help institutional investors and regular token holders to profit off their crypto assets. Choose the most promising projects, delegate with Everstake, and make a stable passive income."
+                },
+                "commission": {
+                  "rate": "0.100000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.050000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "",
+                "validator_address": "nillionvaloper1gwyz7t9guuj38q8avvhutjma8kp4amjn8vrreg",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "uoxDfNNLj+9kZTcN0vGtlh/uM6Fv8RCO8xulweGXg5I="
+                },
+                "value": {
+                  "denom": "unil",
+                  "amount": "1000000"
+                }
+              }
+            ],
+            "memo": "22d03121ee7962f248cfa6db1babd69f44203cfe@190.2.145.55:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "A/BWZ/o92SHiOCh1IRPC9GnRaB0Gi7OHafymmhExK4lu"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            },
+            "tip": null
+          },
+          "signatures": [
+            "T4L2zkwxizZFwxTQRk+Ves29NYT6Zdtabg+cChA77FwcOH8uh0GKlNW7wdZPKDOdjq+zKiQ2Y/QZKZjci/jhvA=="
+          ]
+        },
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "InfStones",
+                  "identity": "",
+                  "website": "",
+                  "security_contact": "support@infstones.com",
+                  "details": "https://infstones.com/"
+                },
+                "commission": {
+                  "rate": "0.050000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.020000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "",
+                "validator_address": "nillionvaloper1ygj9a774use99aytfhzw0sk539tvaks8nmkhn3",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "D2m/0kHaFzyXHsLlseSfd8P+i9sal+r3JPp/6kj7tEc="
+                },
+                "value": {
+                  "denom": "unil",
+                  "amount": "1000000"
+                }
+              }
+            ],
+            "memo": "5270c2699afb4aa2daf947a97958ff0802be6c15@172.0.0.19:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "AsOIx07ffMJuWlPaLu2wuozyZrHV3/DplQxw6VYKxVH3"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            },
+            "tip": null
+          },
+          "signatures": [
+            "y/AXacz0aPdP+quzO7DduHTV7o1RtRAFI2UsX5FOj5A5cm0xfJ4+Gq1SNOOWcaT6UnsI0lWDj4Uq5GUYBF7Y6g=="
+          ]
+        },
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "polkachu.com",
+                  "identity": "0A6AF02D1557E5B4",
+                  "website": "https://polkachu.com",
+                  "security_contact": "hello@polkachu.com",
+                  "details": "Polkachu is the trusted staking service provider for blockchain projects. 100% refund for downtime slash. Contact us at hello@polkachu.com"
+                },
+                "commission": {
+                  "rate": "0.050000000000000000",
+                  "max_rate": "0.100000000000000000",
+                  "max_change_rate": "0.050000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "",
+                "validator_address": "nillionvaloper1jt9w26mpxxjsk63mvd4m2ynj0af09cslkh3zyv",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "gRA/Wh/TeVOr9SG5jvaeEF/w4+KBnOaditvI0a5Z5n4="
+                },
+                "value": {
+                  "denom": "unil",
+                  "amount": "1000000"
+                }
+              }
+            ],
+            "memo": "d51cc8413bcb2881ac7722bb1cc8cd6dbc1adfa9@65.109.113.233:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "As1WcJsvf1NQgRlS8a2PHuueKhHlCYrFe3VooMxQdflR"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            },
+            "tip": null
+          },
+          "signatures": [
+            "PqfYmBCGIPuySa1YIi7XXHVO7oKW+XO2BtKgng4M8cNactKWynayCqoW1Hl4lsHHJ/Db4z3Lz9rYMoN6FVYuWA=="
+          ]
+        },
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": " Lavender.Five Nodes 🐝",
+                  "identity": "F87ADDB700C0CC94",
+                  "website": "https://www.lavenderfive.com/",
+                  "security_contact": "security@lavenderfive.com",
+                  "details": "Fortifying crypto networks with MPC security, slash insurance, and open source contributions. Connect with us at https://linktr.ee/lavenderfive."
+                },
+                "commission": {
+                  "rate": "0.050000000000000000",
+                  "max_rate": "0.100000000000000000",
+                  "max_change_rate": "0.050000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "",
+                "validator_address": "nillionvaloper14qekdkj2nmmwea4ufg9n002a3pud23y8s500ud",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "1sl8IWQlSg96AacOijJPBMZwuDxZxTJ8LOejr4BkNps="
+                },
+                "value": {
+                  "denom": "unil",
+                  "amount": "1000000"
+                }
+              }
+            ],
+            "memo": "8b505050db202a3387f54fc74972b936ac3a299c@135.181.238.38:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "AgDrjXJ1+/lwJdf+fekEXKwLpA30N7F/Z3ESi/Sn7Rw4"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [],
+              "gas_limit": "200000",
+              "payer": "",
+              "granter": ""
+            },
+            "tip": null
+          },
+          "signatures": [
+            "JQEfG/mx0rlFUmg7LJ+Nkaj2cyYbx17MBWvbP355V5hu50XmjUIsN2GZS3ssKcEjLU9tx4sEY1rrMTMqadmc3g=="
+          ]
+        }
+      ]
+    },
+    "gov": {
+      "starting_proposal_id": "1",
+      "deposits": [],
+      "votes": [],
+      "proposals": [],
+      "deposit_params": null,
+      "voting_params": null,
+      "tally_params": null,
+      "params": {
+        "min_deposit": [
+          {
+            "denom": "unil",
+            "amount": "1000000000"
+          }
+        ],
+        "max_deposit_period": "172800s",
+        "voting_period": "172800s",
+        "quorum": "0.334000000000000000",
+        "threshold": "0.500000000000000000",
+        "veto_threshold": "0.334000000000000000",
+        "min_initial_deposit_ratio": "0.000000000000000000",
+        "proposal_cancel_ratio": "0.500000000000000000",
+        "proposal_cancel_dest": "",
+        "expedited_voting_period": "86400s",
+        "expedited_threshold": "0.667000000000000000",
+        "expedited_min_deposit": [
+          {
+            "denom": "unil",
+            "amount": "5000000000"
+          }
+        ],
+        "burn_vote_quorum": false,
+        "burn_proposal_deposit_prevote": false,
+        "burn_vote_veto": true,
+        "min_deposit_ratio": "0.010000000000000000"
+      },
+      "constitution": ""
+    },
+    "ibc": {
+      "client_genesis": {
+        "clients": [],
+        "clients_consensus": [],
+        "clients_metadata": [],
+        "params": {
+          "allowed_clients": [
+            "*"
+          ]
+        },
+        "create_localhost": false,
+        "next_client_sequence": "0"
+      },
+      "connection_genesis": {
+        "connections": [],
+        "client_connection_paths": [],
+        "next_connection_sequence": "0",
+        "params": {
+          "max_expected_time_per_block": "30000000000"
+        }
+      },
+      "channel_genesis": {
+        "channels": [],
+        "acknowledgements": [],
+        "commitments": [],
+        "receipts": [],
+        "send_sequences": [],
+        "recv_sequences": [],
+        "ack_sequences": [],
+        "next_channel_sequence": "0",
+        "params": {
+          "upgrade_timeout": {
+            "height": {
+              "revision_number": "0",
+              "revision_height": "0"
+            },
+            "timestamp": "600000000000"
+          }
+        }
+      }
+    },
+    "interchainaccounts": {
+      "controller_genesis_state": {
+        "active_channels": [],
+        "interchain_accounts": [],
+        "ports": [],
+        "params": {
+          "controller_enabled": true
+        }
+      },
+      "host_genesis_state": {
+        "active_channels": [],
+        "interchain_accounts": [],
+        "port": "icahost",
+        "params": {
+          "host_enabled": true,
+          "allow_messages": [
+            "*"
+          ]
+        }
+      }
+    },
+    "mint": {
+      "minter": {
+        "inflation": "0.030000000000000000",
+        "annual_provisions": "0.000000000000000000"
+      },
+      "params": {
+        "mint_denom": "unil",
+        "inflation_rate_change": "0.130000000000000000",
+        "inflation_max": "0.100000000000000000",
+        "inflation_min": "0.030000000000000000",
+        "goal_bonded": "0.670000000000000000",
+        "blocks_per_year": "6311520"
+      }
+    },
+    "params": null,
+    "slashing": {
+      "params": {
+        "signed_blocks_window": "5000",
+        "min_signed_per_window": "0.750000000000000000",
+        "downtime_jail_duration": "60s",
+        "slash_fraction_double_sign": "0.050000000000000000",
+        "slash_fraction_downtime": "0.000000000000000000"
+      },
+      "signing_infos": [],
+      "missed_blocks": []
+    },
+    "staking": {
+      "params": {
+        "unbonding_time": "1814400s",
+        "max_validators": 42,
+        "max_entries": 7,
+        "historical_entries": 10000,
+        "bond_denom": "unil",
+        "min_commission_rate": "0.050000000000000000"
+      },
+      "last_total_power": "0",
+      "last_validator_powers": [],
+      "validators": [],
+      "delegations": [],
+      "unbonding_delegations": [],
+      "redelegations": [],
+      "exported": false
+    },
+    "transfer": {
+      "port_id": "transfer",
+      "denom_traces": [],
+      "params": {
+        "send_enabled": true,
+        "receive_enabled": true
+      },
+      "total_escrowed": []
+    },
+    "upgrade": {},
+    "vesting": {}
+  }
+}
