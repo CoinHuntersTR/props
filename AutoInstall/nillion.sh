@@ -107,7 +107,7 @@ Description=nillion node service
 After=network-online.target
 [Service]
 User=root
-ExecStart=/root/go/bin/cosmovisor run start --home=/root/.nillionapp
+ExecStart=/root/go/bin/nilchaind run start --home=/root/.nillionapp
 Restart=on-failure
 RestartSec=10
 LimitNOFILE=65535
