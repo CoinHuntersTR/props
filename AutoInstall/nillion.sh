@@ -105,7 +105,6 @@ sudo tee /etc/systemd/system/nillion.service > /dev/null <<EOF
 [Unit]
 Description=nillion node service
 After=network-online.target
-
 [Service]
 User=root
 ExecStart=/root/go/bin/cosmovisor run start --home=/root/.nillionapp
@@ -115,10 +114,10 @@ LimitNOFILE=65535
 Environment="DAEMON_HOME=/root/.nillionapp"
 Environment="DAEMON_NAME=nilchaind"
 Environment="UNSAFE_SKIP_BACKUP=true"
-
 [Install]
 WantedBy=multi-user.target
 EOF
+
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nilchaind tendermint unsafe-reset-all --home $HOME/.nillionapp --home $HOME/.nillionapp
