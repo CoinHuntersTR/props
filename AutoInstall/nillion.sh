@@ -13,8 +13,8 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export UNION_CHAIN_ID="nillion-chain-testnet-1"" >> $HOME/.bash_profile
-echo "export UNION_PORT="$PORT"" >> $HOME/.bash_profile
+echo "export NILLION_CHAIN_ID="nillion-chain-testnet-1"" >> $HOME/.bash_profile
+echo "export NILLION_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
 printLine
@@ -47,7 +47,7 @@ printGreen "4. Installing binary..." && sleep 1
 cd $HOME
 wget -O nilchaind https://snapshots.coinhunterstr.com/nillion/nilchaind
 chmod +x nilchaind
-mv uniond $HOME/go/bin/
+mv nilchaind $HOME/go/bin/
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -72,21 +72,21 @@ sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persisten
 
 # set custom ports in app.toml
 sed -i.bak -e "s%:1317%:${UNION_PORT}317%g;
-s%:8080%:${UNION_PORT}080%g;
-s%:9090%:${UNION_PORT}090%g;
-s%:9091%:${UNION_PORT}091%g;
-s%:8545%:${UNION_PORT}545%g;
-s%:8546%:${UNION_PORT}546%g;
-s%:6065%:${UNION_PORT}065%g" $HOME/.nillionapp/config/app.toml
+s%:8080%:${NILLION_PORT}080%g;
+s%:9090%:${NILLION_PORT}090%g;
+s%:9091%:${NILLION_PORT}091%g;
+s%:8545%:${NILLION_PORT}545%g;
+s%:8546%:${NILLION_PORT}546%g;
+s%:6065%:${NILLION_PORT}065%g" $HOME/.nillionapp/config/app.toml
 
 
 # set custom ports in config.toml file
 sed -i.bak -e "s%:26658%:${UNION_PORT}658%g;
-s%:26657%:${UNION_PORT}657%g;
-s%:6060%:${UNION_PORT}060%g;
-s%:26656%:${UNION_PORT}656%g;
-s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${UNION_PORT}656\"%;
-s%:26660%:${UNION_PORT}660%g" $HOME/.nillionapp/config/config.toml
+s%:26657%:${NILLION_PORT}657%g;
+s%:6060%:${NILLION_PORT}060%g;
+s%:26656%:${NILLION_PORT}656%g;
+s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${NILLION_PORT}656\"%;
+s%:26660%:${NILLION_PORT}660%g" $HOME/.nillionapp/config/config.toml
 
 # config pruning
 sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.nillionapp/config/app.toml
