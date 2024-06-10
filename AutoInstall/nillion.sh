@@ -106,18 +106,15 @@ sudo tee /etc/systemd/system/nillion.service > /dev/null <<EOF
 Description=nillion node service
 After=network-online.target
 [Service]
-User=$USER
-WorkingDirectory=$HOME/.nillionapp
-ExecStart=$(which nilchaind) start --home $HOME/.nillionapp
+User=deneme
+WorkingDirectory=/root/.nillionapp/
+ExecStart=/root/go/bin/nilchaind start --home /root/.nillionapp/
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target
 EOF
-
-
-
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
