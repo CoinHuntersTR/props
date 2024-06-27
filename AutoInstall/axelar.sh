@@ -48,7 +48,7 @@ cd $HOME
 git clone https://github.com/axelarnetwork/axelar-core axelar
 cd axelar
 git checkout v0.35.5
-make install
+make build
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
