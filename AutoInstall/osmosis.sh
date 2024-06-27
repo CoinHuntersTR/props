@@ -106,9 +106,9 @@ sudo tee /etc/systemd/system/osmosis.service > /dev/null <<EOF
 Description=osmosis node
 After=network-online.target
 [Service]
-User=$$USER
-WorkingDirectory=$$HOME/.osmosisd
-ExecStart=$$(which osmosisd) start --home $$HOME/.osmosisd
+User=$USER
+WorkingDirectory=$HOME/.osmosisd
+ExecStart=$$(which osmosisd) start --home $HOME/.osmosisd
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
