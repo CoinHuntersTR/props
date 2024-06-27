@@ -118,7 +118,7 @@ EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
-junctiond tendermint unsafe-reset-all --home $HOME/.osmosisd
+osmosisd tendermint unsafe-reset-all --home $HOME/.osmosisd
 if curl -s --head curl https://snapshots.polkachu.com/snapshots/osmosis/osmosis_17229087.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
   curl https://snapshots.polkachu.com/snapshots/osmosis/osmosis_17229087.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.osmosisd
     else
