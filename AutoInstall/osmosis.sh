@@ -105,16 +105,17 @@ sudo tee /etc/systemd/system/osmosis.service > /dev/null <<EOF
 [Unit]
 Description=osmosis node
 After=network-online.target
+
 [Service]
-User=$USER
-WorkingDirectory=$HOME/.osmosisd
-ExecStart=$$(which osmosisd) start --home $HOME/.osmosisd
+User=root
+WorkingDirectory=/root/.osmosisd
+ExecStart=/root/go/bin/osmosisd start --home /root/.osmosisd
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
+
 [Install]
 WantedBy=multi-user.target
-EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
