@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O junctiond https://github.com/osmosis-labs/osmosis osmosis
+git clone https://github.com/osmosis-labs/osmosis osmosis
 cd osmosis
 git checkout v25.1.2
 make install
