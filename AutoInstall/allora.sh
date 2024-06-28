@@ -1,21 +1,49 @@
 #!/bin/bash
-set -eu
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
 
-# Kullanıcıdan Moniker ismini al
-read -p "Lütfen Moniker ismini girin: " MONIKER
+printLogo
 
-# Temel güncelleme ve paket kurulumları
-sudo apt update && sudo apt upgrade -y
-sudo apt install curl git wget htop tmux build-essential jq make lz4 gcc unzip -y
+read -p "Enter WALLET name:" WALLET
+echo 'export WALLET='$WALLET
+read -p "Enter your MONIKER :" MONIKER
+echo 'export MONIKER='$MONIKER
+read -p "Enter your PORT (for example 17, default port=26):" PORT
+echo 'export PORT='$PORT
 
-# Go dilinin kurulumu
-sudo rm -rf /usr/local/go
-curl -L https://go.dev/dl/go1.22.4.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
-echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> $HOME/.bash_profile
+# set vars
+echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
+echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
+echo "export ALLORA_CHAIN_ID="edgenet"" >> $HOME/.bash_profile
+echo "export ALLORA_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
-# Allora-chain'in indirilmesi ve kurulumu
+printLine
+echo -e "Moniker:        \e[1m\e[32m$MONIKER\e[0m"
+echo -e "Wallet:         \e[1m\e[32m$WALLET\e[0m"
+echo -e "Chain id:       \e[1m\e[32m$ALLORA_CHAIN_ID\e[0m"
+echo -e "Node custom port:  \e[1m\e[32m$ALLORA_PORT\e[0m"
+printLine
+sleep 1
+
+printGreen "1. Installing go..." && sleep 1
+# install go, if needed
+cd $HOME
+VER="1.22.4"
+wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
+rm "go$VER.linux-amd64.tar.gz"
+[ ! -f ~/.bash_profile ] && touch ~/.bash_profile
+echo "export PATH=$PATH:/usr/local/go/bin:~/go/bin" >> ~/.bash_profile
+source $HOME/.bash_profile
+[ ! -d ~/go/bin ] && mkdir -p ~/go/bin
+
+echo $(go version) && sleep 1
+
+source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/main/utils/dependencies_install)
+
+printGreen "4. Installing binary..." && sleep 1
+# download binary
 cd $HOME
 rm -rf allora-chain
 git clone https://github.com/allora-network/allora-chain.git
@@ -23,54 +51,70 @@ cd allora-chain
 git checkout v0.0.10
 make install
 
-# Node'un başlatılması ve konfigürasyonu
-NETWORK="${NETWORK:-edgenet}"
-GENESIS_URL="https://raw.githubusercontent.com/allora-network/networks/main/${NETWORK}/genesis.json"
-SEEDS_URL="https://raw.githubusercontent.com/allora-network/networks/main/${NETWORK}/seeds.txt"
+printGreen "5. Configuring and init app..." && sleep 1
+# config and init app
+lavad init $MONIKER --chain-id $ALLORA_CHAIN_ID
 
-export APP_HOME="${APP_HOME:-./data}"
-INIT_FLAG="${APP_HOME}/.initialized"
-KEYRING_BACKEND=test
-GENESIS_FILE="${APP_HOME}/config/genesis.json"
-DENOM="uallo"
+echo done
 
-echo "To re-initiate the node, remove the file: ${INIT_FLAG}"
-if [ ! -f $INIT_FLAG ]; then
-    rm -rf ${APP_HOME}/config
+printGreen "6. Downloading genesis and addrbook..." && sleep 1
+# download genesis and addrbook
+wget -O $HOME/.lava/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/allora/genesis.json
 
-    #* Node'u init et
-    allorad --home=${APP_HOME} init ${MONIKER} --chain-id=${NETWORK} --default-denom $DENOM
+sleep 1
+echo done
 
-    #* Genesis dosyasını indir
-    rm -f $GENESIS_FILE
-    curl -Lo $GENESIS_FILE $GENESIS_URL
+printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
+# set seeds and peers
+sed -i -e "s|^seeds *=.*|seeds = \"3d3b82e78875b4607c2612b530e835dffde77824@seed-0.edgenet.allora.network:32030,7f47aec3539715a70853589bd7ef8d2fd7995122@seed-1.edgenet.allora.network:32031,f331a946a7bb06d1860b36bbb96345ee99fd737b@seed-2.edgenet.allora.network:32032\"|" $HOME/.allorad/config/config.toml
 
-    #* Yeni allorad hesabı oluştur
-    allorad --home $APP_HOME keys add ${MONIKER} --keyring-backend $KEYRING_BACKEND > $APP_HOME/${MONIKER}.account_info 2>&1
+# set custom ports in app.toml
+sed -i.bak -e "s%:1317%:${ALLORA_PORT}317%g;
+s%:8080%:${ALLORA_PORT}080%g;
+s%:9090%:${ALLORA_PORT}090%g;
+s%:9091%:${ALLORA_PORT}091%g;
+s%:8545%:${ALLORA_PORT}545%g;
+s%:8546%:${ALLORA_PORT}546%g;
+s%:6065%:${ALLORA_PORT}065%g" $HOME/.allorad/config/app.toml
 
-    #* Konfigürasyonları ayarla
-    #* Prometheus metriklerini etkinleştir
-    # dasel put -t bool -v true 'instrumentation.prometheus' -f ${APP_HOME}/config/config.toml
 
-    #* Allorad client'ı ayarla
-    allorad --home=${APP_HOME} config set client chain-id ${NETWORK}
-    allorad --home=${APP_HOME} config set client keyring-backend $KEYRING_BACKEND
+# set custom ports in config.toml file
+sed -i.bak -e "s%:26658%:${LAVA_PORT}658%g;
+s%:26657%:${ALLORA_PORT}657%g;
+s%:6060%:${ALLORA_PORT}060%g;
+s%:26656%:${ALLORA_PORT}656%g;
+s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${ALLORA_PORT}656\"%;
+s%:26660%:${ALLORA_PORT}660%g" $HOME/.allorad/config/config.toml
 
-    #* Allorad config için symlink oluştur
-    ln -sf . ${APP_HOME}/.allorad
+# config pruning
+sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.allorad/config/app.toml
+sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.allorad/config/app.toml
+sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.allorad/config/app.toml
 
-    touch $INIT_FLAG
-fi
-echo "Node is initialized"
+# set minimum gas price, enable prometheus and disable indexing
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.0uallo"|g' $HOME/.allorad/config/app.toml
+sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.allorad/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.allorad/config/config.toml
+sleep 1
+echo done
 
-SEEDS=$(curl -s ${SEEDS_URL})
+# create service file
+sudo tee /etc/systemd/system/allorad.service > /dev/null <<EOF
+[Unit]
+Description=allora node
+After=network-online.target
+[Service]
+User=$USER
+WorkingDirectory=$HOME/.allorad
+ExecStart=$(which allorad) start --home $HOME/.allorad
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+[Install]
+WantedBy=multi-user.target
+EOF
 
-echo "Starting validator node"
-allorad \
-    --home=${APP_HOME} \
-    start \
-    --moniker=${MONIKER} \
-    --minimum-gas-prices=0${DENOM} \
-    --rpc.laddr=tcp://0.0.0.0:26657 \
-    --p2p.seeds=$SEEDS \
-    --log_level "*:error,state:info,server:info,rewards:debug,inference_synthesis:debug,topic_handler:debug"
+# enable and start service
+sudo systemctl daemon-reload
+sudo systemctl enable allorad
+sudo systemctl restart allorad && sudo journalctl -u allorad -f
