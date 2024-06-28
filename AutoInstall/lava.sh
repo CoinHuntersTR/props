@@ -47,7 +47,8 @@ printGreen "4. Installing binary..." && sleep 1
 cd $HOME
 git clone https://github.com/lavanet/lava.git 
 cd lava 
-git checkout v2.2.0 
+git checkout v2.2.0
+export LAVA_BINARY=lavad
 make install
 
 printGreen "5. Configuring and init app..." && sleep 1
