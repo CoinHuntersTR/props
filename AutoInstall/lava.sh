@@ -129,7 +129,7 @@ printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 lavad tendermint unsafe-reset-all --home $HOME/.lava
 if curl -s --head curl https://snapshots.autostake.com/lyIs25DaSWMSm8evWKHGQrb/lava-mainnet-1/latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://testnet-files.itrocket.net/lava/snap_lava.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
+  curl https://snapshots.autostake.com/lyIs25DaSWMSm8evWKHGQrb/lava-mainnet-1/latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
     else
   echo no have snap
 fi
