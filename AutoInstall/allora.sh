@@ -53,7 +53,7 @@ make install
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-lavad init $MONIKER --chain-id $ALLORA_CHAIN_ID
+allorad init $MONIKER --chain-id $ALLORA_CHAIN_ID
 
 echo done
 
