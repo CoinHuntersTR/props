@@ -20,7 +20,7 @@ cd $HOME
 rm -rf allora-chain
 git clone https://github.com/allora-network/allora-chain.git
 cd allora-chain
-git checkout v0.38.6
+git checkout v0.0.10
 make install
 
 # Node'un başlatılması ve konfigürasyonu
