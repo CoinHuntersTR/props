@@ -28,7 +28,7 @@ sleep 1
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.21.6"
+VER="1.22.4"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -48,7 +48,7 @@ cd $HOME
 git clone https://github.com/axelarnetwork/axelar-core axelar
 cd axelar
 git checkout v0.35.5
-make build
+make install
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -119,8 +119,8 @@ WantedBy=multi-user.target
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
-if curl -s --head curl https://snapshots.polkachu.com/snapshots/axelar/axelar_13318656.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.polkachu.com/snapshots/axelar/axelar_13318656.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.axelar
+if curl -s --head curl https://snapshots.polkachu.com/snapshots/axelar/axelar_13362214.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.polkachu.com/snapshots/axelar/axelar_13362214.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.axelar
     else
   echo no have snap
 fi
