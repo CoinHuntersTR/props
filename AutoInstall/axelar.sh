@@ -118,7 +118,7 @@ LimitNOFILE=65535
 
 [Install]
 WantedBy=multi-user.target
-
+EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 if curl -s --head curl https://snapshots.polkachu.com/snapshots/axelar/axelar_13362214.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
