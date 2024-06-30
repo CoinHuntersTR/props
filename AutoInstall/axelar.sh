@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-git clone https://github.com/axelarnetwork/axelar-core axelar
+git clone https://github.com/axelarnetwork/axelar-core
 cd axelar
 git checkout v0.35.5
 make install
