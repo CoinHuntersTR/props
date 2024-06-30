@@ -50,6 +50,7 @@ git clone https://github.com/axelarnetwork/axelar-core.git
 cd axelar-core
 git checkout v0.35.5
 make build
+cp ./bin/axelard /usr/local/bin/
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -110,7 +111,7 @@ After=network-online.target
 [Service]
 User=root
 WorkingDirectory=/root/.axelar
-ExecStart=/root/go/bin/axelar start --home /root/.axelar
+ExecStart=/usr/local/bin/axelard start --home /root/.axelar
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
