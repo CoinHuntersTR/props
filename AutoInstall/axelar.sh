@@ -49,7 +49,7 @@ rm -rf axelar-core
 git clone https://github.com/axelarnetwork/axelar-core.git
 cd axelar-core
 git checkout v0.35.5
-make install
+make build
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
