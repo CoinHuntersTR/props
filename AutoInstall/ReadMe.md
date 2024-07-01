@@ -11,3 +11,9 @@ wget -q -O lava.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/Au
 ```
 wget -q -O osmosis.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/osmosis.sh && chmod +x osmosis.sh && ./osmosis.sh
 ```
+
+## Axelar Mainnet AutoScript
+
+```
+wget -q -O axelar.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/axelar.sh && chmod +x axelar.sh && ./axelar.sh
+```
