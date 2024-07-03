@@ -17,3 +17,9 @@ wget -q -O osmosis.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main
 ```
 wget -q -O axelar.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/axelar.sh && chmod +x axelar.sh && ./axelar.sh
 ```
+
+## Sunrise Testnet AutoScript
+
+```
+wget -q -O sunrise.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/sunrise.sh && chmod +x sunrise.sh && ./sunrise.sh
+```
