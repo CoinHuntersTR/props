@@ -117,8 +117,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 uniond tendermint unsafe-reset-all --home $HOME/.union --home $HOME/.union
-if curl -s --head curl https://testnet-files.itrocket.net/union/snap_union.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://testnet-files.itrocket.net/union/snap_union.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.union
+if curl -s --head curl https://snapshots.kjnodes.com/union-testnet/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.kjnodes.com/union-testnet/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.union
     else
   echo no have snap
 fi
