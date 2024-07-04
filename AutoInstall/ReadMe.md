@@ -37,3 +37,9 @@ wget -q -O nibiru.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 wget -q -O union.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/union.sh && chmod +x union.sh && ./union.sh
 ```
 
+## AutoScript
+
+```
+wget -q -O coinhunters.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/coinhunters.sh && chmod +x coinhunters.sh && ./coinhunters.sh
+```
+
