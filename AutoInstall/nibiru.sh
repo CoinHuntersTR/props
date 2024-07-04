@@ -45,11 +45,10 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf nibiru
-git clone https://github.com/NibiruChain/nibiru.git
-cd nibiru
-git checkout v1.5.0
-make install
+wget -O nibid_1.5.0_linux_amd64.tar.gz https://github.com/NibiruChain/nibiru/releases/download/v1.5.0/nibid_1.5.0_linux_amd64.tar.gz
+tar -xzf nibid_1.5.0_linux_amd64.tar.gz
+chmod +x nibid
+mv nibid $HOME/go/bin/nibid
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
