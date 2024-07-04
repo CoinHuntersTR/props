@@ -79,7 +79,7 @@ s%:6065%:${NIBIRU_PORT}065%g" $HOME/.nibid/config/app.toml
 
 
 # set custom ports in config.toml file
-sed -i.bak -e "s%:26658%:${LAVA_PORT}658%g;
+sed -i.bak -e "s%:26658%:${NIBIRU_PORT}658%g;
 s%:26657%:${NIBIRU_PORT}657%g;
 s%:6060%:${NIBIRU_PORT}060%g;
 s%:26656%:${NIBIRU_PORT}656%g;
