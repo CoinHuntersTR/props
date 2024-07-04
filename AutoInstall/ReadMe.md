@@ -30,3 +30,10 @@ wget -q -O sunrise.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main
 wget -q -O nibiru.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nibiru.sh && chmod +x nibiru.sh && ./nibiru.sh
 ```
 
+
+## Nibiru Mainnet AutoScript
+
+```
+wget -q -O union.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/union.sh && chmod +x union.sh && ./union.sh
+```
+
