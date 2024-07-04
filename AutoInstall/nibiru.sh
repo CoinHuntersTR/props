@@ -49,7 +49,7 @@ rm -rf nibiru
 git clone https://github.com/NibiruChain/nibiru.git
 cd nibiru
 git checkout v1.5.0
-make install
+make build
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
