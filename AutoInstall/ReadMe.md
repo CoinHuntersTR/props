@@ -23,3 +23,10 @@ wget -q -O axelar.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 ```
 wget -q -O sunrise.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/sunrise.sh && chmod +x sunrise.sh && ./sunrise.sh
 ```
+
+## Nibiru Mainnet AutoScript
+
+```
+wget -q -O nibiru.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nibiru.sh && chmod +x nibiru.sh && ./nibiru.sh
+```
+
