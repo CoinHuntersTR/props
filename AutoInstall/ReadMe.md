@@ -31,7 +31,7 @@ wget -q -O nibiru.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 ```
 
 
-## Nibiru Mainnet AutoScript
+## Union Testnet AutoScript
 
 ```
 wget -q -O union.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/union.sh && chmod +x union.sh && ./union.sh
