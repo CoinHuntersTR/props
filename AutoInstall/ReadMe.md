@@ -45,7 +45,7 @@ wget -q -O coinhunters.sh https://raw.githubusercontent.com/CoinHuntersTR/props/
 
 
 
-## AutoScript
+## MantraChain Testnet AutoScript
 
 ```
 wget -q -O mantrachain.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/mantrachain.sh && chmod +x mantrachain.sh && ./mantrachain.sh
