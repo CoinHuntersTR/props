@@ -43,3 +43,10 @@ wget -q -O union.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/A
 wget -q -O coinhunters.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/coinhunters.sh && chmod +x coinhunters.sh && ./coinhunters.sh
 ```
 
+
+
+## AutoScript
+
+```
+wget -q -O mantrachain.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/mantrachain.sh && chmod +x mantrachain.sh && ./mantrachain.sh
+```
