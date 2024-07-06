@@ -124,8 +124,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 elysd tendermint unsafe-reset-all --home $HOME/.elys
-if curl -s --head curl https://testnet-files.itrocket.net/elys/snap_elys.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://testnet-files.itrocket.net/elys/snap_elys.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.elys
+if curl -s --head curl https://snapshots.polkachu.com/testnet-snapshots/elys/elys_8499412.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.polkachu.com/testnet-snapshots/elys/elys_8499412.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.elys
     else
   echo no have snap
 fi
