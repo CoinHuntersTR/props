@@ -108,14 +108,13 @@ echo done
 # create service file
 sudo tee /etc/systemd/system/elysd.service > /dev/null <<EOF
 [Unit]
-Description=elys node
+Description=Elys Network node service
 After=network-online.target
 [Service]
 User=$USER
-WorkingDirectory=$HOME/.elys
-ExecStart=$(which elysd) start --minimum-gas-prices="0.0018ibc/2180E84E20F5679FCC760D8C165B60F42065DEF7F46A72B447CFF1B7DC6C0A65,0.00025ibc/E2D2F6ADCC68AA3384B2F5DFACCA437923D137C14E86FB8A10207CF3BED0C8D4,0.00025uelys" --home $HOME/.elys
+ExecStart=$(which elysd) start
 Restart=on-failure
-RestartSec=5
+RestartSec=10
 LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target
