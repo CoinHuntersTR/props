@@ -43,10 +43,14 @@ wget -q -O union.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/A
 wget -q -O coinhunters.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/coinhunters.sh && chmod +x coinhunters.sh && ./coinhunters.sh
 ```
 
-
-
 ## MantraChain Testnet AutoScript
 
 ```
 wget -q -O mantrachain.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/mantrachain.sh && chmod +x mantrachain.sh && ./mantrachain.sh
+```
+
+## Elys Network Testnet AutoScript
+
+```
+wget -q -O elys.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/elys.sh && chmod +x elys.sh && ./elys.sh
 ```
