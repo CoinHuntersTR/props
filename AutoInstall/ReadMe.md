@@ -54,3 +54,9 @@ wget -q -O mantrachain.sh https://raw.githubusercontent.com/CoinHuntersTR/props/
 ```
 wget -q -O elys.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/elys.sh && chmod +x elys.sh && ./elys.sh
 ```
+
+## Nillion Network Testnet AutoScript
+
+```
+wget -q -O nillion.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nillion.sh && chmod +x nillion.sh && ./nillion.sh
+```
