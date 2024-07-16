@@ -60,3 +60,11 @@ wget -q -O elys.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/Au
 ```
 wget -q -O nillion.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nillion.sh && chmod +x nillion.sh && ./nillion.sh
 ```
+
+
+
+## Allora Network Testnet AutoScript
+
+```
+wget -q -O allora.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/allora.sh && chmod +x allora.sh && ./allora.sh
+```
