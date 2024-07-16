@@ -46,9 +46,9 @@ printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
 rm -rf allora-chain
-git clone https://github.com/allora-network/allora-chain.git
-cd allora-chain
-git checkout v0.0.10
+git clone https://github.com/fiamma-chain/fiamma.git
+cd fiamma-chain
+git checkout v0.1.2
 make install
 
 printGreen "5. Configuring and init app..." && sleep 1
@@ -60,7 +60,6 @@ echo done
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
 wget -O $HOME/.fiamma/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/fiamma/genesis.json
-wget -O $HOME/.fiamma/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/allora/addrbook.json
 sleep 1
 echo done
 
