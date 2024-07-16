@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf allora-chain
+rm -rf fiamma
 git clone https://github.com/fiamma-chain/fiamma.git
 cd fiamma
 git checkout v0.1.2
