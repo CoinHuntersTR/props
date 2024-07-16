@@ -47,7 +47,7 @@ printGreen "4. Installing binary..." && sleep 1
 cd $HOME
 rm -rf allora-chain
 git clone https://github.com/fiamma-chain/fiamma.git
-cd fiamma-chain
+cd fiamma
 git checkout v0.1.2
 make install
 
