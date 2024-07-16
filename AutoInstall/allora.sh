@@ -128,4 +128,4 @@ fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable allora.service
-sudo systemctl restart allora && sudo journalctl -u allora -f
+sudo systemctl restart allora.service && sudo journalctl -u allora.service -f
