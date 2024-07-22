@@ -48,7 +48,7 @@ cd $HOME
 rm -rf fiamma
 git clone https://github.com/fiamma-chain/fiamma.git
 cd fiamma
-git checkout v0.1.2
+git checkout v0.1.3
 make install
 
 printGreen "5. Configuring and init app..." && sleep 1
@@ -60,13 +60,14 @@ echo done
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
 wget -O $HOME/.fiamma/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/fiamma/genesis.json
+wget -O $HOME/.fiamma/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/fiamma/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="5d6828849a45cf027e035593d8790bc62aca9cef@18.182.20.173:26656,526d13f3ce3e0b56fa3ac26a48f231e559d4d60c@35.73.202.182:26656"
-PEERS="5d6828849a45cf027e035593d8790bc62aca9cef@18.182.20.173:26656,526d13f3ce3e0b56fa3ac26a48f231e559d4d60c@35.73.202.182:26656"
+SEEDS="7f3988dc1f6254e664119d24b52982031e34327b@35.73.202.182:26656,40449ad696760c0d1b675c2741e846b5d08235a3@18.182.20.173:26656"
+PEERS="7f3988dc1f6254e664119d24b52982031e34327b@35.73.202.182:26656,40449ad696760c0d1b675c2741e846b5d08235a3@18.182.20.173:26656"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.fiamma/config/config.toml
 
 # set custom ports in app.toml
