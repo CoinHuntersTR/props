@@ -45,11 +45,9 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf allora-chain
-git clone https://github.com/allora-network/allora-chain.git
-cd allora-chain
-git checkout v0.0.10
-make install
+wget -O allorad https://github.com/allora-network/allora-chain/releases/download/v0.0.10/allorad_linux_amd64
+chmod +x $HOME/allorad
+mv $HOME/allorad $HOME/go/bin/allorad
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
