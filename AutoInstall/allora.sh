@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export ALLORA_CHAIN_ID="testnet"" >> $HOME/.bash_profile
+echo "export ALLORA_CHAIN_ID="allora-testnet-1"" >> $HOME/.bash_profile
 echo "export ALLORA_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
