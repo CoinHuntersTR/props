@@ -75,4 +75,9 @@ wget -q -O allora.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 wget -q -O fiamma.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/fiamma.sh && chmod +x fiamma.sh && ./fiamma.sh
 ```
 
+## ZetaChain Mainnet AutoScript
+
+```
+wget -q -O zetachain.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/zetachain.sh && chmod +x zetachain.sh && ./zetachain.sh
+```
 
