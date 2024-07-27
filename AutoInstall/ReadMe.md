@@ -87,5 +87,13 @@ wget -q -O zetachain.sh https://raw.githubusercontent.com/CoinHuntersTR/props/ma
 wget -q -O artela.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/artela.sh && chmod +x artela.sh && ./artela.sh
 ```
 
+## Lava Testnet AutoScript
+
+```
+wget -q -O lava-testnet.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/lava-testnet.sh && chmod +x lava-testnet.sh && ./lava-testnet.sh
+```
+
+
+
 
 
