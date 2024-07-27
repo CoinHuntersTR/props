@@ -49,6 +49,7 @@ rm -rf dymension
 git clone https://github.com/dymensionxyz/dymension.git
 cd dymension
 git checkout v2.0.0-alpha.8
+make build
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
