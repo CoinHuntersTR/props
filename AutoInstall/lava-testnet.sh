@@ -67,8 +67,8 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.lava/config/genesis.json https://undefined/testnet/lava/genesis.json
-wget -O $HOME/.lava/config/addrbook.json  https://undefined/testnet/lava/addrbook.json
+wget -O $HOME/.lava/config/genesis.json https://snapshots.kjnodes.com/lava-testnet/genesis.json
+wget -O $HOME/.lava/config/addrbook.json  https://snapshots.kjnodes.com/lava-testnet/addrbook.json
 sleep 1
 echo done
 
