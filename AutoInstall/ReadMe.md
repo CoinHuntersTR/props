@@ -93,6 +93,11 @@ wget -q -O artela.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 wget -q -O lava-testnet.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/lava-testnet.sh && chmod +x lava-testnet.sh && ./lava-testnet.sh
 ```
 
+## Dymension Testnet AutoScript
+
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/dymension-testnet.sh)
+```
 
 
 
