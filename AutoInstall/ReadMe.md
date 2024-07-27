@@ -81,3 +81,11 @@ wget -q -O fiamma.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 wget -q -O zetachain.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/zetachain.sh && chmod +x zetachain.sh && ./zetachain.sh
 ```
 
+## Artela Testnet AutoScript
+
+```
+wget -q -O artela.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/artela.sh && chmod +x artela.sh && ./artela.sh
+```
+
+
+
