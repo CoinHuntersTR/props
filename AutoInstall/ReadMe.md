@@ -100,5 +100,8 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/Auto
 ```
 
 
+## Empeiria Testnet AutoScript
 
-
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/empeiria.sh)
+```
