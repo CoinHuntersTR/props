@@ -105,3 +105,9 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/Auto
 ```
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/empeiria.sh)
 ```
+
+## BlockX Mainnet AutoScript
+
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/blockx.sh)
+```
