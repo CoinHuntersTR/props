@@ -45,14 +45,9 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf $HOME/download
-mkdir $HOME/download
-cd $HOME/download
-wget https://github.com/warden-protocol/wardenprotocol/releases/download/v0.4.0/wardend_Linux_x86_64.zip
-unzip $HOME/download/wardend_Linux_x86_64.zip
-rm -rf $HOME/download/wardend_Linux_x86_64.zip
-chmod +x $HOME/download/wardend
-sudo mv $HOME/wardend $HOME/go/bin/wardend
+wget -O wardend https://snapshots.coinhunterstr.com/warden/wardend
+chmod +x $HOME/wardend
+mv $HOME/wardend $HOME/go/bin/wardend
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
