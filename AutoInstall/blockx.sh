@@ -47,7 +47,7 @@ printGreen "4. Installing binary..." && sleep 1
 cd $HOME
 rm -rf networks
 git clone https://github.com/BlockXLabs/networks
-cd ~/networks/chains/blockx_100-1/source
+cd ~/networks/chains/blockx_190-1/source
 make install
 
 printGreen "5. Configuring and init app..." && sleep 1
