@@ -112,7 +112,7 @@ sleep 1
 echo done
 
 # create service file
-sudo tee /etc/systemd/system/dymension-testnet.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/dymd.service > /dev/null <<EOF
 [Unit]
 Description=dymension-testnet.service
 After=network-online.target
@@ -139,4 +139,4 @@ fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable dymension-testnet.service
-sudo systemctl restart dymension-testnet.service && sudo journalctl -u dymension-testnet.service -f
+sudo systemctl restart dymd  && sudo journalctl -u dymd -f
