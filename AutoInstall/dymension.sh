@@ -51,6 +51,9 @@ mv $HOME/dymd $HOME/go/bin/dymd
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
+dymd config chain-id dymension_1100-1
+dymd config keyring-backend file
+dymd config node tcp://localhost:${DYMENSION_PORT}657
 dymd init $MONIKER --chain-id dymension_1100-1
 sleep 1
 echo done
