@@ -109,7 +109,7 @@ echo done
 # create service file
 sudo tee /etc/systemd/system/dymd.service > /dev/null <<EOF
 [Unit]
-Description=dymension-testnet.service
+Description=dymension.service
 After=network-online.target
 [Service]
 User=$USER
