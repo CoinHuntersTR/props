@@ -57,8 +57,8 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.union/config/genesis.json https://testnet-files.itrocket.net/union/genesis.json
-wget -O $HOME/.union/config/addrbook.json https://testnet-files.itrocket.net/union/addrbook.json
+wget -O $HOME/.union/config/genesis.json https://server-4.itrocket.net/testnet/union/genesis.json
+wget -O $HOME/.union/config/addrbook.json https://server-4.itrocket.net/testnet/union/addrbook.json
 sleep 1
 echo done
 
