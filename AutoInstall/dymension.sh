@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O dymension.tar.gz https://github.com/dymensionxyz/dymension/releases/download/v3.1.0/dymd
+wget -O dymd https://github.com/dymensionxyz/dymension/releases/download/v3.1.0/dymd
 chmod +x $HOME/dymd
 mv $HOME/dymd $HOME/go/bin/dymd
 
