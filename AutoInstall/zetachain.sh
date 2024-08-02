@@ -51,7 +51,7 @@ mv $HOME/zetacored-linux-amd64 $HOME/go/bin/zetacored
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-zetacored init $MONIKER --chain-id zetachain_7000-1
+zetacored init $MONIKER --chain-id $ZETACHAIN_CHAIN_ID
 wget -O $HOME/.zetacored/config/app.toml  https://raw.githubusercontent.com/zeta-chain/network-mainnet/main/network_files/config/app.toml
 wget -O $HOME/.zetacored/config/client.toml https://raw.githubusercontent.com/zeta-chain/network-mainnet/main/network_files/config/client.toml
 wget -O $HOME/.zetacored/config/config.toml https://raw.githubusercontent.com/zeta-chain/network-mainnet/main/network_files/config/config.toml
