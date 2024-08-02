@@ -45,18 +45,12 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf dymension
-git clone https://github.com/dymensionxyz/dymension.git
-cd dymension
-git checkout v3.1.0
-make build
+wget -O dymension.tar.gz https://github.com/dymensionxyz/dymension/releases/download/v3.1.0/dymd
+chmod +x $HOME/dymd
+mv $HOME/dymd $HOME/go/bin/dymd
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-dymd config chain-id dymension_1100-1
-dymd config keyring-backend file
-dymd config node tcp://localhost:${DYMENSION_PORT}657
-
 dymd init $MONIKER --chain-id dymension_1100-1
 sleep 1
 echo done
