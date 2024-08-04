@@ -62,8 +62,8 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.fiamma/config/genesis.json https://server-5.itrocket.net/testnet/fiamma/genesis.json
-wget -O $HOME/.fiamma/config/addrbook.json  https://server-5.itrocket.net/testnet/fiamma/addrbook.json
+wget -O $HOME/.fiamma/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/fiamma/genesis.json
+wget -O $HOME/.fiamma/config/addrbook.json  https://raw.githubusercontent.com/CoinHuntersTR/props/main/fiamma/addrbook.json
 sleep 1
 echo done
 
@@ -124,8 +124,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 fiammad tendermint unsafe-reset-all --home $HOME/.fiamma
-if curl -s --head curl https://server-5.itrocket.net/testnet/fiamma/fiamma_2024-08-04_422396_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-5.itrocket.net/testnet/fiamma/fiamma_2024-08-04_422396_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.fiamma
+if curl -s --head curl https://snapshots.coinhunterstr.com/fiamma/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.coinhunterstr.com/fiamma/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.fiamma
     else
   echo "no snapshot founded"
 fi
