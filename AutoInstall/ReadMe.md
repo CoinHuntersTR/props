@@ -72,7 +72,7 @@ wget -q -O allora.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 ## Fiamma Network Testnet AutoScript
 
 ```
-wget -q -O fiamma.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/fiamma.sh && chmod +x fiamma.sh && ./fiamma.sh
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/fiamma.sh)
 ```
 
 ## ZetaChain Mainnet AutoScript
