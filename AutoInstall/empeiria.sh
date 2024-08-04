@@ -61,7 +61,7 @@ echo done
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
 wget -O $HOME/.empe-chain/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/empeiria/genesis.json
-wget -O $HOME/.empe-chain/config/addrbook.json  hhttps://raw.githubusercontent.com/CoinHuntersTR/props/main/empeiria/addrbook.json
+wget -O $HOME/.empe-chain/config/addrbook.json  https://raw.githubusercontent.com/CoinHuntersTR/props/main/empeiria/addrbook.json
 sleep 1
 echo done
 
