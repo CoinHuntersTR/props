@@ -123,8 +123,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 zetacored tendermint unsafe-reset-all --home $HOME/.zetacored
-if curl -s --head curl https://server-3.itrocket.net/mainnet/zetachain/zetachain_2024-08-02_4210394_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-3.itrocket.net/mainnet/zetachain/zetachain_2024-08-02_4210394_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.zetacored
+if curl -s --head curl https://server-3.itrocket.net/mainnet/zetachain/zetachain_2024-08-06_4270639_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-3.itrocket.net/mainnet/zetachain/zetachain_2024-08-06_4270639_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.zetacored
     else
   echo no have snap
 fi
