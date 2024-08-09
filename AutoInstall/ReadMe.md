@@ -21,7 +21,7 @@ wget -q -O axelar.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/
 ## Sunrise Testnet AutoScript
 
 ```
-wget -q -O sunrise.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/sunrise.sh && chmod +x sunrise.sh && ./sunrise.sh
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/sunrise.sh)
 ```
 
 ## Nibiru Mainnet AutoScript
