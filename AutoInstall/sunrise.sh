@@ -98,7 +98,7 @@ s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${SUNRISE_P
 s%:26660%:${SUNRISE_PORT}660%g" $HOME/.sunrise/config/config.toml
 
 # config pruning
-sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.lava/config/app.toml
+sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.sunrise/config/app.toml
 sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.sunrise/config/app.toml
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.sunrise/config/app.toml
 
