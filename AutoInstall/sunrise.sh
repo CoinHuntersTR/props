@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export SUNRISE_CHAIN_ID="sunrise-test-1"" >> $HOME/.bash_profile
+echo "export SUNRISE_CHAIN_ID="sunrise-test-0.1"" >> $HOME/.bash_profile
 echo "export SUNRISE_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -40,15 +40,15 @@ source $HOME/.bash_profile
 
 echo $(go version) && sleep 1
 
-source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/main/utils/dependencies_install)
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/dependencies_install.sh)
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-git clone https://github.com/sunriselayer/sunrise.git 
-cd sunrise 
-git checkout v0.0.8
-make install
+wget -O sunrised wget https://github.com/sunriselayer/sunrise/releases/download/v0.1.2/sunrised
+chmod +x $HOME/sunrised
+mv $HOME/sunrised $HOME/go/bin/sunrised
+
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -68,15 +68,15 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.sunrise/config/genesis.json https://snapshots.polkachu.com/testnet-genesis/sunrise/genesis.json
-wget -O $HOME/.sunrise/config/addrbook.json https://snapshots.polkachu.com/testnet-addrbook/sunrise/addrbook.json
+wget -O $HOME/.sunrise/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/sunrise/genesis.json
+wget -O $HOME/.sunrise/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/sunrise/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:28356"
-PEERS="513363c604e7d40400c790ce8080d7740043ad5a@95.217.193.182:26656,7158ed4aef068458755d358c998215c85b71629b@188.40.66.173:28356,8f80802f7d2d9daea07e3735ccd43434a299ece7@128.140.125.250:26656,72c6f84cd821cd570f8da67b36d9618f62e0e231@160.202.128.199:56326,e7cb7babc5d26f8494d3033320ee4879c134eff9@144.217.68.182:24356,5387ae41a200c28404548b6da4215e171fe9cab5@141.95.100.132:26656,b53fec5f6a2b17397535654833fe4183b503997c@34.143.188.112:26656,120b994a9de2edca8d2c5631ee77cc63f9fd622a@3.1.6.122:26656,f252bb8e6108b386f5f5b19188f4859896679abc@103.164.81.211:26656,e0cc95566295a62c84de4d762e02b6f13f53b910@54.174.27.95:26656,5a0b620c2e9fd57a52c4d57e6d15777dcbf8ab3a@38.242.238.248:26656,6935f7986619a6f0cbd6a31ae4f49610913a2274@15.235.55.158:26656,5c2a752c9b1952dbed075c56c600c3a79b58c395@195.3.220.140:27566,0fd113bbb7607e3f67706b4783c19a13f09b578c@65.21.47.120:29656,50ba4d02206b5efe28a83116fe750e6a1980cae1@62.195.206.235:26656,e0872e23f8f4533b1d4b5ec047c0c7265e2bef24@113.43.234.98:26556,ae6aabc5e68630835cbc595271cd26b81b36c907@141.94.143.203:56326"
+SEEDS="27d92a62f64585b995a6a99882cdd3a1a441336d@a.sunrise-test-1.cauchye.net:26656,9cb96bd137c6fab41446f5fa36e17b1f8896b05c@b.sunrise-test-1.cauchye.net:26656,db223ecc4fba0e7135ba782c0fd710580c5213a6@a-node.sunrise-test-1.cauchye.net:26656"
+PEERS=""
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.sunrise/config/config.toml
 
 # set custom ports in app.toml
@@ -103,7 +103,7 @@ sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.su
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.sunrise/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.0ulava"|g' $HOME/.sunrise/config/app.toml
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.0urise"|g' $HOME/.sunrise/config/app.toml
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.sunrise/config/config.toml
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.sunrise/config/config.toml
 sleep 1
@@ -124,15 +124,6 @@ LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target
 EOF
-
-printGreen "8. Downloading snapshot and starting node..." && sleep 1
-# reset and download snapshot
-sunrised tendermint unsafe-reset-all --home $HOME/.sunrise
-if curl -s --head curl https://snapshots.polkachu.com/testnet-snapshots/sunrise/sunrise_799220.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.polkachu.com/testnet-snapshots/sunrise/sunrise_799220.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.sunrise
-    else
-  echo no have snap
-fi
 
 # enable and start service
 sudo systemctl daemon-reload
