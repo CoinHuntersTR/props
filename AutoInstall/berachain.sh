@@ -28,7 +28,7 @@ sleep 1
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.22.1"
+VER="1.22.6"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -45,10 +45,14 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O beacond https://github.com/berachain/beacon-kit/releases/download/v0.2.0-alpha.4/beacond-v0.2.0-alpha.4-linux-amd64.tar.gz
-tar -xzf beacond -C $HOME
-chmod +x $HOME/beacond
-mv $HOME/beacond $HOME/go/bin/beacond
+rm -rf beacon-kit
+https://github.com/berachain/beacon-kit.git
+cd beacon-kit
+git checkout v0.2.0-alpha.4
+
+# Build binaries
+export BEACON_BINARY=beacond
+make build
 
 
 printGreen "5. Configuring and init app..." && sleep 1
