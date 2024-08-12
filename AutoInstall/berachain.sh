@@ -28,23 +28,14 @@ sleep 1
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.22.6"
-wget "https://golang.org/dl/go$VER.linux-arm64.tar.gz"
+VER="1.22.5"
+wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$VER.linux-arm64.tar.gz"
-rm "go$VER.linux-arm64.tar.gz"
-
-if [ -f ~/.bash_profile ]; then
-    PROFILE_FILE=~/.bash_profile
-elif [ -f ~/.profile ]; then
-    PROFILE_FILE=~/.profile
-else
-    PROFILE_FILE=~/.bashrc
-fi
-
-echo "export PATH=\$PATH:/usr/local/go/bin:~/go/bin" >> $PROFILE_FILE
-source $PROFILE_FILE
-
+sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
+rm "go$VER.linux-amd64.tar.gz"
+[ ! -f ~/.bash_profile ] && touch ~/.bash_profile
+echo "export PATH=$PATH:/usr/local/go/bin:~/go/bin" >> ~/.bash_profile
+source $HOME/.bash_profile
 [ ! -d ~/go/bin ] && mkdir -p ~/go/bin
 
 echo $(go version) && sleep 1
@@ -54,10 +45,10 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O beacond https://github.com/berachain/beacon-kit/releases/download/v0.2.0-alpha.4/beacond-v0.2.0-alpha.4-linux-arm64.tar.gz
-tar -xzf beacond -C $HOME
-chmod +x $HOME/beacond
-mv $HOME/beacond $HOME/go/bin/beacond
+wget -O beacond-v0.2.0-alpha.4-linux-amd64.tar.gz https://github.com/berachain/beacon-kit/releases/download/v0.2.0-alpha.4/beacond-v0.2.0-alpha.4-linux-amd64.tar.gz
+tar -xzf beacond-v0.2.0-alpha.4-linux-amd64.tar.gz -C $HOME
+chmod +x beacond-v0.2.0-alpha.4-linux-amd64.tar.gz
+mv $HOME/beacond-v0.2.0-alpha.4-linux-amd64.tar.gz $HOME/go/bin/beacond
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
