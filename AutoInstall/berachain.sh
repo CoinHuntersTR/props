@@ -29,12 +29,11 @@ printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
 VER="1.22.6"
-wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
+wget "https://golang.org/dl/go$VER.linux-arm64.tar.gz"
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
-rm "go$VER.linux-amd64.tar.gz"
+sudo tar -C /usr/local -xzf "go$VER.linux-arm64.tar.gz"
+rm "go$VER.linux-arm64.tar.gz"
 
-# .bash_profile yerine .profile veya .bashrc kullanmak daha yaygındır
 if [ -f ~/.bash_profile ]; then
     PROFILE_FILE=~/.bash_profile
 elif [ -f ~/.profile ]; then
@@ -43,11 +42,9 @@ else
     PROFILE_FILE=~/.bashrc
 fi
 
-# PATH değişkenini ekleyin
 echo "export PATH=\$PATH:/usr/local/go/bin:~/go/bin" >> $PROFILE_FILE
 source $PROFILE_FILE
 
-# ~/go/bin dizinini oluşturun
 [ ! -d ~/go/bin ] && mkdir -p ~/go/bin
 
 echo $(go version) && sleep 1
