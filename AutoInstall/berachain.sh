@@ -46,7 +46,7 @@ printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
 rm -rf beacon-kit
-https://github.com/berachain/beacon-kit.git
+git clone https://github.com/berachain/beacon-kit.git
 cd beacon-kit
 git checkout v0.2.0-alpha.4
 
