@@ -69,6 +69,7 @@ echo done
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
 wget -O $HOME/.berad/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/berachainv2/genesis.json
+wget -O $HOME/.berad/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/berachainv2/addrbook.json
 sleep 1
 echo done
 
