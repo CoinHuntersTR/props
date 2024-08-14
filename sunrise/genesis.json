@@ -1,8 +1,8 @@
 {
   "app_name": "sunrised",
-  "app_version": "0.1.2",
-  "genesis_time": "2024-07-08T01:52:35.421895423Z",
-  "chain_id": "sunrise-test-0.1",
+  "app_version": "0.1.3-65-gd0762ec",
+  "genesis_time": "2024-08-13T11:35:38.484632677Z",
+  "chain_id": "sunrise-test-0.2",
   "initial_height": 1,
   "app_hash": null,
   "app_state": {
@@ -224,7 +224,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -233,7 +233,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -304,11 +304,11 @@
             },
             {
               "denom": "urise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             },
             {
               "denom": "uvrise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -317,7 +317,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -326,7 +326,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -348,7 +348,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -374,7 +374,7 @@
             },
             {
               "denom": "uvrise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -419,11 +419,11 @@
             },
             {
               "denom": "urise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             },
             {
               "denom": "uvrise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -484,7 +484,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -555,11 +555,11 @@
             },
             {
               "denom": "urise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             },
             {
               "denom": "uvrise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -581,7 +581,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -639,11 +639,11 @@
             },
             {
               "denom": "urise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             },
             {
               "denom": "uvrise",
-              "amount": "1000000000000"
+              "amount": "1000000000000000"
             }
           ]
         },
@@ -652,7 +652,7 @@
           "coins": [
             {
               "denom": "urise",
-              "amount": "100000000000000"
+              "amount": "1000000000000000"
             }
           ]
         }
@@ -696,11 +696,11 @@
         },
         {
           "denom": "urise",
-          "amount": "804000130000000"
+          "amount": "12000000130000000"
         },
         {
           "denom": "uvrise",
-          "amount": "113000000000000"
+          "amount": "5108000000000000"
         }
       ],
       "denom_metadata": [
@@ -828,7 +828,7 @@
               {
                 "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
                 "description": {
-                  "moniker": "sunrised_moniker25077",
+                  "moniker": "sunrised_moniker4015",
                   "identity": "",
                   "website": "",
                   "security_contact": "",
@@ -844,15 +844,15 @@
                 "validator_address": "sunrisevaloper1dv4gnefk4lvj34mpa52r0h8mqtmnudltsqv8jz",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "toQ8GElD1u6Hleg12X8ryMVjY2AF4lxPknPB2dHxXdQ="
+                  "key": "6nvdq1KAIF3kKPHIN8ZP+7UZDAq2QYFh84pwdMD9Ya4="
                 },
                 "value": {
                   "denom": "uvrise",
-                  "amount": "100000000000"
+                  "amount": "100000000000000"
                 }
               }
             ],
-            "memo": "89e5866f0c2edd5fd1cc604e0eb173d6111d9bd8@172.31.44.59:26656",
+            "memo": "0c0e0cf617c1c58297f53f3a82cea86a7c860396@172.31.44.59:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -881,7 +881,7 @@
             "tip": null
           },
           "signatures": [
-            "kIq2SBVI//onMrAla9sN4087xeFWU6S750bWvd+2fw90nnokrjBASGbRx+ezQ+7RhHZyKcmxb99AqNdkBzUn2w=="
+            "dtlgJe6HixovV00RgLbgML+EOif61jIm2Azea0zeD+9GTBtX7SpYuaN8lblIhXbUype3Y/W6gcsGHLlvXxifFQ=="
           ]
         }
       ]
@@ -1003,7 +1003,7 @@
         "staking_reward_ratio": "0.500000000000000000"
       },
       "epochs": [],
-      "epochCount": "0",
+      "epoch_count": "0",
       "gauges": [],
       "votes": []
     },
@@ -1013,11 +1013,11 @@
         "swap_treasury_tax_rate": "0.010000000000000000"
       },
       "pools": [],
-      "poolCount": "0",
+      "pool_count": "0",
       "positions": [],
-      "positionCount": "0",
+      "position_count": "0",
       "accumulators": [],
-      "accumulatorPositions": []
+      "accumulator_positions": []
     },
     "mint": {
       "minter": {
