@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export SUNRISE_CHAIN_ID="sunrise-test-0.1"" >> $HOME/.bash_profile
+echo "export SUNRISE_CHAIN_ID="sunrise-test-0.2"" >> $HOME/.bash_profile
 echo "export SUNRISE_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O sunrised wget https://github.com/sunriselayer/sunrise/releases/download/v0.1.2/sunrised
+wget -O sunrised wget https://github.com/sunriselayer/sunrise/releases/download/v0.1.4/sunrised
 chmod +x $HOME/sunrised
 mv $HOME/sunrised $HOME/go/bin/sunrised
 
@@ -74,7 +74,7 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="27d92a62f64585b995a6a99882cdd3a1a441336d@a.sunrise-test-1.cauchye.net:26656,9cb96bd137c6fab41446f5fa36e17b1f8896b05c@b.sunrise-test-1.cauchye.net:26656,db223ecc4fba0e7135ba782c0fd710580c5213a6@a-node.sunrise-test-1.cauchye.net:26656"
+SEEDS="0c0e0cf617c1c58297f53f3a82cea86a7c860396@a.sunrise-test-1.cauchye.net:26656,db223ecc4fba0e7135ba782c0fd710580c5213a6@a-node.sunrise-test-1.cauchye.net:26656,82bc2fdbfc735b1406b9da4181036ab9c44b63be@b-node.sunrise-test-1.cauchye.net:26656"
 PEERS=""
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.sunrise/config/config.toml
 
@@ -102,7 +102,7 @@ sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.su
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.sunrise/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.0urise"|g' $HOME/.sunrise/config/app.toml
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.002urise"|g' $HOME/.sunrise/config/app.toml
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.sunrise/config/config.toml
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.sunrise/config/config.toml
 sleep 1
