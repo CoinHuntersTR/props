@@ -69,6 +69,7 @@ echo done
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
 wget -O $HOME/.sunrise/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/sunrise/genesis.json
+wget -O $HOME/.sunrise/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/sunrise/addrbook.json
 sleep 1
 echo done
 
