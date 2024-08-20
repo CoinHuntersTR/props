@@ -44,12 +44,13 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
-cd $HOME
-sudo wget -O /usr/lib/libwasmvm.x86_64.so https://github.com/CosmWasm/wasmvm/releases/download/v1.3.1/libwasmvm.x86_64.so
-wget https://github.com/MANTRA-Finance/public/raw/main/mantrachain-hongbai/mantrachaind-linux-amd64.zip
-unzip mantrachaind-linux-amd64.zip
-rm mantrachaind-linux-amd64.zip
-mv mantrachaind $HOME/go/bin
+upgrade_version="3.0.0"
+if [ "$(uname -m)" == "aarch64" ]; then export ARCH="arm64"; else export ARCH="amd64"; fi
+wget https://github.com/MANTRA-Finance/public/releases/download/v$upgrade_version/mantrachaind-$upgrade_version-linux-$ARCH.tar.gz
+# extract the binary
+tar -xvf mantrachaind-$upgrade_version-linux-$ARCH.tar.gz
+chmod +x mantrachaind
+mv $HOME/download/mantrachaind $HOME/go/bin
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -62,8 +63,8 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.mantrachain/config/genesis.json https://testnet-files.itrocket.net/mantra/genesis.json
-wget -O $HOME/.mantrachain/config/addrbook.json https://testnet-files.itrocket.net/mantra/addrbook.json
+wget -O $HOME/.mantrachain/config/genesis.json https://server-4.itrocket.net/testnet/mantra/genesis.json
+wget -O $HOME/.mantrachain/config/addrbook.json https://server-4.itrocket.net/testnet/mantra/addrbook.json
 sleep 1
 echo done
 
@@ -122,8 +123,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 mantrachaind tendermint unsafe-reset-all --home $HOME/.mantrachain
-if curl -s --head curl https://testnet-files.itrocket.net/mantra/snap_mantra.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://testnet-files.itrocket.net/mantra/snap_mantra.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.mantrachain
+if curl -s --head curl https://server-4.itrocket.net/testnet/mantra/mantra_2024-08-20_1710168_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-4.itrocket.net/testnet/mantra/mantra_2024-08-20_1710168_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.mantrachain
     else
   echo no have snap
 fi
