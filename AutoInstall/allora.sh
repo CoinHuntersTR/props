@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-https://github.com/allora-network/allora-chain/releases/download/v0.3.0/allorad_linux_amd64
+wget -O allorad https://github.com/allora-network/allora-chain/releases/download/v0.3.0/allorad_linux_amd64
 chmod +x $HOME/allorad
 mv $HOME/allorad $HOME/go/bin/allorad
 
