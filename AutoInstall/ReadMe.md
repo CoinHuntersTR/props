@@ -66,7 +66,7 @@ wget -q -O nillion.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main
 ## Allora Network Testnet AutoScript
 
 ```
-wget -q -O allora.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/allora.sh && chmod +x allora.sh && ./allora.sh
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/allora.sh)
 ```
 
 ## Fiamma Network Testnet AutoScript
