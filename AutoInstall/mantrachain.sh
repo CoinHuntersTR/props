@@ -44,13 +44,10 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
-upgrade_version="3.0.0"
-if [ "$(uname -m)" == "aarch64" ]; then export ARCH="arm64"; else export ARCH="amd64"; fi
-wget https://github.com/MANTRA-Finance/public/releases/download/v$upgrade_version/mantrachaind-$upgrade_version-linux-$ARCH.tar.gz
-# extract the binary
-tar -xvf mantrachaind-$upgrade_version-linux-$ARCH.tar.gz
-chmod +x mantrachaind
-mv $HOME/download/mantrachaind $HOME/go/bin
+cd $HOME
+wget -O mantrachaind https://github.com/MANTRA-Finance/public/releases/download/v3.0.1/mantrachaind-3.0.1-linux-amd64.tar.gz
+chmod +x $HOME/mantrachaind
+sudo mv $HOME/mantrachaind $(which mantrachaind)
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
