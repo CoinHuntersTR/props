@@ -120,8 +120,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 mantrachaind tendermint unsafe-reset-all --home $HOME/.mantrachain
-if curl -s --head curl https://server-4.itrocket.net/testnet/mantra/mantra_2024-08-20_1710168_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-4.itrocket.net/testnet/mantra/mantra_2024-08-20_1710168_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.mantrachain
+if curl -s --head curl https://server-4.itrocket.net/testnet/lava/lava_2024-09-04_1822657_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-4.itrocket.net/testnet/lava/lava_2024-09-04_1822657_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.mantrachain
     else
   echo no have snap
 fi
