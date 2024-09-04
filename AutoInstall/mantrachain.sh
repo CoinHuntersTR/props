@@ -49,7 +49,7 @@ wget -O mantrachaind-3.0.1-linux-amd64.tar.gz https://github.com/MANTRA-Finance/
 tar -xzf mantrachaind-3.0.1-linux-amd64.tar.gz
 rm /root/mantrachaind-3.0.1-linux-amd64.tar.gz
 chmod +x $HOME/mantrachaind
-sudo mv $HOME/mantrachaind $(which mantrachaind)
+sudo mv $HOME/mantrachaind $HOME/go/bin/mantrachaind
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
