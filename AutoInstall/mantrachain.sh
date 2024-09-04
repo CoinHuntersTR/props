@@ -45,7 +45,9 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O mantrachaind https://github.com/MANTRA-Finance/public/releases/download/v3.0.1/mantrachaind-3.0.1-linux-amd64.tar.gz
+wget -O mantrachaind-3.0.1-linux-amd64.tar.gz https://github.com/MANTRA-Finance/public/releases/download/v3.0.1/mantrachaind-3.0.1-linux-amd64.tar.gz
+tar -xzf mantrachaind-3.0.1-linux-amd64.tar.gz
+rm /root/mantrachaind-3.0.1-linux-amd64.tar.gz
 chmod +x $HOME/mantrachaind
 sudo mv $HOME/mantrachaind $(which mantrachaind)
 
