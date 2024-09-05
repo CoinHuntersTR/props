@@ -27,7 +27,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/Auto
 ## Nibiru Mainnet AutoScript
 
 ```
-wget -q -O nibiru.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nibiru.sh && chmod +x nibiru.sh && ./nibiru.sh
+bash <(wget -qO- ttps://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nibiru.sh)
 ```
 
 
