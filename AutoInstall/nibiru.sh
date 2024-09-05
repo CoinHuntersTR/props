@@ -45,10 +45,11 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O nibid_1.5.0_linux_amd64.tar.gz https://github.com/NibiruChain/nibiru/releases/download/v1.5.0/nibid_1.5.0_linux_amd64.tar.gz
-tar -xzf nibid_1.5.0_linux_amd64.tar.gz
+wget -O nibid_1.5.0-post.2_linux_arm64.tar.gz https://github.com/NibiruChain/nibiru/releases/download/v1.5.0-post.2/nibid_1.5.0-post.2_linux_arm64.tar.gz
+tar -xzf nibid_1.5.0-post.2_linux_arm64.tar.gz
+rm /root/nibid_1.5.0-post.2_linux_arm64.tar.gz
 chmod +x nibid
-mv nibid $HOME/go/bin/nibid
+sudo mv $HOME/nibid $HOME/go/bin/nibid
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -116,8 +117,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nibid tendermint unsafe-reset-all --home $HOME/.nibid
-if curl -s --head curl https://snapshots.kjnodes.com/nibiru/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.kjnodes.com/nibiru/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.nibid
+if curl -s --head curl https://snapshots.polkachu.com/snapshots/nibiru/nibiru_11070258.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.polkachu.com/snapshots/nibiru/nibiru_11070258.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.nibid
     else
   echo no have snap
 fi
