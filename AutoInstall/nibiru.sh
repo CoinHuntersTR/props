@@ -45,9 +45,9 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O nibid_1.5.0-post.2_linux_arm64.tar.gz https://github.com/NibiruChain/nibiru/releases/download/v1.5.0-post.2/nibid_1.5.0-post.2_linux_arm64.tar.gz
-tar -xzf nibid_1.5.0-post.2_linux_arm64.tar.gz
-rm /root/nibid_1.5.0-post.2_linux_arm64.tar.gz
+wget -O nibid_1.5.0-post.2_linux_amd64.tar.gz https://github.com/NibiruChain/nibiru/releases/download/v1.5.0-post.2/nibid_1.5.0-post.2_linux_amd64.tar.gz
+tar -xzf nibid_1.5.0-post.2_linux_amd64.tar.gz
+rm /root/nibid_1.5.0-post.2_linux_amd64.tar.gz
 chmod +x nibid
 sudo mv $HOME/nibid $HOME/go/bin/nibid
 
