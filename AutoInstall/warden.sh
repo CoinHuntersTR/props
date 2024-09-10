@@ -120,8 +120,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 wardend tendermint unsafe-reset-all --home $HOME/.warden
-if curl -s --head curl https://server-4.itrocket.net/testnet/warden/warden_2024-07-31_1523933_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-4.itrocket.net/testnet/warden/warden_2024-07-31_1523933_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.warden
+if curl -s --head curl https://server-4.itrocket.net/testnet/warden/warden_2024-09-10_2079730_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-4.itrocket.net/testnet/warden/warden_2024-09-10_2079730_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.warden
     else
   echo "no snapshot founded"
 fi
