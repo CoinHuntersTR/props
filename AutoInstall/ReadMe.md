@@ -126,8 +126,10 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/Auto
 ```
 
 
-## BeraChain V2 Testnet AutoScript
+## CatProtocol Mine Mainnet AutoScript
 
 ```
-bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/berachain.sh)
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/catprotocol.sh)
 ```
+
+
