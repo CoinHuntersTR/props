@@ -19,18 +19,18 @@ COLOR_RESET="\e[0m"
 
 # Emoji desteği ile log fonksiyonu
 log() {
-    echo -e "${COLOR_CYAN}\$1${COLOR_RESET}"
+    echo -e "${COLOR_CYAN}\${COLOR_RESET}"
 }
 
 # Emoji desteği ile hata işleme
 handle_error() {
-    echo -e "${COLOR_RED}❌ Hata: \$1${COLOR_RESET}"
+    echo -e "${COLOR_RED}❌ Hata: \${COLOR_RESET}"
     exit 1
 }
 
 # Dosyanın var olup olmadığını kontrol eden fonksiyon
 check_file_exists() {
-    if [ -f "\$1" ]; then
+    if [ -f "$1" ]; then
         log "${COLOR_YELLOW}⚠️  Dosya \$1 zaten mevcut, indirme atlanıyor.${COLOR_RESET}"
         return 1
     fi
@@ -39,21 +39,21 @@ check_file_exists() {
 
 # Dizin var olup olmadığını kontrol eden fonksiyon
 check_directory_exists() {
-    if [ -d "\$1" ]; then
-        log "${COLOR_GREEN}📁 Dizin \$1 zaten mevcut.${COLOR_RESET}"
+    if [ -d "$1" ]; then
+        log "${COLOR_GREEN}📁 Dizin $1 zaten mevcut.${COLOR_RESET}"
     else
-        log "${COLOR_YELLOW}📂 Dizin \$1 oluşturuluyor...${COLOR_RESET}"
-        mkdir -p "\$1" || handle_error "Dizin \$1 oluşturulamadı."
+        log "${COLOR_YELLOW}📂 Dizin $1 oluşturuluyor...${COLOR_RESET}"
+        mkdir -p "$1" || handle_error "Dizin $1 oluşturulamadı."
     fi
 }
 
 # Yüklü olmayan paketleri kontrol edip yükleme
 check_and_install_package() {
-    if ! dpkg -l | grep -qw "\$1"; then
-        log "${COLOR_YELLOW}📦 \$1 yükleniyor...${COLOR_RESET}"
-        sudo apt-get install -y "\$1" || handle_error "\$1 yüklenemedi."
+    if ! dpkg -l | grep -qw "$1"; then
+        log "${COLOR_YELLOW}📦 $1 yükleniyor...${COLOR_RESET}"
+        sudo apt-get install -y "$1" || handle_error "$1 yüklenemedi."
     else
-        log "${COLOR_GREEN}✔️  \$1 zaten yüklü!${COLOR_RESET}"
+        log "${COLOR_GREEN}✔️  $1 zaten yüklü!${COLOR_RESET}"
     fi
 }
 
