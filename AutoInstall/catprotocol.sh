@@ -21,12 +21,11 @@ DESTINATION=/usr/local/bin/docker-compose
 sudo curl -L https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m) -o $DESTINATION
 sudo chmod 755 $DESTINATION
 
-# Install Node.js and Yarn
+# Install Node.js and Yarn using NodeSource
 echo "Node.js ve Yarn'ı yüklüyor..."
-sudo apt-get install npm -y
-sudo npm install n -g
-sudo n stable
-sudo npm i -g yarn
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo npm install -g yarn
 
 # Clone the CAT Protocol repository
 echo "CAT Protocol deposunu klonluyor..."
@@ -35,21 +34,21 @@ cd cat-token-box
 
 # Install dependencies and build the project
 echo "Bağımlılıkları yüklüyor ve projeyi derliyor..."
-sudo yarn install
-sudo yarn build
+yarn install
+yarn build
 
 # Set permissions and start Docker Compose
 echo "İzinleri ayarlıyor ve Docker Compose'u başlatıyor..."
 cd ./packages/tracker/
 sudo chmod 777 docker/data
 sudo chmod 777 docker/pgdata
-sudo docker-compose up -d
+docker-compose up -d
 
 # Build and run the Docker container
 echo "Docker konteynerini oluşturuyor ve çalıştırıyor..."
 cd ../../
-sudo docker build -t tracker:latest .
-sudo docker run -d \
+docker build -t tracker:latest .
+docker run -d \
     --name tracker \
     --add-host="host.docker.internal:host-gateway" \
     -e DATABASE_HOST="host.docker.internal" \
@@ -60,7 +59,8 @@ sudo docker run -d \
 # Create a wallet
 echo "Cüzdanınız oluşturuluyor. Gizli kelimelerinizi saklamayı unutmayın."
 cd packages/cli
-sudo yarn cli wallet create
+yarn build
+yarn cli wallet create
 
 # Display wallet address
 echo "Cüzdan adresiniz. FB coin göndermeyi unutmayın."
