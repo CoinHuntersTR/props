@@ -66,26 +66,11 @@ docker run -d \
     -p 3000:3000 \
     tracker:latest
 
-# Wallet setup options
-echo -e "\033[0;32mCüzdan ayarları:\033[0m"
-echo "1. Yeni cüzdan oluştur"
-echo "2. Var olan cüzdanı import et"
-read -p "Seçiminizi yapın (1 veya 2): " choice
-
+# Create a wallet
+echo -e "\033[0;32mCüzdanınız oluşturuluyor. Gizli kelimelerinizi saklamayı unutmayın.\033[0m"
 cd packages/cli
 yarn build
-
-if [ "$choice" -eq 1 ]; then
-    echo -e "\033[0;32mYeni cüzdan oluşturuluyor...\033[0m"
-    yarn cli wallet create
-elif [ "$choice" -eq 2 ]; then
-    read -p "Mnemonic kelimelerinizi girin: " mnemonic
-    echo -e "\033[0;32mVar olan cüzdan import ediliyor...\033[0m"
-    yarn cli wallet import --mnemonic "$mnemonic"
-else
-    echo -e "\033[0;31mGeçersiz seçim. Lütfen 1 veya 2 girin.\033[0m"
-    exit 1
-fi
+yarn cli wallet create
 
 # Display wallet address
 echo -e "\033[0;32mCüzdan adresiniz. FB coin göndermeyi unutmayın.\033[0m"
