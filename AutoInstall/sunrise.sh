@@ -128,8 +128,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 sunrised tendermint unsafe-reset-all --home $HOME/.sunrise
-if curl -s --head curl https://snapshots.polkachu.com/testnet-snapshots/sunrise/sunrise_1399485.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.polkachu.com/testnet-snapshots/sunrise/sunrise_1399485.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.sunrise
+if curl -s --head curl https://snapshot.stir.network/sunrise/sunrise-test-0.2-v0.2.0.tar.gz | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshot.stir.network/sunrise/sunrise-test-0.2-v0.2.0.tar.gz | tar -xz -C $HOME/.sunrise
     else
   echo "no snapshot founded"
 fi
