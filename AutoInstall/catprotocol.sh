@@ -32,15 +32,20 @@ echo "CAT Protocol deposunu klonluyor..."
 git clone https://github.com/CATProtocol/cat-token-box
 cd cat-token-box
 
-# Update the tracker URL in config.json
-echo "config.json dosyasını güncelliyor..."
-CONFIG_FILE="/root/cat-token-box/packages/cli/config.json"
-sed -i 's|"tracker": "http://127.0.0.1:3000"|"tracker": "http://162.55.47.20:3000"|' $CONFIG_FILE
-
 # Install dependencies and build the project
 echo "Bağımlılıkları yüklüyor ve projeyi derliyor..."
 yarn install
 yarn build
+
+# Update the tracker URL in config.json
+CONFIG_FILE="./packages/cli/config.json"
+if [ -f "$CONFIG_FILE" ]; then
+    echo "config.json dosyasını güncelliyor..."
+    sed -i 's|"tracker": "http://127.0.0.1:3000"|"tracker": "http://162.55.47.20:3000"|' $CONFIG_FILE
+else
+    echo "config.json dosyası bulunamadı. Lütfen dosyanın varlığını kontrol edin."
+    exit 1
+fi
 
 # Set permissions and start Docker Compose
 echo "İzinleri ayarlıyor ve Docker Compose'u başlatıyor..."
