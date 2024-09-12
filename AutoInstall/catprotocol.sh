@@ -73,5 +73,5 @@ yarn build
 yarn cli wallet create
 
 # Display wallet address
-echo -e "\033[0;32mCüzdan adresiniz. FB coin göndermeyi unutmayın.\033[0m"
+echo -e "\033[0;32mFB coin göndermeyi unutmayın.\033[0m"
 yarn cli wallet address
