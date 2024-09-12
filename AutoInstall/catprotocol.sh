@@ -9,10 +9,10 @@ echo "| |__| (_) | | | | | |  _  | |_| | | | | ||  __/ |  \__ \ "
 echo " \____\___/|_|_| |_| |_| |_|\__,_|_| |_|\__\___|_|  |___/ "
 echo -e "\e[0m"
 
-# Update package list and install Docker
-echo -e "\033[0;32mPaket listesini güncelliyor ve Docker'ı yüklüyor...\033[0m"
+# Update package list and install Docker and jq
+echo -e "\033[0;32mPaket listesini güncelliyor ve Docker ile jq'yu yüklüyor...\033[0m"
 sudo apt-get update
-sudo apt-get install docker.io -y
+sudo apt-get install docker.io jq -y
 
 # Install Docker Compose
 echo -e "\033[0;32mDocker Compose'u yüklüyor...\033[0m"
@@ -73,5 +73,5 @@ yarn build
 yarn cli wallet create
 
 # Display wallet address
-echo -e "\033[0;32mFB coin göndermeyi unutmayın.\033[0m"
+echo -e "\033[0;32mCüzdan adresiniz. FB coin göndermeyi unutmayın.\033[0m"
 yarn cli wallet address
