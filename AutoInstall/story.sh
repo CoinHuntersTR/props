@@ -72,3 +72,63 @@ LimitNOFILE=4096
 [Install]
 WantedBy=multi-user.target
 EOF
+
+# Step 8: Ask for Moniker and Update config.toml
+echo "Please enter the moniker for your node (e.g., your node's name):"
+read -r moniker
+
+# Step 9: Update Ports in config.toml Based on User Input
+echo "Please enter the starting port number (between 11 and 64). Default is 26:"
+read -r start_port
+
+# Default value check for port
+if [ -z "$start_port" ]; then
+  start_port=26
+elif ! [[ "$start_port" =~ ^[0-9]+$ ]] || [ "$start_port" -lt 11 ] || [ "$start_port" -gt 64 ]; then
+  echo "Invalid input. Please enter a number between 11 and 64."
+  exit 1
+fi
+
+# Calculate new ports based on start_port
+rpc_port=$((start_port * 1000 + 657))
+p2p_port=$((start_port * 1000 + 656))
+proxy_app_port=$((start_port * 1000 + 658))
+prometheus_port=$((start_port * 1000 + 660))
+
+# Update config.toml with new port values and moniker
+config_path="/root/.story/story/config/config.toml"
+
+# Update ports
+sed -i "s|laddr = \"tcp://127.0.0.1:26657\"|laddr = \"tcp://127.0.0.1:$rpc_port\"|g" "$config_path"
+sed -i "s|laddr = \"tcp://0.0.0.0:26656\"|laddr = \"tcp://0.0.0.0:$p2p_port\"|g" "$config_path"
+sed -i "s|proxy_app = \"tcp://127.0.0.1:26658\"|proxy_app = \"tcp://127.0.0.1:$proxy_app_port\"|g" "$config_path"
+sed -i "s|prometheus_listen_addr = \":26660\"|prometheus_listen_addr = \":$prometheus_port\"|g" "$config_path"
+
+# Update moniker
+sed -i "s|moniker = \"[^\"]*\"|moniker = \"$moniker\"|g" "$config_path"
+
+echo "Configuration updated successfully in config.toml:"
+echo "Moniker: $moniker"
+echo "RPC Port: $rpc_port"
+echo "P2P Port: $p2p_port"
+echo "Proxy App Port: $proxy_app_port"
+echo "Prometheus Port: $prometheus_port"
+
+# Step 10: Update Persistent Peers in config.toml
+echo "Fetching peers and updating persistent_peers in config.toml..."
+URL="https://story-testnet-rpc.coinsspor.com/net_info"
+response=$(curl -s $URL)
+PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
+echo "PEERS=\"$PEERS\""
+
+# Update the persistent_peers in the config.toml file
+sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $CONFIG_PATH
+
+echo "Persistent peers updated in $CONFIG_PATH."
+
+
+# Step 11: Reload systemd, Enable, and Start Services
+echo "Reloading systemd, enabling, and starting Story-Geth and Story services..."
+sudo systemctl daemon-reload
+sudo systemctl enable story-geth story
+sudo systemctl start story-geth story
