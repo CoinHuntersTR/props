@@ -10,7 +10,7 @@ sudo apt update && sudo apt upgrade -y
 
 # Step 2: Install Required Packages
 echo "Installing required packages..."
-sudo apt install -y wget curl lz4
+sudo apt install -y wget curl lz4 jq
 
 # Step 3: Install Go
 echo "Installing Go..."
