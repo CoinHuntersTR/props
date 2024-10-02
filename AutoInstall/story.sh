@@ -142,21 +142,4 @@ sudo systemctl daemon-reload
 sudo systemctl enable story-geth story
 sudo systemctl start story-geth story
 
-
-# Step 13: Check Service Status
-printGreen "Checking Story-Geth service status..." && sleep 1
-sudo systemctl status story-geth --no-pager -l
-printGreen "Checking Story service status..." && sleep 1
-sudo systemctl status story --no-pager -l
-
-# Step 14: Check Logs for Story-Geth and Story
-printGreen "Checking logs for Story-Geth..." && sleep 1
-sudo journalctl -u story-geth -f -o cat &
-printGreen "Checking logs for Story..." && sleep 1
-sudo journalctl -u story -f -o cat
-
-# Step 15: Check Sync Status
-printGreen "Checking sync status..." && sleep 1
-curl -s localhost:26657/status | jq
-
 printGreen "Installation and setup complete!" && sleep 1
