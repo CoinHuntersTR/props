@@ -112,11 +112,16 @@ sed -i "s|prometheus_listen_addr = \":26660\"|prometheus_listen_addr = \":$prome
 sed -i "s|moniker = \"[^\"]*\"|moniker = \"$moniker\"|g" "$config_path"
 
 printBlue "Configuration updated successfully in config.toml:" && sleep 1
-echo "Moniker: $moniker"
-echo "RPC Port: $rpc_port"
-echo "P2P Port: $p2p_port"
-echo "Proxy App Port: $proxy_app_port"
-echo "Prometheus Port: $prometheus_port"
+
+printLine
+echo -e "Moniker:        \e[1m\e[32m$moniker\e[0m"
+echo -e "RPC Port:         \e[1m\e[32m$rpc_port\e[0m"
+echo -e "P2P Port:       \e[1m\e[32m$p2p_port\e[0m"
+echo -e "Proxy App Port:  \e[1m\e[32m$proxy_app_port\e[0m"
+echo -e "Prometheus Port:  \e[1m\e[32m$prometheus_port\e[0m"
+printLine
+sleep 1
+
 
 # Step 11: Update Persistent Peers in config.toml
 printGreen "Fetching peers and updating persistent_peers in config.toml..." && sleep 1
@@ -136,3 +141,22 @@ printGreen "Reloading systemd, enabling, and starting Story-Geth and Story servi
 sudo systemctl daemon-reload
 sudo systemctl enable story-geth story
 sudo systemctl start story-geth story
+
+
+# Step 13: Check Service Status
+printGreen "Checking Story-Geth service status..." && sleep 1
+sudo systemctl status story-geth --no-pager -l
+printGreen "Checking Story service status..." && sleep 1
+sudo systemctl status story --no-pager -l
+
+# Step 14: Check Logs for Story-Geth and Story
+printGreen "Checking logs for Story-Geth..." && sleep 1
+sudo journalctl -u story-geth -f -o cat &
+printGreen "Checking logs for Story..." && sleep 1
+sudo journalctl -u story -f -o cat
+
+# Step 15: Check Sync Status
+printGreen "Checking sync status..." && sleep 1
+curl -s localhost:26657/status | jq
+
+printGreen "Installation and setup complete!" && sleep 1
