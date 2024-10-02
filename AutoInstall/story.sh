@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Load and print logo
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
+printLogo
+
 # Step 1: Update and Upgrade VPS
 echo "Updating and upgrading VPS..."
 sudo apt update && sudo apt upgrade -y
