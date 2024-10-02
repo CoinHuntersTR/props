@@ -7,18 +7,18 @@ print_green() {
 
 # Load and print logo
 source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
-printLogo
+printLogo 
 
 # Step 1: Update and Upgrade VPS
-print_green "Updating and upgrading VPS..."
+print_green "Updating and upgrading VPS..." && sleep 1
 sudo apt update && sudo apt upgrade -y
 
 # Step 2: Install Required Packages
-print_green "Installing required packages..."
+print_green "Installing required packages..." && sleep 1
 sudo apt install -y wget curl lz4 jq
 
-# Step 3: Install Go
-print_green "Installing Go..."
+printGreen "1. Installing go..." && sleep 1
+# install go, if needed
 cd $HOME
 ver="1.22.0"
 wget "https://go.dev/dl/go$ver.linux-amd64.tar.gz"
@@ -30,24 +30,24 @@ source ~/.bash_profile
 go version
 
 # Step 4: Download and Install Story-Geth Binary
-print_green "Downloading and installing Story-Geth binary..."
+print_green "Downloading and installing Story-Geth binary..." && sleep 1
 wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/geth-public/geth-linux-amd64-0.9.3-b224fdf.tar.gz -O /tmp/geth-linux-amd64-0.9.3-b224fdf.tar.gz
 tar -xzf /tmp/geth-linux-amd64-0.9.3-b224fdf.tar.gz -C /tmp
 [ ! -d "$HOME/go/bin" ] && mkdir -p $HOME/go/bin
 sudo cp /tmp/geth-linux-amd64-0.9.3-b224fdf/geth $HOME/go/bin/story-geth
 
 # Step 5: Download and Install Story Binary
-print_green "Downloading and installing Story binary..."
+print_green "Downloading and installing Story binary..." && sleep 1
 wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/story-public/story-linux-amd64-0.10.1-57567e5.tar.gz -O /tmp/story-linux-amd64-0.10.1-57567e5.tar.gz
 tar -xzf /tmp/story-linux-amd64-0.10.1-57567e5.tar.gz -C /tmp
 sudo cp /tmp/story-linux-amd64-0.10.1-57567e5/story $HOME/go/bin/story
 
 # Step 6: Initialize the Iliad Network Node
-print_green "Initializing Iliad network node..."
+print_green "Initializing Iliad network node..." && sleep 1
 $HOME/go/bin/story init --network iliad
 
 # Step 7: Create and Configure systemd Service for Story-Geth
-print_green "Creating systemd service for Story-Geth..."
+print_green "Creating systemd service for Story-Geth..." && sleep 1
 sudo tee /etc/systemd/system/story-geth.service > /dev/null <<EOF
 [Unit]
 Description=Story Geth Client
@@ -65,7 +65,7 @@ WantedBy=multi-user.target
 EOF
 
 # Step 8: Create and Configure systemd Service for Story
-print_green "Creating systemd service for Story..."
+print_green "Creating systemd service for Story..." && sleep 1
 sudo tee /etc/systemd/system/story.service > /dev/null <<EOF
 [Unit]
 Description=Story Consensus Client
@@ -83,11 +83,11 @@ WantedBy=multi-user.target
 EOF
 
 # Step 9: Ask for Moniker and Update config.toml
-print_green "Please enter the moniker for your node (e.g., your node's name):"
+print_green "Please enter the moniker for your node (e.g., your node's name):" && sleep 1
 read -r moniker
 
 # Step 10: Update Ports in config.toml Based on User Input
-print_green "Please enter the starting port number (between 11 and 64). Default is 26:"
+print_green "Please enter the starting port number (between 11 and 64). Default is 26:" && sleep 1
 read -r start_port
 
 # Default value check for port
@@ -124,7 +124,7 @@ print_green "Proxy App Port: $proxy_app_port"
 print_green "Prometheus Port: $prometheus_port"
 
 # Step 11: Update Persistent Peers in config.toml
-print_green "Fetching peers and updating persistent_peers in config.toml..."
+print_green "Fetching peers and updating persistent_peers in config.toml..." && sleep 1
 URL="https://story-testnet-rpc.itrocket.net/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
@@ -136,7 +136,7 @@ sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $CONFIG_PATH
 print_green "Persistent peers updated in $CONFIG_PATH."
 
 # Step 12: Reload systemd, Enable, and Start Services
-print_green "Reloading systemd, enabling, and starting Story-Geth and Story services..."
+print_green "Reloading systemd, enabling, and starting Story-Geth and Story services..." && sleep 1
 sudo systemctl daemon-reload
 sudo systemctl enable story-geth story
 sudo systemctl start story-geth story
