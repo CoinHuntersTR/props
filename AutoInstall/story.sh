@@ -8,7 +8,11 @@ printLogo
 echo "Updating and upgrading VPS..."
 sudo apt update && sudo apt upgrade -y
 
-# Step 2: Install Go
+# Step 2: Install Required Packages
+echo "Installing required packages..."
+sudo apt install -y wget curl lz4
+
+# Step 3: Install Go
 echo "Installing Go..."
 cd $HOME
 ver="1.22.0"
@@ -20,24 +24,24 @@ echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
 source ~/.bash_profile
 go version
 
-# Step 3: Download and Install Story-Geth Binary
+# Step 4: Download and Install Story-Geth Binary
 echo "Downloading and installing Story-Geth binary..."
 wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/geth-public/geth-linux-amd64-0.9.3-b224fdf.tar.gz -O /tmp/geth-linux-amd64-0.9.3-b224fdf.tar.gz
 tar -xzf /tmp/geth-linux-amd64-0.9.3-b224fdf.tar.gz -C /tmp
 [ ! -d "$HOME/go/bin" ] && mkdir -p $HOME/go/bin
 sudo cp /tmp/geth-linux-amd64-0.9.3-b224fdf/geth $HOME/go/bin/story-geth
 
-# Step 4: Download and Install Story Binary
+# Step 5: Download and Install Story Binary
 echo "Downloading and installing Story binary..."
 wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/story-public/story-linux-amd64-0.10.1-57567e5.tar.gz -O /tmp/story-linux-amd64-0.10.1-57567e5.tar.gz
 tar -xzf /tmp/story-linux-amd64-0.10.1-57567e5.tar.gz -C /tmp
 sudo cp /tmp/story-linux-amd64-0.10.1-57567e5/story $HOME/go/bin/story
 
-# Step 5: Initialize the Iliad Network Node
+# Step 6: Initialize the Iliad Network Node
 echo "Initializing Iliad network node..."
 $HOME/go/bin/story init --network iliad
 
-# Step 6: Create and Configure systemd Service for Story-Geth
+# Step 7: Create and Configure systemd Service for Story-Geth
 echo "Creating systemd service for Story-Geth..."
 sudo tee /etc/systemd/system/story-geth.service > /dev/null <<EOF
 [Unit]
@@ -55,7 +59,7 @@ LimitNOFILE=4096
 WantedBy=multi-user.target
 EOF
 
-# Step 7: Create and Configure systemd Service for Story
+# Step 8: Create and Configure systemd Service for Story
 echo "Creating systemd service for Story..."
 sudo tee /etc/systemd/system/story.service > /dev/null <<EOF
 [Unit]
@@ -73,11 +77,11 @@ LimitNOFILE=4096
 WantedBy=multi-user.target
 EOF
 
-# Step 8: Ask for Moniker and Update config.toml
+# Step 9: Ask for Moniker and Update config.toml
 echo "Please enter the moniker for your node (e.g., your node's name):"
 read -r moniker
 
-# Step 9: Update Ports in config.toml Based on User Input
+# Step 10: Update Ports in config.toml Based on User Input
 echo "Please enter the starting port number (between 11 and 64). Default is 26:"
 read -r start_port
 
@@ -114,7 +118,7 @@ echo "P2P Port: $p2p_port"
 echo "Proxy App Port: $proxy_app_port"
 echo "Prometheus Port: $prometheus_port"
 
-# Step 10: Update Persistent Peers in config.toml
+# Step 11: Update Persistent Peers in config.toml
 echo "Fetching peers and updating persistent_peers in config.toml..."
 URL="https://story-testnet-rpc.coinsspor.com/net_info"
 response=$(curl -s $URL)
@@ -122,13 +126,25 @@ PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip
 echo "PEERS=\"$PEERS\""
 
 # Update the persistent_peers in the config.toml file
-sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $CONFIG_PATH
+sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $config_path
 
-echo "Persistent peers updated in $CONFIG_PATH."
+echo "Persistent peers updated in $config_path."
 
+# Step 12: Stop Services and Apply Snapshot
+echo "Stopping services and applying snapshot..."
+sudo systemctl stop story story-geth
+cp $HOME/.story/story/data/priv_validator_state.json $HOME/.story/story/priv_validator_state.json.backup
+rm -rf $HOME/.story/story/data
+rm -rf $HOME/.story/geth/iliad/geth/chaindata
+curl https://server-3.itrocket.net/testnet/story/story_2024-10-02_1061644_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.story
+mv $HOME/.story/story/priv_validator_state.json.backup $HOME/.story/story/data/priv_validator_state.json
 
-# Step 11: Reload systemd, Enable, and Start Services
+# Step 13: Reload systemd, Enable, and Start Services
 echo "Reloading systemd, enabling, and starting Story-Geth and Story services..."
 sudo systemctl daemon-reload
 sudo systemctl enable story-geth story
 sudo systemctl start story-geth story
+
+# Step 14: Monitor Story Service Logs
+echo "Monitoring Story service logs..."
+sudo journalctl -u story -f
