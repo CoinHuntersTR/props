@@ -132,4 +132,10 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/Auto
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/catprotocol.sh)
 ```
 
+## Story Iliad Testnet AutoScript
+
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/story.sh)
+```
+
 
