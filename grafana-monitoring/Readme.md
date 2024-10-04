@@ -5,7 +5,7 @@
 ### Install exporters on validator node
 First of all you will have to install exporters on validator node. For that you can use one-liner below
 ```
-wget -O install_exporters.sh https://raw.githubusercontent.com/kj89/cosmos_node_monitoring/master/install_exporters.sh && chmod +x install_exporters.sh && ./install_exporters.sh
+wget -O install_exporters.sh https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/grafana-monitoring/install_exporters.sh && chmod +x install_exporters.sh && ./install_exporters.sh
 ```
 
 | KEY |VALUE |
@@ -32,7 +32,7 @@ Ubuntu 20.04 / 1 VCPU / 2 GB RAM / 20 GB SSD
 ### Install monitoring stack
 To install monitirng stack you can use one-liner below
 ```
-wget -O install_monitoring.sh https://raw.githubusercontent.com/kj89/cosmos_node_monitoring/master/install_monitoring.sh && chmod +x install_monitoring.sh && ./install_monitoring.sh
+wget -O install_monitoring.sh https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/grafana-monitoring/install_monitoring.sh && chmod +x install_monitoring.sh && ./install_monitoring.sh
 ```
 
 ### Copy _.env.example_ into _.env_
