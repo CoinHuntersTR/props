@@ -17,7 +17,7 @@ sleep 3
 
 echo -e "\e[1m\e[32m1. Installing cosmos-exporter... \e[0m" && sleep 1
 # install cosmos-exporter
-COSMOS_EXPORTER_VERSION="v0.3.0" # Replace with the latest version
+COSMOS_EXPORTER_VERSION="0.3.0" # Replace with the latest version
 wget https://github.com/solarlabsteam/cosmos-exporter/releases/download/${COSMOS_EXPORTER_VERSION}/cosmos-exporter_${COSMOS_EXPORTER_VERSION}_Linux_x86_64.tar.gz
 tar xvfz cosmos-exporter*
 sudo cp ./cosmos-exporter /usr/bin
@@ -48,7 +48,7 @@ EOF
 
 echo -e "\e[1m\e[32m2. Installing node-exporter... \e[0m" && sleep 1
 # install node-exporter
-NODE_EXPORTER_VERSION="v1.8.2" # Replace with the latest version
+NODE_EXPORTER_VERSION="1.8.2" # Replace with the latest version
 wget https://github.com/prometheus/node_exporter/releases/download/${NODE_EXPORTER_VERSION}/node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz
 tar xvfz node_exporter-*.*-amd64.tar.gz
 sudo mv node_exporter-*.*-amd64/node_exporter /usr/local/bin/
