@@ -42,7 +42,7 @@ cp $HOME/cosmos_node_monitoring/config/.env.example $HOME/cosmos_node_monitoring
 
 ### Update values in _.env_ file
 ```
-vim $HOME/cosmos_node_monitoring/config/.env
+nano $HOME/cosmos_node_monitoring/config/.env
 ```
 
 | KEY | VALUE |
