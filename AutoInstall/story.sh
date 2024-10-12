@@ -15,7 +15,7 @@ sudo apt install -y wget curl lz4 jq
 # Step 3: Install Go
 printGreen "Installing Go..." && sleep 1
 cd $HOME
-ver="1.22.0"
+ver="1.22.3"
 wget "https://go.dev/dl/go$ver.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
