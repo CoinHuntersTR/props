@@ -33,9 +33,9 @@ sudo cp /tmp/geth-linux-amd64-0.9.3-b224fdf/geth $HOME/go/bin/story-geth
 
 # Step 5: Download and Install Story Binary
 printGreen "Downloading and installing Story binary..." && sleep 1
-wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/story-public/story-linux-amd64-0.10.1-57567e5.tar.gz -O /tmp/story-linux-amd64-0.10.1-57567e5.tar.gz
-tar -xzf /tmp/story-linux-amd64-0.10.1-57567e5.tar.gz -C /tmp
-sudo cp /tmp/story-linux-amd64-0.10.1-57567e5/story $HOME/go/bin/story
+wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/story-public/story-linux-amd64-0.11.0-aac4bfe.tar.gz -O /tmp/story-linux-amd64-0.11.0-aac4bfe.tar.gz
+tar -xzf /tmp/story-linux-amd64-0.11.0-aac4bfe.tar.gz -C /tmp
+sudo cp /tmp/story-linux-amd64-0.11.0-aac4bfe/story $HOME/go/bin/story
 
 # Step 6: Initialize the Iliad Network Node
 printGreen "Initializing Iliad network node..." && sleep 1
