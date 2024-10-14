@@ -45,9 +45,10 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O wardend https://snapshots.coinhunterstr.com/warden/wardend
-chmod +x $HOME/wardend
-mv $HOME/wardend $HOME/go/bin/wardend
+rm -rf wardenprotocol
+git clone --depth 1 --branch v0.4.2 https://github.com/warden-protocol/wardenprotocol/
+cd wardenprotocol
+make install
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -120,8 +121,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 wardend tendermint unsafe-reset-all --home $HOME/.warden
-if curl -s --head curl https://server-4.itrocket.net/testnet/warden/warden_2024-09-10_2079730_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-4.itrocket.net/testnet/warden/warden_2024-09-10_2079730_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.warden
+if curl -s --head curl https://server-4.itrocket.net/testnet/warden/warden_2024-10-14_2560165_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-4.itrocket.net/testnet/warden/warden_2024-10-14_2560165_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.warden
     else
   echo "no snapshot founded"
 fi
