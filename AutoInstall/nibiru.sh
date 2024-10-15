@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O wardend https://snapshots.coinhunterstr.com/nibid/nibid
+wget -O nibid https://snapshots.coinhunterstr.com/nibid/nibid
 chmod +x $HOME/nibid
 mv $HOME/nibid $HOME/go/bin/nibid
 
