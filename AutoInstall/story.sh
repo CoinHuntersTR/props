@@ -26,10 +26,16 @@ go version
 
 # Step 4: Download and Install Story-Geth Binary
 printGreen "Downloading and installing Story-Geth binary..." && sleep 1
-wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/geth-public/geth-linux-amd64-0.9.3-b224fdf.tar.gz -O /tmp/geth-linux-amd64-0.9.3-b224fdf.tar.gz
-tar -xzf /tmp/geth-linux-amd64-0.9.3-b224fdf.tar.gz -C /tmp
-[ ! -d "$HOME/go/bin" ] && mkdir -p $HOME/go/bin
-sudo cp /tmp/geth-linux-amd64-0.9.3-b224fdf/geth $HOME/go/bin/story-geth
+cd $HOME
+rm -rf story-geth
+git clone https://github.com/piplabs/story-geth.git
+cd story-geth
+git checkout v0.9.4
+
+# Build binaries
+make geth
+sudo mv build/bin/geth $(which geth)
+
 
 # Step 5: Download and Install Story Binary
 printGreen "Downloading and installing Story binary..." && sleep 1
