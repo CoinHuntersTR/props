@@ -74,6 +74,9 @@ response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
 
+# Update the persistent_peers in the config.toml file
+sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $CONFIG_PATH
+
 # set custom ports in app.toml
 sed -i.bak -e "s%:1317%:${AXELAR_PORT}317%g;
 s%:8080%:${AXELAR_PORT}080%g;
