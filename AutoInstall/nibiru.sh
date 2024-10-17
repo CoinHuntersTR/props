@@ -119,12 +119,19 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nibid tendermint unsafe-reset-all --home $HOME/.nibid
-if curl -s --head curl https://snapshots.polkachu.com/snapshots/nibiru/nibiru_12870192.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.polkachu.com/snapshots/nibiru/nibiru_12870192.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.nibid
-    else
-  echo no have snap
-fi
+BASE_URL="https://snapshots.polkachu.com/snapshots/nibiru/"
+LATEST_SNAPSHOT=$(curl -s $BASE_URL | grep -oP 'nibiru_\d+\.tar\.lz4' | sort -V | tail -n 1)
 
+if [ -n "$LATEST_SNAPSHOT" ]; then
+  FULL_URL="${BASE_URL}${LATEST_SNAPSHOT}"
+  if curl -s --head "$FULL_URL" | head -n 1 | grep "200" > /dev/null; then
+    curl "$FULL_URL" | lz4 -dc - | tar -xf - -C $HOME/.nibid
+  else
+    echo "Snapshot URL is not valid."
+  fi
+else
+  echo "No snapshot found."
+fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable nibid
