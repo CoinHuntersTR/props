@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export MANTRA_CHAIN_ID="mantra-hongbai-1"" >> $HOME/.bash_profile
+echo "export MANTRA_CHAIN_ID="mantra-dukong-1"" >> $HOME/.bash_profile
 echo "export MANTRA_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -40,14 +40,14 @@ source $HOME/.bash_profile
 
 echo $(go version) && sleep 1
 
-source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/main/utils/dependencies_install)
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads/main/dependencies_install.sh)
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O mantrachaind-3.0.1-linux-amd64.tar.gz https://github.com/MANTRA-Finance/public/releases/download/v3.0.1/mantrachaind-3.0.1-linux-amd64.tar.gz
-tar -xzf mantrachaind-3.0.1-linux-amd64.tar.gz
-rm /root/mantrachaind-3.0.1-linux-amd64.tar.gz
+wget -O mantrachaind-1.0.0-rc2-linux-amd64.tar.gz https://github.com/MANTRA-Chain/mantrachain/releases/download/v1.0.0-rc2/mantrachaind-1.0.0-rc2-linux-amd64.tar.gz
+tar -xzf mantrachaind-1.0.0-rc2-linux-amd64.tar.gz
+rm $HOME/mantrachaind-1.0.0-rc2-linux-amd64.tar.gz
 chmod +x $HOME/mantrachaind
 sudo mv $HOME/mantrachaind $HOME/go/bin/mantrachaind
 
@@ -55,23 +55,27 @@ printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
 mantrachaind config node tcp://localhost:${MANTRA_PORT}657
 mantrachaind config keyring-backend os
-mantrachaind config chain-id mantra-hongbai-1
-mantrachaind init $MONIKER --chain-id mantra-hongbai-1
+mantrachaind config chain-id mantra-dukong-1
+mantrachaind init $MONIKER --chain-id mantra-dukong-1
 sleep 1
 echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.mantrachain/config/genesis.json https://server-4.itrocket.net/testnet/mantra/genesis.json
-wget -O $HOME/.mantrachain/config/addrbook.json https://server-4.itrocket.net/testnet/mantra/addrbook.json
+wget -O $HOME/.mantrachain/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/mantra/dukong/genesis.json
+wget -O $HOME/.mantrachain/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/mantra/dukong/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="a9a71700397ce950a9396421877196ac19e7cde0@mantra-testnet-seed.itrocket.net:22656"
-PEERS="1a46b1db53d1ff3dbec56ec93269f6a0d15faeb4@mantra-testnet-peer.itrocket.net:22656"
-sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.mantrachain/config/config.toml
+URL="https://mantra.rpc.t.stavr.tech/net_info"
+response=$(curl -s $URL)
+PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
+echo "PEERS=\"$PEERS\""
+
+# Update the persistent_peers in the config.toml file
+sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.mantrachain/config/config.toml
 
 # set custom ports in app.toml
 sed -i.bak -e "s%:1317%:${MANTRA_PORT}317%g;
@@ -122,8 +126,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 mantrachaind tendermint unsafe-reset-all --home $HOME/.mantrachain
-if curl -s --head curl https://server-4.itrocket.net/testnet/lava/lava_2024-09-04_1822657_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-4.itrocket.net/testnet/lava/lava_2024-09-04_1822657_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.mantrachain
+if curl -s --head curl https://mantra-t.snapshot.stavr.tech/mantra-snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://mantra-t.snapshot.stavr.tech/mantra-snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.mantrachain
     else
   echo no have snap
 fi
