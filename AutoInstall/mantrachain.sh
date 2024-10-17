@@ -124,12 +124,15 @@ WantedBy=multi-user.target
 EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
-# reset and download snapshot
+# Reset the blockchain data
 mantrachaind tendermint unsafe-reset-all --home $HOME/.mantrachain
-if curl -s --head curl https://mantra-t.snapshot.stavr.tech/mantra-snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://mantra-t.snapshot.stavr.tech/mantra-snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.mantrachain
-    else
-  echo no have snap
+
+# Check if the new snapshot URL is accessible
+if curl -s --head https://snapshots.coinhunterstr.com/mantrachain/snap_mantra.tar.zst | head -n 1 | grep "200" > /dev/null; then
+  # Download and extract the snapshot using zstd
+  curl https://snapshots.coinhunterstr.com/mantrachain/snap_mantra.tar.zst | zstd -dc - | tar -xf - -C $HOME/.mantrachain
+else
+  echo "No snapshot available"
 fi
 
 # enable and start service
