@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export WARDEN_CHAIN_ID="buenavista-1"" >> $HOME/.bash_profile
+echo "export WARDEN_CHAIN_ID="chiado_10010-1"" >> $HOME/.bash_profile
 echo "export WARDEN_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -28,7 +28,7 @@ sleep 1
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.21.3"
+VER="1.22.6"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -40,14 +40,17 @@ source $HOME/.bash_profile
 
 echo $(go version) && sleep 1
 
-source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/main/utils/dependencies_install)
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads/main/dependencies_install.sh)
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O wardend https://snapshots.coinhunterstr.com/wardend/wardend
-chmod +x $HOME/wardend
-mv $HOME/wardend $HOME/go/bin/wardend
+rm -rf bin
+mkdir bin && cd bin
+wget https://github.com/warden-protocol/wardenprotocol/releases/download/v0.5.2/wardend_Linux_x86_64.zip
+unzip wardend_Linux_x86_64.zip
+chmod +x wardend
+mv $HOME/bin/wardend $HOME/go/bin
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -58,18 +61,21 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.warden/config/genesis.json https://server-4.itrocket.net/testnet/warden/genesis.json
-wget -O $HOME/.warden/config/addrbook.json  https://server-4.itrocket.net/testnet/warden/addrbook.json
+wget -O $HOME/.warden/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/warden/Chiado/genesis.json
+wget -O $HOME/.warden/config/addrbook.json  https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/warden/Chiado/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="8288657cb2ba075f600911685670517d18f54f3b@warden-testnet-seed.itrocket.net:18656"
-PEERS="b14f35c07c1b2e58c4a1c1727c89a5933739eeea@warden-testnet-peer.itrocket.net:18656,dc0122e37c203dec43306430a1f1879650653479@37.27.97.16:26656,ab510acb34d4db1c925742f46b6a09fb7e3052bf@116.202.233.2:27356,ac16d7fa01abcc167d25641938b4cf419a0676ae@149.202.79.19:15656,e8b15bf7b20791665d8be9e530aafa3aa80f79c6@168.119.10.134:29474,db6947c73751a64b81360e2487c85c54ec0c81a5@81.17.97.89:656,1885f024590d7cc31ee54217d6626cc71369c287@158.220.108.184:11656,b52d56d1d6b653be8e5215b85846fe65ee55af19@89.58.36.209:5656,e8b4153ae30f47d1ff0912b035b63be8f6cea0d9@192.99.9.143:26656,849252edf13621d4ad531c95c26159be6dbfbd51@37.27.115.100:26671,49fb18d457ec1be09de78472e33e5f685706ec6d@195.26.244.134:22656"
-sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
-       -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" \
-       $HOME/.warden/config/config.toml
+# set seeds and peers
+URL="https://warden-testnet-rpc.itrocket.net/net_info"
+response=$(curl -s $URL)
+PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
+echo "PEERS=\"$PEERS\""
+
+# Update the persistent_peers in the config.toml file
+sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.warden/config/config.toml
 
 # set custom ports in app.toml
 sed -i.bak -e "s%:1317%:${WARDEN_PORT}317%g;
@@ -95,7 +101,7 @@ sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.wa
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.warden/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.0025uward"|g' $HOME/.warden/config/app.toml
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "25000000award"|g' $HOME/.warden/config/app.toml
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.warden/config/config.toml
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.warden/config/config.toml
 sleep 1
@@ -120,10 +126,18 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 wardend tendermint unsafe-reset-all --home $HOME/.warden
-if curl -s --head curl https://server-4.itrocket.net/testnet/warden/warden_2024-10-14_2560165_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-4.itrocket.net/testnet/warden/warden_2024-10-14_2560165_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.warden
-    else
-  echo "no snapshot founded"
+BASE_URL="https://server-4.itrocket.net/testnet/warden/"
+LATEST_SNAPSHOT=$(curl -s $BASE_URL | grep -oP 'warden_\d{4}-\d{2}-\d{2}_\d+_snap\.tar\.lz4' | sort -V | tail -n 1)
+
+if [ -n "$LATEST_SNAPSHOT" ]; then
+  FULL_URL="${BASE_URL}${LATEST_SNAPSHOT}"
+  if curl -s --head "$FULL_URL" | head -n 1 | grep "200" > /dev/null; then
+    curl "$FULL_URL" | lz4 -dc - | tar -xf - -C $HOME/.warden
+  else
+    echo "Snapshot URL is not valid."
+  fi
+else
+  echo "No snapshot found."
 fi
 
 # enable and start service
