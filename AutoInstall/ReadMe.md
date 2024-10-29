@@ -146,3 +146,8 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/head
 
 
 
+## Story Odyssey Testnet AutoScript
+
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/story-odyssey.sh)
+```
