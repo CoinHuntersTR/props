@@ -78,7 +78,7 @@ echo done
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
 # set seeds and peers
-URL="https://story-testnet-rpc.itrocket.net/net_info
+URL="https://story-testnet-rpc.itrocket.net/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
