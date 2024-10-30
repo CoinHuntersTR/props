@@ -119,18 +119,10 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nibid tendermint unsafe-reset-all --home $HOME/.nibid
-BASE_URL="https://snapshots.polkachu.com/snapshots/nibiru/"
-LATEST_SNAPSHOT=$(curl -s $BASE_URL | grep -oP 'nibiru_\d+\.tar\.lz4' | sort -V | tail -n 1)
-
-if [ -n "$LATEST_SNAPSHOT" ]; then
-  FULL_URL="${BASE_URL}${LATEST_SNAPSHOT}"
-  if curl -s --head "$FULL_URL" | head -n 1 | grep "200" > /dev/null; then
-    curl "$FULL_URL" | lz4 -dc - | tar -xf - -C $HOME/.nibid
-  else
-    echo "Snapshot URL is not valid."
-  fi
-else
-  echo "No snapshot found."
+if curl -s --head curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241030113822-pruned-pebbledb.tar.gz | head -n 1 | grep "200" > /dev/null; then
+  curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241030113822-pruned-pebbledb.tar.gz | tar -xz -C $HOME/.nibid
+    else
+  echo "no snapshot founded"
 fi
 # enable and start service
 sudo systemctl daemon-reload
