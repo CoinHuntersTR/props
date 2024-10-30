@@ -51,8 +51,7 @@ mv $HOME/pellcored $HOME/go/bin/pellcored
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-pellcored init $MONIKER
-sed -i -e "s|^node *=.*|node = \"tcp://localhost:${PELL_PORT}657\"|" $HOME/.pellcored/config/client.toml
+pellcored init $MONIKER --chain-id $PELL_CHAIN_ID
 sleep 1
 echo done
 
