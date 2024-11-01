@@ -157,3 +157,9 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/head
 ```
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/pellnetwork.sh)
 ```
+
+## MantraChain Mainnet AutoScript
+
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/MantraMainnet.sh)
+```
