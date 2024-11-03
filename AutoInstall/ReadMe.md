@@ -99,6 +99,11 @@ wget -q -O lava-testnet.sh https://raw.githubusercontent.com/CoinHuntersTR/props
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/dymension-testnet.sh)
 ```
 
+## Dymension Mainnet AutoScript
+
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/dymension.sh)
+```
 
 ## Empeiria Testnet AutoScript
 
