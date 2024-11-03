@@ -128,7 +128,7 @@ printGreen "8. Downloading snapshot and starting node..." && sleep 1
 mantrachaind tendermint unsafe-reset-all --home $HOME/.mantrachain
 
 # Check if the new snapshot URL is accessible
-if curl -s --head https://snapshots.coinhunterstr.com/mantrachain/snap_mantra.tar.zst | head -n 1 | grep "200" > /dev/null; then
+if curl -s --head https://snapshots.coinhunterstr.com/testnet/mantrachain/snap_mantra.tar.zst | head -n 1 | grep "200" > /dev/null; then
   # Download and extract the snapshot using zstd
   curl https://snapshots.coinhunterstr.com/mantrachain/snap_mantra.tar.zst | zstd -dc - | tar -xf - -C $HOME/.mantrachain
   echo "No snapshot available"
