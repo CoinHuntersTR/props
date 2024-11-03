@@ -134,9 +134,4 @@ sudo systemctl enable dymd.service
 sudo systemctl restart dymd
 
 # Monitor logs and check for errors
-if sudo journalctl -u dymd -f | grep -q "exit code"; then
-  echo "Error detected in logs. Please check the service status."
-else
-  echo "Network setup complete. Synchronization is pending."
-  sudo pkill -f "journalctl -u dymd -f"
-fi
+printGreen "Installation and setup complete!" && sleep 1
