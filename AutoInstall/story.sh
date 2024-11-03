@@ -27,25 +27,26 @@ go version
 # Step 4: Download and Install Story-Geth Binary
 printGreen "Downloading and installing Story-Geth binary..." && sleep 1
 cd $HOME
-rm -rf story-geth
-git clone https://github.com/piplabs/story-geth.git
-cd story-geth
-git checkout v0.10.0
-
-# Build binaries
-make geth
-sudo mv build/bin/geth $(which geth)
+wget -O geth https://github.com/piplabs/story-geth/releases/download/v0.10.0/geth-linux-amd64
+chmod +x $HOME/geth
+mv $HOME/geth ~/go/bin/
+[ ! -d "$HOME/.story/story" ] && mkdir -p "$HOME/.story/story"
+[ ! -d "$HOME/.story/geth" ] && mkdir -p "$HOME/.story/geth"
 
 
 # Step 5: Download and Install Story Binary
-printGreen "Downloading and installing Story binary..." && sleep 1
-wget -q https://story-geth-binaries.s3.us-west-1.amazonaws.com/story-public/story-linux-amd64-0.11.0-aac4bfe.tar.gz -O /tmp/story-linux-amd64-0.11.0-aac4bfe.tar.gz
-tar -xzf /tmp/story-linux-amd64-0.11.0-aac4bfe.tar.gz -C /tmp
-sudo cp /tmp/story-linux-amd64-0.11.0-aac4bfe/story $HOME/go/bin/story
+# install Story
+cd $HOME
+rm -rf story
+git clone https://github.com/piplabs/story
+cd story
+git checkout v0.12.0
+go build -o story ./client 
+mv $HOME/story/story $HOME/go/bin/
 
-# Step 6: Initialize the Iliad Network Node
-printGreen "Initializing Iliad network node..." && sleep 1
-$HOME/go/bin/story init --network iliad
+# Step 6: Initialize the odyssey Network Node
+printGreen "Initializing odyssey network node..." && sleep 1
+$HOME/go/bin/story init --network odyssey
 
 # Step 7: Create and Configure systemd Service for Story-Geth
 printGreen "Creating systemd service for Story-Geth..." && sleep 1
