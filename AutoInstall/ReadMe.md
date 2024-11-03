@@ -58,7 +58,7 @@ wget -q -O elys.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/Au
 ## Nillion Network Testnet AutoScript
 
 ```
-wget -q -O nillion.sh https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nillion.sh && chmod +x nillion.sh && ./nillion.sh
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/nillion.sh)
 ```
 
 
