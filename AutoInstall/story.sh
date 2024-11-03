@@ -30,7 +30,7 @@ cd $HOME
 rm -rf story-geth
 git clone https://github.com/piplabs/story-geth.git
 cd story-geth
-git checkout v0.9.4
+git checkout v0.10.0
 
 # Build binaries
 make geth
