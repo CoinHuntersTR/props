@@ -134,4 +134,4 @@ sudo systemctl enable dymd.service
 sudo systemctl restart dymd
 
 # Monitor logs and check for errors
-printGreen "Network setup complete. Synchronization is pending." && sleep 1
+echo -e "\e[32mNetwork setup complete. Synchronization is pending.\e[0m" && sleep 1
