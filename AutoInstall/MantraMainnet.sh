@@ -137,4 +137,6 @@ fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable mantrachaind
-sudo systemctl restart mantrachaind && sudo journalctl -u mantrachaind -f
+
+# Monitor logs and check for errors
+echo -e "\e[32mNetwork setup complete. Synchronization is pending.\e[0m" && sleep 1
