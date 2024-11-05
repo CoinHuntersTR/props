@@ -40,7 +40,7 @@ cd $HOME
 rm -rf story
 git clone https://github.com/piplabs/story
 cd story
-git checkout v0.12.0
+git checkout v0.12.1
 go build -o story ./client 
 mv $HOME/story/story $HOME/go/bin/
 
