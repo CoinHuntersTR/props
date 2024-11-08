@@ -126,10 +126,16 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 sided tendermint unsafe-reset-all --home $HOME/.side
-if curl -s --head curl https://server-5.itrocket.net/testnet/side/side_2024-11-08_562837_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-5.itrocket.net/testnet/side/side_2024-11-08_562837_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.side
-    else
-  echo "no snapshot found"
+
+# Automatically find the latest snapshot
+SNAPSHOT_URL="https://server-5.itrocket.net/testnet/side/"
+LATEST_SNAPSHOT=$(curl -s $SNAPSHOT_URL | grep -oP 'side_\d{4}-\d{2}-\d{2}_\d+_snap.tar.lz4' | sort | tail -n 1)
+
+if [ -n "$LATEST_SNAPSHOT" ]; then
+  echo "Downloading latest snapshot: $LATEST_SNAPSHOT"
+  curl "${SNAPSHOT_URL}${LATEST_SNAPSHOT}" | lz4 -dc - | tar -xf - -C $HOME/.side
+else
+  echo "No snapshot found"
 fi
 
 # enable and start service
