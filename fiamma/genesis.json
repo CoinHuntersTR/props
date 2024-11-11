@@ -1,7 +1,7 @@
 {
   "app_name": "fiammad",
-  "app_version": "v0.1.2",
-  "genesis_time": "2024-07-09T10:50:37.628340874Z",
+  "app_version": "v1.0.0",
+  "genesis_time": "2024-11-07T07:19:59.174220921Z",
   "chain_id": "fiamma-testnet-1",
   "initial_height": 1,
   "app_hash": null,
@@ -19,28 +19,28 @@
       "accounts": [
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "fiamma1qfcuu90mw7rc5vytvseurjfkxavyg4ceg7kn6s",
+          "address": "fiamma1x7ej8a90jp6vxeydguhkege4ja5607qxyqrye9",
           "pub_key": null,
           "account_number": "0",
           "sequence": "0"
         },
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "fiamma1a5v60dd8k7gf3m87a85vjdfvj8cxfntvzpy38a",
+          "address": "fiamma1xg2rc7kw90gpw75tam96z0wznumv5v03avx36f",
           "pub_key": null,
           "account_number": "1",
           "sequence": "0"
         },
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "fiamma14c8rhttvytywa0sxp75q4x57rmwhczy0sflxrx",
+          "address": "fiamma169rlnnr9f6z5ggpcfu2rxllckckc380vkl6q65",
           "pub_key": null,
           "account_number": "2",
           "sequence": "0"
         },
         {
           "@type": "/cosmos.auth.v1beta1.BaseAccount",
-          "address": "fiamma1v3qf25v38xr6jre26rd0vwkq4mn5mwhqry4l7z",
+          "address": "fiamma1ynztrpmkqlsgda0tglft6d6z2g6qzzues8ch89",
           "pub_key": null,
           "account_number": "3",
           "sequence": "0"
@@ -50,6 +50,13 @@
     "authz": {
       "authorization": []
     },
+    "babylon": {
+      "params": {
+        "babylon_contract_address": "fiamma14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sgx3jav",
+        "btc_staking_contract_address": "fiamma1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqyn5sl2",
+        "max_gas_begin_blocker": 500000
+      }
+    },
     "bank": {
       "params": {
         "send_enabled": [],
@@ -57,38 +64,38 @@
       },
       "balances": [
         {
-          "address": "fiamma1qfcuu90mw7rc5vytvseurjfkxavyg4ceg7kn6s",
+          "address": "fiamma1ynztrpmkqlsgda0tglft6d6z2g6qzzues8ch89",
           "coins": [
             {
               "denom": "ufia",
-              "amount": "10010000000"
+              "amount": "250000000000000"
             }
           ]
         },
         {
-          "address": "fiamma1v3qf25v38xr6jre26rd0vwkq4mn5mwhqry4l7z",
+          "address": "fiamma1xg2rc7kw90gpw75tam96z0wznumv5v03avx36f",
           "coins": [
             {
               "denom": "ufia",
-              "amount": "10000000000000"
+              "amount": "250000000000000"
             }
           ]
         },
         {
-          "address": "fiamma14c8rhttvytywa0sxp75q4x57rmwhczy0sflxrx",
+          "address": "fiamma1x7ej8a90jp6vxeydguhkege4ja5607qxyqrye9",
           "coins": [
             {
               "denom": "ufia",
-              "amount": "10000000000000"
+              "amount": "250000000000000"
             }
           ]
         },
         {
-          "address": "fiamma1a5v60dd8k7gf3m87a85vjdfvj8cxfntvzpy38a",
+          "address": "fiamma169rlnnr9f6z5ggpcfu2rxllckckc380vkl6q65",
           "coins": [
             {
               "denom": "ufia",
-              "amount": "10000000000000"
+              "amount": "250000000000000"
             }
           ]
         }
@@ -96,11 +103,21 @@
       "supply": [
         {
           "denom": "ufia",
-          "amount": "30010010000000"
+          "amount": "1000000000000000"
         }
       ],
       "denom_metadata": [],
       "send_enabled": []
+    },
+    "bitvmstaker": {
+      "params": {},
+      "committee_address": "fiamma1x7ej8a90jp6vxeydguhkege4ja5607qxyqrye9",
+      "staker_addresses": [
+        "fiammavaloper1x7ej8a90jp6vxeydguhkege4ja5607qxt7nh2z",
+        "fiammavaloper1xg2rc7kw90gpw75tam96z0wznumv5v03jjkzfw",
+        "fiammavaloper169rlnnr9f6z5ggpcfu2rxllckckc380vep2nfn",
+        "fiammavaloper1ynztrpmkqlsgda0tglft6d6z2g6qzzuelegy5z"
+      ]
     },
     "capability": {
       "index": "1",
@@ -170,18 +187,18 @@
                 },
                 "min_self_delegation": "1",
                 "delegator_address": "",
-                "validator_address": "fiammavaloper1a5v60dd8k7gf3m87a85vjdfvj8cxfntvdl5z56",
+                "validator_address": "fiammavaloper1xg2rc7kw90gpw75tam96z0wznumv5v03jjkzfw",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "JZVC2Vw7kAX0nSawDsQfvxtziItJ3buKmDeOZZZsn10="
+                  "key": "lQ7cWxpx81XU2vsfc27QkdnZyL82XLaxsIHKUSQKfZ8="
                 },
                 "value": {
                   "denom": "ufia",
-                  "amount": "10000000"
+                  "amount": "50000000000000"
                 }
               }
             ],
-            "memo": "526d13f3ce3e0b56fa3ac26a48f231e559d4d60c@192.168.215.2:26656",
+            "memo": "348c6ded992c44af63f6ffa564f33ecd40fbe587@192.168.215.2:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -191,7 +208,7 @@
               {
                 "public_key": {
                   "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "A1VvJ4JMIZOOp6FZIH5l6aOj+lIAjOAN90Atdj2DyHsy"
+                  "key": "A0j//FPHpBKIZPnudkMvyaja10eqgCTTJz+43HWh5/fH"
                 },
                 "mode_info": {
                   "single": {
@@ -202,69 +219,12 @@
               }
             ],
             "fee": {
-              "amount": [],
-              "gas_limit": "1000000",
-              "payer": "",
-              "granter": ""
-            },
-            "tip": null
-          },
-          "signatures": [
-            "oo8MOeav8PiJegP/8SF1MerUw5vOCtZi+X09lF7Ab4kJ/HUoETWOAhfP/nLw7se+uJh0I52lT1CCKbdIJ35Tow=="
-          ]
-        },
-        {
-          "body": {
-            "messages": [
-              {
-                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
-                "description": {
-                  "moniker": "fiamma_node1",
-                  "identity": "",
-                  "website": "",
-                  "security_contact": "",
-                  "details": ""
-                },
-                "commission": {
-                  "rate": "0.100000000000000000",
-                  "max_rate": "0.200000000000000000",
-                  "max_change_rate": "0.010000000000000000"
-                },
-                "min_self_delegation": "1",
-                "delegator_address": "",
-                "validator_address": "fiammavaloper1qfcuu90mw7rc5vytvseurjfkxavyg4ce8qxqfh",
-                "pubkey": {
-                  "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "cOHYVjpHpHp7Iah6CVE7rLc8OQYQBtOLmVEsxAIGRq8="
-                },
-                "value": {
+              "amount": [
+                {
                   "denom": "ufia",
-                  "amount": "10000000"
+                  "amount": "2000"
                 }
-              }
-            ],
-            "memo": "5d6828849a45cf027e035593d8790bc62aca9cef@192.168.215.2:26656",
-            "timeout_height": "0",
-            "extension_options": [],
-            "non_critical_extension_options": []
-          },
-          "auth_info": {
-            "signer_infos": [
-              {
-                "public_key": {
-                  "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "AzDLyYwH1M65vtdl+rTYGCBIpwLEKRkckufNgD5w7I6p"
-                },
-                "mode_info": {
-                  "single": {
-                    "mode": "SIGN_MODE_DIRECT"
-                  }
-                },
-                "sequence": "0"
-              }
-            ],
-            "fee": {
-              "amount": [],
+              ],
               "gas_limit": "1000000",
               "payer": "",
               "granter": ""
@@ -272,7 +232,7 @@
             "tip": null
           },
           "signatures": [
-            "JDntmQWxB25GiaF2hIcSo7hvt1pOQcqRk6sHDvoiyOAHMpJUSKolaXaFXAZPlXeeoGqvgcUb6WdOXuZYefBGhA=="
+            "FGQccyk1tbd/lsynKkyN1UufXZHzjrOg6TifqWtGb3o0lXCakfnC84ZlJE3y1UgN9QKAtf2pEK3RVufbM2Tl1Q=="
           ]
         },
         {
@@ -294,18 +254,18 @@
                 },
                 "min_self_delegation": "1",
                 "delegator_address": "",
-                "validator_address": "fiammavaloper14c8rhttvytywa0sxp75q4x57rmwhczy0lh04sp",
+                "validator_address": "fiammavaloper169rlnnr9f6z5ggpcfu2rxllckckc380vep2nfn",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "8bp0o/RkCJZ6ctQQrfrx5ACvicO/qealfaPcPs2xmKs="
+                  "key": "POSL0zkt9gse5mGd2Frlb6TzH3r9mSSjclqwXlg6SX0="
                 },
                 "value": {
                   "denom": "ufia",
-                  "amount": "10000000"
+                  "amount": "50000000000000"
                 }
               }
             ],
-            "memo": "98a1b70770aefa8dbfcc2511ab7c3142e422423b@192.168.215.2:26656",
+            "memo": "5aa6e9894f17f741f602c6fe83e74e2640a5cf3a@192.168.215.2:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -315,7 +275,7 @@
               {
                 "public_key": {
                   "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "AriHolnX+n1hJbs0rYAyjMz+zbO/0geeFLHvddFduKh+"
+                  "key": "Ar9edgFOpfAUlVh5ab6vbB8kQlO4j85YDzPbJwXF9g5m"
                 },
                 "mode_info": {
                   "single": {
@@ -326,7 +286,12 @@
               }
             ],
             "fee": {
-              "amount": [],
+              "amount": [
+                {
+                  "denom": "ufia",
+                  "amount": "2000"
+                }
+              ],
               "gas_limit": "1000000",
               "payer": "",
               "granter": ""
@@ -334,7 +299,7 @@
             "tip": null
           },
           "signatures": [
-            "ITpRuYVlheFgmSwmaDFW4NYyKyK62E1IsV6hqQc0ysMwDJVaYBXKxIFOnOKnMIDFK/DVfWyK8PdgMnEV5h6E3Q=="
+            "F33YsDcW85UPV9YYETA3KIu48lCWjpW6xCOlNOpBUdJhzhS9HuGMv805J2Gxdti0CS1cjbk5tNng34C1V9EYNw=="
           ]
         },
         {
@@ -356,18 +321,18 @@
                 },
                 "min_self_delegation": "1",
                 "delegator_address": "",
-                "validator_address": "fiammavaloper1v3qf25v38xr6jre26rd0vwkq4mn5mwhqv69vd9",
+                "validator_address": "fiammavaloper1ynztrpmkqlsgda0tglft6d6z2g6qzzuelegy5z",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "6DTrAU4rO2vAw9TNk20sM2ac/mPp89/wgFDeoP2Brgo="
+                  "key": "6aaLxsRLGHT22YgLAaXSTfb0s9zDEvLuKmwN1bvT1mQ="
                 },
                 "value": {
                   "denom": "ufia",
-                  "amount": "10000000"
+                  "amount": "50000000000000"
                 }
               }
             ],
-            "memo": "cedc2b0f16422718c320d17fc44935ad1c39e62d@192.168.215.2:26656",
+            "memo": "dc8d012a12e9224180e3e219ccb54de6d3eaf5d7@192.168.215.2:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -377,7 +342,7 @@
               {
                 "public_key": {
                   "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "A01OTvSUyNun0OyE5YFFkntPqjLX/89w+mE/TZFum02l"
+                  "key": "ApoOfbAVuHFeMLlScuGU/4ojLGbE3SP9/vnIwHjhbzhE"
                 },
                 "mode_info": {
                   "single": {
@@ -388,7 +353,12 @@
               }
             ],
             "fee": {
-              "amount": [],
+              "amount": [
+                {
+                  "denom": "ufia",
+                  "amount": "2000"
+                }
+              ],
               "gas_limit": "1000000",
               "payer": "",
               "granter": ""
@@ -396,7 +366,74 @@
             "tip": null
           },
           "signatures": [
-            "ElghEvr+w9gvFlgbh0O59MniibTAOZSgkGJn7wLXAbElrIA6XyCCsJr2KqV36Pogl1txd4Y/+rU5jYN149dd7g=="
+            "ySAtw0OWz4FzAmQoadjXwLuV3DC2KrNjUBb5rC7M8+YHsp6ACmJfTzoBerqpOf9qsUSx5UE0ZnXQgLZ7GsVsdA=="
+          ]
+        },
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "fiamma_node1",
+                  "identity": "",
+                  "website": "",
+                  "security_contact": "",
+                  "details": ""
+                },
+                "commission": {
+                  "rate": "0.100000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.010000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "",
+                "validator_address": "fiammavaloper1x7ej8a90jp6vxeydguhkege4ja5607qxt7nh2z",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "HLNeq+m0f1shGqAzzdGJdOi0w75NE7XUjWi5hEUe0gg="
+                },
+                "value": {
+                  "denom": "ufia",
+                  "amount": "50000000000000"
+                }
+              }
+            ],
+            "memo": "e34b509c949526a24d6397dfaf4673b985cfa204@192.168.215.2:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "A46I1yDNzqmWYwfG/Gggx/ELx+TVOBGG1rbeM7E2+yTi"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "ufia",
+                  "amount": "2000"
+                }
+              ],
+              "gas_limit": "1000000",
+              "payer": "",
+              "granter": ""
+            },
+            "tip": null
+          },
+          "signatures": [
+            "ODbzn2pAAd4JCjokNCzpdodVCX3/9jgcG3v0mP2OjPNeOAaiIKZNye3LCrMXm4HWFVdfWj8DbZ/92tcWSTseew=="
           ]
         }
       ]
@@ -545,7 +582,7 @@
     "staking": {
       "params": {
         "unbonding_time": "1814400s",
-        "max_validators": 100,
+        "max_validators": 21,
         "max_entries": 7,
         "historical_entries": 10000,
         "bond_denom": "ufia",
@@ -583,7 +620,8 @@
       "sequences": []
     },
     "zkpverify": {
-      "params": {}
+      "params": {},
+      "da_submitter": "fiamma1x7ej8a90jp6vxeydguhkege4ja5607qxyqrye9"
     }
   },
   "consensus": {
