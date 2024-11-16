@@ -69,7 +69,7 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://mantra-rpc.polkachu.com/net_info"
+URL="https://mantramainnet-rpc.chainad.org/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
@@ -128,9 +128,9 @@ printGreen "8. Downloading snapshot and starting node..." && sleep 1
 mantrachaind tendermint unsafe-reset-all --home $HOME/.mantrachain
 
 # Check if the new snapshot URL is accessible
-if curl -s --head https://snapshots.polkachu.com/snapshots/mantra/mantra_536318.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+if curl -s --head https://snapshots.coinhunterstr.com/mainnet/mantra/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
   # Download and extract the snapshot using zstd
-  curl -o - -L https://snapshots.polkachu.com/snapshots/mantra/mantra_536318.tar.lz4 | lz4 -c -d - | tar -x -C $HOME/.mantrachain
+  curl -o - -L https://snapshots.coinhunterstr.com/mainnet/mantra/snapshot_latest.tar.lz4 | lz4 -c -d - | tar -x -C $HOME/.mantrachain
   echo "No snapshot available"
 fi
 
