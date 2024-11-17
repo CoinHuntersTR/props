@@ -13,22 +13,22 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export SIDE_CHAIN_ID="sidechain-testnet-4"" >> $HOME/.bash_profile
-echo "export SIDE_PORT="$PORT"" >> $HOME/.bash_profile
+echo "export AXONE_CHAIN_ID="axone-dentrite-1"" >> $HOME/.bash_profile
+echo "export AXONE_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
 printLine
 echo -e "Moniker:        \e[1m\e[32m$MONIKER\e[0m"
 echo -e "Wallet:         \e[1m\e[32m$WALLET\e[0m"
-echo -e "Chain id:       \e[1m\e[32m$SIDE_CHAIN_ID\e[0m"
-echo -e "Node custom port:  \e[1m\e[32m$SIDE_PORT\e[0m"
+echo -e "Chain id:       \e[1m\e[32m$AXONE_CHAIN_ID\e[0m"
+echo -e "Node custom port:  \e[1m\e[32m$AXONE_PORT\e[0m"
 printLine
 sleep 1
 
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.21.3"
+VER="1.22.8"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -45,31 +45,30 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf side
-git clone https://github.com/sideprotocol/side.git
-cd side
-git checkout v0.9.4
-make install
+rm -rf axoned
+git clone https://github.com/axone-protocol/axoned.git
+cd axoned
+git checkout v10.0.0
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-sided config node tcp://localhost:${SIDE_PORT}657
-sided config keyring-backend os
-sided config chain-id sidechain-testnet-4
-sided init $MONIKER --chain-id sidechain-testnet-4
+axoned config set client node tcp://localhost:${AXONE_PORT}657
+axoned config set client keyring-backend test
+axoned config set client chain-id axone-dentrite-1
+axoned init $MONIKER --chain-id axone-dentrite-1
 sleep 1
 echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.side/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/axone/genesis.json
-wget -O $HOME/.side/config/addrbook.json  https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/axone/addrbook.json
+wget -O $HOME/.axoned/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/axone/genesis.json
+wget -O $HOME/.axoned/config/addrbook.json  https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/axone/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://side-testnet-rpc.itrocket.net/net_info"
+URL="https://axone-testnet-rpc.polkachu.com/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
@@ -78,22 +77,22 @@ echo "PEERS=\"$PEERS\""
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.axoned/config/config.toml
 
 # set custom ports in app.toml
-sed -i.bak -e "s%:1317%:${SIDE_PORT}317%g;
-s%:8080%:${SIDE_PORT}080%g;
-s%:9090%:${SIDE_PORT}090%g;
-s%:9091%:${SIDE_PORT}091%g;
-s%:8545%:${SIDE_PORT}545%g;
-s%:8546%:${SIDE_PORT}546%g;
-s%:6065%:${SIDE_PORT}065%g" $HOME/.axoned/config/app.toml
+sed -i.bak -e "s%:1317%:${AXONE_PORT}317%g;
+s%:8080%:${AXONE_PORT}080%g;
+s%:9090%:${AXONE_PORT}090%g;
+s%:9091%:${AXONE_PORT}091%g;
+s%:8545%:${AXONE_PORT}545%g;
+s%:8546%:${AXONE_PORT}546%g;
+s%:6065%:${AXONE_PORT}065%g" $HOME/.axoned/config/app.toml
 
 
 # set custom ports in config.toml file
-sed -i.bak -e "s%:26658%:${SIDE_PORT}658%g;
-s%:26657%:${SIDE_PORT}657%g;
-s%:6060%:${SIDE_PORT}060%g;
-s%:26656%:${SIDE_PORT}656%g;
-s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${SIDE_PORT}656\"%;
-s%:26660%:${SIDE_PORT}660%g" $HOME/.axoned/config/config.toml
+sed -i.bak -e "s%:26658%:${AXONE_PORT}658%g;
+s%:26657%:${AXONE_PORT}657%g;
+s%:6060%:${AXONE_PORT}060%g;
+s%:26656%:${AXONE_PORT}656%g;
+s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${AXONE_PORT}656\"%;
+s%:26660%:${AXONE_PORT}660%g" $HOME/.axoned/config/config.toml
 
 # config pruning
 sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.axoned/config/app.toml
