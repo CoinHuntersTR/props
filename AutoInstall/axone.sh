@@ -45,10 +45,11 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf axoned
-git clone https://github.com/axone-protocol/axoned.git
-cd axoned
-git checkout v10.0.0
+wget -O axoned-10.0.0-linux-amd64.tar.gz https://github.com/axone-protocol/axoned/releases/download/v10.0.0/axoned-10.0.0-linux-amd64.tar.gz
+tar -xzf axoned-10.0.0-linux-amd64.tar.gz
+rm $HOME/axoned-10.0.0-linux-amd64.tar.gz
+chmod +x $HOME/axoned
+sudo mv $HOME/axoned $HOME/go/bin/axoned
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
