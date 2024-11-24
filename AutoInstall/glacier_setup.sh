@@ -10,67 +10,26 @@ NC='\033[0m' # No Color
 source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
 printLogo
 
-# Root kontrolü
-if [ "$EUID" -ne 0 ]; then 
-  echo -e "${RED}❌ Bu script root yetkisi gerektiriyor.${NC}"
-  echo "Lütfen 'sudo bash glacier_setup.sh' şeklinde çalıştırın."
-  exit 1
-fi
-
-# Private Key'i al
 echo -e "${YELLOW}Lütfen Metamask Private Key'inizi girin:${NC}"
 read PRIVATE_KEY
 echo -e "${GREEN}Girilen Private Key: $PRIVATE_KEY${NC}"
-echo
 
-if [ -z "$PRIVATE_KEY" ]; then
-  echo -e "${RED}❌ Private Key boş olamaz!${NC}"
-  exit 1
-fi
-
-# 1. Sistem Güncellemesi
 echo -e "\n${GREEN}1. Sistem güncelleniyor...${NC}"
-apt-get update
-apt-get upgrade -y
+sudo apt update
+sudo apt upgrade -y
 
-# 2. Gerekli Paketlerin Kurulumu
-echo -e "\n${GREEN}2. Gerekli paketler kuruluyor...${NC}"
-apt-get install -y htop ca-certificates curl gnupg lsb-release git wget make jq build-essential pkg-config ncdu tar unzip
+echo -e "\n${GREEN}2. Docker kurulumu yapılıyor...${NC}"
+sudo apt install ca-certificates curl gnupg -y
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-# 3. Docker Kurulumu
-echo -e "\n${GREEN}3. Docker kuruluyor...${NC}"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+echo -e "\n${GREEN}3. Glacier Node başlatılıyor...${NC}"
+sudo docker run -d -e PRIVATE_KEY=${PRIVATE_KEY} --name glacier-verifier docker.io/glaciernetwork/glacier-verifier:v0.0.2
 
-# 4. Docker Compose Kurulumu
-echo -e "\n${GREEN}4. Docker Compose kuruluyor...${NC}"
-curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-
-# 5. Docker Kullanıcı İzinleri
-echo -e "\n${GREEN}5. Docker kullanıcı izinleri ayarlanıyor...${NC}"
-groupadd -f docker
-usermod -aG docker $SUDO_USER
-
-# 6. Glacier Node Başlatma
-echo -e "\n${GREEN}6. Glacier node başlatılıyor...${NC}"
-docker rm -f glacier-verifier 2>/dev/null || true
-docker run -d -e PRIVATE_KEY=${PRIVATE_KEY} --name glacier-verifier docker.io/glaciernetwork/glacier-verifier:v0.0.2
-
-# Kurulum Tamamlandı
-echo -e "\n${GREEN}✅ Kurulum başarıyla tamamlandı!${NC}"
-echo -e "\n${YELLOW}Önemli Komutlar:${NC}"
-echo -e "► Node loglarını görüntülemek için:"
-echo -e "${GREEN}docker logs -f glacier-verifier -n 150${NC}"
-echo -e "\n► Node durumunu kontrol etmek için:"
-echo -e "${GREEN}docker ps | grep glacier-verifier${NC}"
-echo -e "\n► Node'u yeniden başlatmak için:"
-echo -e "${GREEN}docker restart glacier-verifier${NC}"
-echo -e "\n► Web üzerinden node durumu:"
-echo -e "${GREEN}https://testnet.nodes.glacier.io/status${NC}"
-
-# Sistem yeniden başlatma önerisi
-echo -e "\n${YELLOW}Not: Değişikliklerin tam olarak uygulanması için sistemi yeniden başlatmanız önerilir.${NC}"
-echo -e "Yeniden başlatmak için: ${GREEN}sudo reboot${NC}"
+echo -e "\n${GREEN}✅ Kurulum tamamlandı!${NC}"
+echo -e "\n${YELLOW}Node loglarını kontrol etmek için:${NC}"
+echo -e "${GREEN}docker logs -f glacier-verifier${NC}"
