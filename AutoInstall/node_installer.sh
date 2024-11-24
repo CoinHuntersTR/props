@@ -18,72 +18,84 @@ echo -e "${BLUE}║${YELLOW}                    by CoinHuntersTR                
 echo -e "${BLUE}║                                                            ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
 
-# Ana menü fonksiyonu
-show_menu() {
-  echo -e "\n${GREEN}Lütfen kurmak istediğiniz ağ türünü ve numarasını seçin:${NC}"
-  echo -e "${YELLOW}Örnek kullanım: 'Mainnet 1' veya 'Testnet 2'${NC}\n"
+while true; do
+  echo -e "\n${GREEN}Lütfen ağ türünü seçin:${NC}"
+  echo -e "1) Mainnet"
+  echo -e "2) Testnet"
+  echo -e "3) Çıkış"
 
-  echo -e "${BLUE}Mainnet:${NC}"
-  echo "1) Dymension"
-  echo "2) Lava Network"
-  echo "3) Zetachain"
+  read -p "Seçiminiz (1-3): " network_choice
 
-  echo -e "\n${BLUE}Testnet:${NC}"
-  echo "1) Story Protocol"
-  echo "2) MantraChain"
-  echo "3) Warden"
+  case $network_choice in
+      1)
+          echo -e "\n${BLUE}Mainnet Projeleri:${NC}"
+          echo "1) Dymension"
+          echo "2) Lava Network"
+          echo "3) Zetachain"
+          echo "4) Geri"
 
-  echo -e "\n${YELLOW}Çıkış için 'exit' yazın${NC}"
-}
+          read -p "Proje seçin (1-4): " mainnet_choice
 
-# Script çalıştırma fonksiyonu
-execute_script() {
-  local network=\$1
-  local choice=\$2
-
-  case "${network,,}" in
-      "mainnet")
-          case $choice in
-              1) bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/dymension.sh);;
-              2) bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/lava.sh);;
-              3) bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/zetachain.sh);;
-              *) echo -e "${RED}Geçersiz seçim!${NC}";;
+          case $mainnet_choice in
+              1)
+                  echo "Dymension kurulumu başlatılıyor..."
+                  bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/dymension.sh)
+                  ;;
+              2)
+                  echo "Lava Network kurulumu başlatılıyor..."
+                  bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/lava.sh)
+                  ;;
+              3)
+                  echo "Zetachain kurulumu başlatılıyor..."
+                  bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/zetachain.sh)
+                  ;;
+              4)
+                  continue
+                  ;;
+              *)
+                  echo -e "${RED}Geçersiz seçim!${NC}"
+                  ;;
           esac
           ;;
-      "testnet")
-          case $choice in
-              1) bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/story.sh);;
-              2) bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/mantra.sh);;
-              3) bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/warden.sh);;
-              *) echo -e "${RED}Geçersiz seçim!${NC}";;
+
+      2)
+          echo -e "\n${BLUE}Testnet Projeleri:${NC}"
+          echo "1) Story Protocol"
+          echo "2) MantraChain"
+          echo "3) Warden"
+          echo "4) Geri"
+
+          read -p "Proje seçin (1-4): " testnet_choice
+
+          case $testnet_choice in
+              1)
+                  echo "Story Protocol kurulumu başlatılıyor..."
+                  bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/story.sh)
+                  ;;
+              2)
+                  echo "MantraChain kurulumu başlatılıyor..."
+                  bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/mantra.sh)
+                  ;;
+              3)
+                  echo "Warden kurulumu başlatılıyor..."
+                  bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/warden.sh)
+                  ;;
+              4)
+                  continue
+                  ;;
+              *)
+                  echo -e "${RED}Geçersiz seçim!${NC}"
+                  ;;
           esac
           ;;
+
+      3)
+          echo -e "${YELLOW}Programdan çıkılıyor...${NC}"
+          exit 0
+          ;;
+
       *)
-          echo -e "${RED}Geçersiz ağ seçimi!${NC}"
+          echo -e "${RED}Geçersiz seçim! Lütfen 1-3 arasında bir sayı girin.${NC}"
           ;;
   esac
-}
-
-# Ana döngü
-while true; do
-  show_menu
-  echo -e "\n${GREEN}Seçiminizi yapın:${NC}"
-  read -r input
-
-  # Çıkış kontrolü
-  if [ "${input,,}" = "exit" ]; then
-      echo -e "${YELLOW}Programdan çıkılıyor...${NC}"
-      break
-  fi
-
-  # Kullanıcı girdisini ayırma
-  network=$(echo $input | cut -d' ' -f1)
-  choice=$(echo $input | cut -d' ' -f2)
-
-  # Seçim kontrolü ve script çalıştırma
-  if [ -n "$network" ] && [ -n "$choice" ]; then
-      execute_script $network $choice
-  else
-      echo -e "${RED}Geçersiz giriş formatı! Örnek: 'Mainnet 1' veya 'Testnet 2'${NC}"
-  fi
 done
