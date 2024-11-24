@@ -13,7 +13,7 @@ printLogo
 # Fonksiyon: Komut çalıştırma ve hata kontrolü
 run_command() {
   echo -e "${YELLOW}► \$1${NC}"
-  eval \$2
+  eval "\$2"
   if [ $? -ne 0 ]; then
       echo -e "${RED}❌ Hata: \$1 başarısız oldu${NC}"
       exit 1
@@ -28,8 +28,9 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Private Key'i al
-echo -e "${YELLOW}Lütfen Metamask Private Key'inizi girin:${NC}"
+echo -e "${YELLOW}Lütfen Metamask Private Key'inizi girin (girdiğiniz karakterler gizli kalacaktır):${NC}"
 read -s PRIVATE_KEY
+echo
 
 if [ -z "$PRIVATE_KEY" ]; then
   echo -e "${RED}❌ Private Key boş olamaz!${NC}"
@@ -38,25 +39,11 @@ fi
 
 # 1. Sistem Güncellemesi
 echo -e "\n${GREEN}1. Sistem güncelleniyor...${NC}"
-run_command "Sistem güncelleniyor" "apt update -y && apt upgrade -y"
+run_command "Sistem güncelleniyor" "apt update && apt upgrade -y"
 
 # 2. Gerekli Paketlerin Kurulumu
 echo -e "\n${GREEN}2. Gerekli paketler kuruluyor...${NC}"
-run_command "Gerekli paketler kuruluyor" "apt install -y \
-  htop \
-  ca-certificates \
-  curl \
-  gnupg \
-  lsb-release \
-  git \
-  wget \
-  make \
-  jq \
-  build-essential \
-  pkg-config \
-  ncdu \
-  tar \
-  unzip"
+run_command "Gerekli paketler kuruluyor" "apt install -y htop ca-certificates curl gnupg lsb-release git wget make jq build-essential pkg-config ncdu tar unzip"
 
 # 3. Docker Kurulumu
 echo -e "\n${GREEN}3. Docker kuruluyor...${NC}"
