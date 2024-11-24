@@ -6,11 +6,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Logo ve başlık
-echo -e "${GREEN}"
-echo "🌊 Glacier Node Kurulum Scripti 🌊"
-echo "=================================="
-echo -e "${NC}"
+# Logo çekme ve gösterme
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
+printLogo
 
 # Fonksiyon: Komut çalıştırma ve hata kontrolü
 run_command() {
