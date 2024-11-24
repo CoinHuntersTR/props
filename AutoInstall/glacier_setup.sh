@@ -28,8 +28,9 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Private Key'i al
-echo -e "${YELLOW}Lütfen Metamask Private Key'inizi girin (girdiğiniz karakterler gizli kalacaktır):${NC}"
-read -s PRIVATE_KEY
+echo -e "${YELLOW}Lütfen Metamask Private Key'inizi girin:${NC}"
+read PRIVATE_KEY
+echo -e "${GREEN}Girilen Private Key: $PRIVATE_KEY${NC}"
 echo
 
 if [ -z "$PRIVATE_KEY" ]; then
