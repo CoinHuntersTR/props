@@ -93,8 +93,9 @@ while true; do
           echo "6) Sunrise"
           echo "7) Union"
           echo "8) Empeiria"
-          echo "9) Axone"      
-          echo "10) Geri"
+          echo "9) Axone"
+          echo "10) Glacier Network"          
+          echo "11) Geri"
 
           read -p "Proje seçin (1-10): " testnet_choice
 
@@ -134,8 +135,12 @@ while true; do
               9)
                   echo "Axone kurulumu başlatılıyor..."
                   bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/axone.sh)
-                  ;;                  
+                  ;;     
               10)
+                  echo "Glacier Network kurulumu başlatılıyor..."
+                  bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/main/AutoInstall/glacier_setup.sh)
+                  ;;                                    
+              11)
                   continue
                   ;;
               *)
