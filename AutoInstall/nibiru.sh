@@ -45,9 +45,14 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O nibid https://snapshots.coinhunterstr.com/nibid/nibid
-chmod +x $HOME/nibid
-mv $HOME/nibid $HOME/go/bin/nibid
+rm -rf $HOME/bin
+mkdir $HOME/bin
+cd $HOME/bin
+wget https://github.com/NibiruChain/nibiru/releases/download/v1.5.0/nibid_1.5.0_linux_amd64.tar.gz
+tar -xvf nibid_1.5.0_linux_amd64.tar.gz
+rm nibid_1.5.0_linux_amd64.tar.gz
+chmod +x $HOME/bin/nibid
+sudo mv $HOME/bin/nibid $HOME/go/bin
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
