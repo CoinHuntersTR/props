@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# Gerekli paketleri yükleme
+apt install curl -y &>/dev/null
+
 # Logo ve renk tanımlamaları
-curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh | bash
+curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh | bash && sleep 2
 
 # Renk tanımlamaları
 RED='\033[0;31m'
@@ -9,16 +12,16 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-# Fonksiyon: Hata kontrolü
-function check_error() {
+# Hata kontrolü fonksiyonu
+check_error() {
     if [ $? -ne 0 ]; then
         echo -e "${RED}Hata: \$1${NC}"
         exit 1
     fi
 }
 
-# Fonksiyon: Kullanıcı onayı
-function wait_for_confirmation() {
+# Kullanıcı onayı fonksiyonu
+wait_for_confirmation() {
     while true; do
         read -p "\$1 (evet/hayır): " yn
         case $yn in
@@ -29,7 +32,6 @@ function wait_for_confirmation() {
     done
 }
 
-sleep 2
 clear
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║     Pipe Network Kurulum Scripti       ║${NC}"
