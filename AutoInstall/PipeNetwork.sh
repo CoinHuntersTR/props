@@ -14,7 +14,8 @@ NC='\033[0m'
 
 # Hata kontrolü fonksiyonu
 check_error() {
-    if [ $? -ne 0 ]; then
+    if [ $? -ne 0 ]
+    then
         echo -e "${RED}Hata: \$1${NC}"
         exit 1
     fi
@@ -22,7 +23,8 @@ check_error() {
 
 # Kullanıcı onayı fonksiyonu
 wait_for_confirmation() {
-    while true; do
+    while true
+    do
         read -p "\$1 (evet/hayır): " yn
         case $yn in
             [Ee]* ) return 0;;
@@ -32,6 +34,7 @@ wait_for_confirmation() {
     done
 }
 
+sleep 1
 clear
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║     Pipe Network Kurulum Scripti       ║${NC}"
