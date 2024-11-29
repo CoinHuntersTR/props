@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Logo scripti
-source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
+
+printLogo
 
 # Renk tanımlamaları
 RED='\033[0;31m'
