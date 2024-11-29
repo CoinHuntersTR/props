@@ -122,8 +122,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 blockxd tendermint unsafe-reset-all --home $HOME/.blockxd
-if curl -s --head curl https://server-3.itrocket.net/mainnet/blockx/blockx_2024-07-31_9867130_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-3.itrocket.net/mainnet/blockx/blockx_2024-07-31_9867130_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.blockxd
+if curl -s --head curl https://server-3.itrocket.net/mainnet/blockx/blockx_2024-11-29_15966105_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-3.itrocket.net/mainnet/blockx/blockx_2024-11-29_15966105_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.blockxd
     else
   echo "no snapshot founded"
 fi
