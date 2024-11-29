@@ -179,7 +179,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/head
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/glacier_setup.sh)
 ```
 
-## Glacier Network Tesnteti
+## Pipe Network Tesnteti
 ```
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/PipeNetwork.sh)
 ```
