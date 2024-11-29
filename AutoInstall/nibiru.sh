@@ -124,8 +124,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nibid tendermint unsafe-reset-all --home $HOME/.nibid
-if curl -s --head curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241128114231-pruned-pebbledb.tar.gz | head -n 1 | grep "200" > /dev/null; then
-  curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241128114231-pruned-pebbledb.tar.gz | tar -xz -C $HOME/.nibid
+if curl -s --head curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241127114221-pruned-pebbledb.tar.gz | head -n 1 | grep "200" > /dev/null; then
+  curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241127114221-pruned-pebbledb.tar.gz | tar -xz -C $HOME/.nibid
     else
   echo "no snapshot founded"
 fi
