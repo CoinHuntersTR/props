@@ -47,7 +47,7 @@ printGreen "4. Installing binary..." && sleep 1
 cd $HOME
 wget -O lavad https://github.com/lavanet/lava/releases/download/v4.1.0/lavad-v4.1.0-linux-amd64
 chmod +x $HOME/lavad
-sudo mv $HOME/lavad $(which lavad)
+mv $HOME/lavad $HOME/go/bin/lavad
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -126,8 +126,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 lavad tendermint unsafe-reset-all --home $HOME/.lava
-if curl -s --head curl https://snapshots.coinhunterstr.com/lava/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.coinhunterstr.com/lava/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
+if curl -s --head curl https://server-3.itrocket.net/mainnet/lava/lava_2024-11-29_1763298_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-3.itrocket.net/mainnet/lava/lava_2024-11-29_1763298_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.lava
     else
   echo no have snap
 fi
