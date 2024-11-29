@@ -45,10 +45,9 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf networks
-git clone https://github.com/BlockXLabs/networks
-cd ~/networks/chains/blockx_190-1/source
-make install
+wget -O blockxd https://github.com/BlockXLabs/networks/releases/download/binary/blockxd
+chmod +x $HOME/blockxd
+mv $HOME/blockxd $HOME/go/bin/blockxd
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
