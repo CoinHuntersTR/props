@@ -1,8 +1,7 @@
 #!/bin/bash
 
-source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
-
-printLogo
+# Logo ve renk tanımlamaları
+curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh | bash
 
 # Renk tanımlamaları
 RED='\033[0;31m'
@@ -11,7 +10,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 # Fonksiyon: Hata kontrolü
-check_error() {
+function check_error() {
     if [ $? -ne 0 ]; then
         echo -e "${RED}Hata: \$1${NC}"
         exit 1
@@ -19,7 +18,7 @@ check_error() {
 }
 
 # Fonksiyon: Kullanıcı onayı
-wait_for_confirmation() {
+function wait_for_confirmation() {
     while true; do
         read -p "\$1 (evet/hayır): " yn
         case $yn in
@@ -30,10 +29,12 @@ wait_for_confirmation() {
     done
 }
 
+sleep 2
 clear
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║     Pipe Network Kurulum Scripti       ║${NC}"
 echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
+
 # Sistem güncellemesi
 echo -e "\n${YELLOW}[1/11]${NC} Sistem güncelleniyor..."
 sudo apt update -y && sudo apt upgrade -y
