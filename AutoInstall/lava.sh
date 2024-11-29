@@ -45,11 +45,9 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-git clone https://github.com/lavanet/lava.git 
-cd lava 
-git checkout v3.1.0
-export LAVA_BINARY=lavad
-make install
+wget -O lavad https://github.com/lavanet/lava/releases/download/v4.1.0/lavad-v4.1.0-linux-amd64
+chmod +x $HOME/lavad
+sudo mv $HOME/lavad $(which lavad)
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
