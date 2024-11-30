@@ -45,10 +45,10 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O dymension.tar.gz https://github.com/dymensionxyz/dymension/archive/refs/tags/v2.0.0-alpha.8.tar.gz
-tar -xzf dymension.tar.gz
-chmod +x $HOME/dymension-2.0.0-alpha.8/dymension
-mv $HOME/dymension-2.0.0-alpha.8/dymension $HOME/go/bin/dymension
+git clone https://github.com/dymensionxyz/dymension.git 
+cd dymension 
+git checkout v2.0.0-alpha.8 
+make install
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
