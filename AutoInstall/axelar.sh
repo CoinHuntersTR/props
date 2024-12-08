@@ -128,18 +128,11 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 
 # reset and download snapshot
-BASE_URL="https://snapshots.polkachu.com/snapshots/axelar/"
-LATEST_SNAPSHOT=$(curl -s $BASE_URL | grep -oP 'axelar_\d+\.tar\.lz4' | sort -V | tail -n 1)
-
-if [ -n "$LATEST_SNAPSHOT" ]; then
-  FULL_URL="${BASE_URL}${LATEST_SNAPSHOT}"
-  if curl -s --head "$FULL_URL" | head -n 1 | grep "200" > /dev/null; then
-    curl "$FULL_URL" | lz4 -dc - | tar -xf - -C $HOME/.axelar
-  else
-    echo "Snapshot URL is not valid."
-  fi
-else
-  echo "No snapshot found."
+axelard tendermint unsafe-reset-all --home $HOME/.axelar
+if curl -s --head curl https://snapshots.polkachu.com/snapshots/axelar/axelar_15738993.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.polkachu.com/snapshots/axelar/axelar_15738993.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.axelar
+    else
+  echo no have snap
 fi
 
 # enable and start service
