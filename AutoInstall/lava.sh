@@ -47,7 +47,7 @@ printGreen "4. Installing binary..." && sleep 1
 cd $HOME
 wget -O lavad https://github.com/lavanet/lava/releases/download/v4.1.0/lavad-v4.1.0-linux-amd64
 chmod +x $HOME/lavad
-mv $HOME/lavad $HOME/go/bin/lavad
+sudo mv $HOME/lavad $(which lavad)
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
