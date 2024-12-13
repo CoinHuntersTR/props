@@ -123,7 +123,7 @@ echo "Configuration done."
 # Download snapshot and start node
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 pellcored tendermint unsafe-reset-all --home $HOME/.pellcored
-SNAPSHOT_URL="https://server-5.itrocket.net/testnet/pell/pell_2024-12-13_110682_snap.tar.lz4"
+SNAPSHOT_URL="https://snapshots.coinhunterstr.com/testnet/pell/snapshot_latest.tar.lz4"
 if curl -s --head $SNAPSHOT_URL | head -n 1 | grep "200" > /dev/null; then
   curl $SNAPSHOT_URL | lz4 -dc - | tar -xf - -C $HOME/.pellcored
 else
