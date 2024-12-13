@@ -56,17 +56,17 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads
 
 # Install binary
 printGreen "4. Installing binary..." && sleep 1
+cd $HOME
+wget -O pellcored https://github.com/0xPellNetwork/network-config/releases/download/v1.0.20-ignite/pellcored-v1.0.20-linux-amd64
+chmod +x $HOME/pellcored
+mv $HOME/pellcored $HOME/go/bin/pellcored
+
 WASMVM_VERSION="v2.1.2"
 export LD_LIBRARY_PATH=$HOME/.pellcored/lib
 mkdir -p $LD_LIBRARY_PATH
 wget "https://github.com/CosmWasm/wasmvm/releases/download/$WASMVM_VERSION/libwasmvm.$(uname -m).so" -O "$LD_LIBRARY_PATH/libwasmvm.$(uname -m).so"
 echo "export LD_LIBRARY_PATH=$HOME/.pellcored/lib:$LD_LIBRARY_PATH" >> $HOME/.bash_profile
 source $HOME/.bash_profile
-
-cd $HOME
-wget -O pellcored https://github.com/0xPellNetwork/network-config/releases/download/v1.0.20-ignite/pellcored-v1.0.20-linux-amd64
-chmod +x $HOME/pellcored
-mv $HOME/pellcored $HOME/go/bin/pellcored
 
 # Configure and initialize app
 printGreen "5. Configuring and initializing app..." && sleep 1
@@ -133,12 +133,13 @@ fi
 # Create systemd service file
 sudo tee /etc/systemd/system/pellcored.service > /dev/null <<EOF
 [Unit]
-Description=pellnetwork node
+Description=Pell node
 After=network-online.target
 [Service]
 User=$USER
 WorkingDirectory=$HOME/.pellcored
 ExecStart=$(which pellcored) start --home $HOME/.pellcored
+Environment=LD_LIBRARY_PATH=$HOME/.pellcored/lib/
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
