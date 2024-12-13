@@ -1,27 +1,12 @@
 {
-  "genesis_time": "2024-09-03T14:38:04.007081997Z",
-  "chain_id": "athens_186-1",
-  "initial_height": "1",
-  "consensus_params": {
-    "block": {
-      "max_bytes": "22020096",
-      "max_gas": "500000000",
-      "time_iota_ms": "1000"
-    },
-    "evidence": {
-      "max_age_num_blocks": "100000",
-      "max_age_duration": "172800000000000",
-      "max_bytes": "1048576"
-    },
-    "validator": {
-      "pub_key_types": [
-        "ed25519"
-      ]
-    },
-    "version": {}
-  },
-  "app_hash": "",
+  "app_name": "pellcored",
+  "app_version": "1.0.7-ignite-testnet",
+  "genesis_time": "2024-12-04T04:17:53.112949355Z",
+  "chain_id": "ignite_186-1",
+  "initial_height": 1,
+  "app_hash": null,
   "app_state": {
+    "07-tendermint": null,
     "auth": {
       "params": {
         "max_memo_characters": "256",
@@ -34,7 +19,7 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
+            "address": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
             "pub_key": null,
             "account_number": "0",
             "sequence": "0"
@@ -44,9 +29,9 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+            "address": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
             "pub_key": null,
-            "account_number": "0",
+            "account_number": "1",
             "sequence": "0"
           },
           "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
@@ -54,9 +39,9 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
+            "address": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
             "pub_key": null,
-            "account_number": "0",
+            "account_number": "2",
             "sequence": "0"
           },
           "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
@@ -64,9 +49,9 @@
         {
           "@type": "/ethermint.types.v1.EthAccount",
           "base_account": {
-            "address": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+            "address": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
             "pub_key": null,
-            "account_number": "0",
+            "account_number": "3",
             "sequence": "0"
           },
           "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
@@ -76,67 +61,7 @@
           "base_account": {
             "address": "pell18z6s8y83ukj5hu48z2cpy3j2uanhrtd4ehw7xd",
             "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "pell1n0rn6sne54hv7w2uu93fl48ncyqz97d3szgtee",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "pell1uhznv7uzyjq84s3q056suc8pkme85lkv32wqyr",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "pell1datate7xmwm4uk032f9rmcu0cwy7ch7kwngttz",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "pell1tnp0hvsq4y5mxuhrq9h3jfwulxywpq0aterjsd",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "pell19q7czqysah6qg0n4y3l2a08gfzqxydlanvxawp",
-            "pub_key": null,
-            "account_number": "0",
-            "sequence": "0"
-          },
-          "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-        },
-        {
-          "@type": "/ethermint.types.v1.EthAccount",
-          "base_account": {
-            "address": "pell134rakuus43xn63yucgxhn88ywj8ewcv6ltlmpn",
-            "pub_key": null,
-            "account_number": "0",
+            "account_number": "4",
             "sequence": "0"
           },
           "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
@@ -147,15 +72,15 @@
       "policies": {
         "items": [
           {
-            "policy_type": "groupEmergency",
+            "policy_type": "GROUP_EMERGENCY",
             "address": "pell18z6s8y83ukj5hu48z2cpy3j2uanhrtd4ehw7xd"
           },
           {
-            "policy_type": "groupOperational",
+            "policy_type": "GROUP_OPERATIONAL",
             "address": "pell18z6s8y83ukj5hu48z2cpy3j2uanhrtd4ehw7xd"
           },
           {
-            "policy_type": "groupAdmin",
+            "policy_type": "GROUP_ADMIN",
             "address": "pell18z6s8y83ukj5hu48z2cpy3j2uanhrtd4ehw7xd"
           }
         ]
@@ -164,128 +89,182 @@
     "authz": {
       "authorization": [
         {
-          "granter": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "grantee": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgVoteGasPrice"
+            "msg": "/xmsg.MsgVoteGasPrice"
           },
           "expiration": null
         },
         {
-          "granter": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "grantee": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgVoteOnObservedInboundTx"
+            "msg": "/xmsg.MsgVoteOnObservedInboundTx"
           },
           "expiration": null
         },
         {
-          "granter": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "grantee": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgVoteOnObservedOutboundTx"
+            "msg": "/xmsg.MsgVoteOnObservedOutboundTx"
           },
           "expiration": null
         },
         {
-          "granter": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "grantee": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgAddToOutTxTracker"
+            "msg": "/xmsg.MsgVoteInboundBlock"
           },
           "expiration": null
         },
         {
-          "granter": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "grantee": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.observer.MsgVoteTSS"
+            "msg": "/xmsg.MsgAddToOutTxTracker"
           },
           "expiration": null
         },
         {
-          "granter": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "grantee": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.observer.MsgAddBlameVote"
+            "msg": "/relayer.MsgVoteTSS"
           },
           "expiration": null
         },
         {
-          "granter": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "grantee": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.observer.MsgVoteBlockHeader"
+            "msg": "/relayer.MsgAddBlameVote"
           },
           "expiration": null
         },
         {
-          "granter": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "grantee": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgVoteGasPrice"
+            "msg": "/relayer.MsgVoteBlockHeader"
           },
           "expiration": null
         },
         {
-          "granter": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "grantee": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgVoteOnObservedInboundTx"
+            "msg": "/xmsg.MsgVoteOnPellRecharge"
           },
           "expiration": null
         },
         {
-          "granter": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "grantee": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "granter": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgVoteOnObservedOutboundTx"
+            "msg": "/xmsg.MsgVoteOnGasRecharge"
           },
           "expiration": null
         },
         {
-          "granter": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "grantee": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.crosschain.MsgAddToOutTxTracker"
+            "msg": "/xmsg.MsgVoteGasPrice"
           },
           "expiration": null
         },
         {
-          "granter": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "grantee": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.observer.MsgVoteTSS"
+            "msg": "/xmsg.MsgVoteOnObservedInboundTx"
           },
           "expiration": null
         },
         {
-          "granter": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "grantee": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.observer.MsgAddBlameVote"
+            "msg": "/xmsg.MsgVoteOnObservedOutboundTx"
           },
           "expiration": null
         },
         {
-          "granter": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "grantee": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
           "authorization": {
             "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
-            "msg": "/zetachain.zetacore.observer.MsgVoteBlockHeader"
+            "msg": "/xmsg.MsgVoteInboundBlock"
+          },
+          "expiration": null
+        },
+        {
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/xmsg.MsgAddToOutTxTracker"
+          },
+          "expiration": null
+        },
+        {
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/relayer.MsgVoteTSS"
+          },
+          "expiration": null
+        },
+        {
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/relayer.MsgAddBlameVote"
+          },
+          "expiration": null
+        },
+        {
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/relayer.MsgVoteBlockHeader"
+          },
+          "expiration": null
+        },
+        {
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/xmsg.MsgVoteOnPellRecharge"
+          },
+          "expiration": null
+        },
+        {
+          "granter": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/xmsg.MsgVoteOnGasRecharge"
           },
           "expiration": null
         }
@@ -298,29 +277,11 @@
       },
       "balances": [
         {
-          "address": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
+          "address": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
           "coins": [
             {
               "denom": "apell",
               "amount": "1000000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "pell19q7czqysah6qg0n4y3l2a08gfzqxydlanvxawp",
-          "coins": [
-            {
-              "denom": "apell",
-              "amount": "100000000000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "coins": [
-            {
-              "denom": "apell",
-              "amount": "4200000000000000000000000"
             }
           ]
         },
@@ -334,52 +295,7 @@
           ]
         },
         {
-          "address": "pell1tnp0hvsq4y5mxuhrq9h3jfwulxywpq0aterjsd",
-          "coins": [
-            {
-              "denom": "apell",
-              "amount": "100000000000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
-          "coins": [
-            {
-              "denom": "apell",
-              "amount": "1000000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "pell1datate7xmwm4uk032f9rmcu0cwy7ch7kwngttz",
-          "coins": [
-            {
-              "denom": "apell",
-              "amount": "100000000000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "pell134rakuus43xn63yucgxhn88ywj8ewcv6ltlmpn",
-          "coins": [
-            {
-              "denom": "apell",
-              "amount": "100000000000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "pell1n0rn6sne54hv7w2uu93fl48ncyqz97d3szgtee",
-          "coins": [
-            {
-              "denom": "apell",
-              "amount": "100000000000000000000000000"
-            }
-          ]
-        },
-        {
-          "address": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
+          "address": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
           "coins": [
             {
               "denom": "apell",
@@ -388,11 +304,20 @@
           ]
         },
         {
-          "address": "pell1uhznv7uzyjq84s3q056suc8pkme85lkv32wqyr",
+          "address": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
           "coins": [
             {
               "denom": "apell",
-              "amount": "100000000000000000000000000"
+              "amount": "1000000000000000000000"
+            }
+          ]
+        },
+        {
+          "address": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "coins": [
+            {
+              "denom": "apell",
+              "amount": "4200000000000000000000000"
             }
           ]
         }
@@ -400,10 +325,15 @@
       "supply": [
         {
           "denom": "apell",
-          "amount": "708402000000000000000000000"
+          "amount": "108402000000000000000000000"
         }
       ],
-      "denom_metadata": []
+      "denom_metadata": [],
+      "send_enabled": []
+    },
+    "capability": {
+      "index": "1",
+      "owners": []
     },
     "crisis": {
       "constant_fee": {
@@ -411,23 +341,11 @@
         "amount": "1000"
       }
     },
-    "crosschain": {
-      "outTxTrackerList": [],
-      "inTxHashToCctxList": [],
-      "in_tx_tracker_list": [],
-      "zeta_accounting": {
-        "aborted_zeta_amount": "0"
-      },
-      "rate_limiter_flags": {
-        "rate": "0",
-        "conversions": []
-      }
-    },
     "distribution": {
       "params": {
         "community_tax": "0.020000000000000000",
-        "base_proposer_reward": "0.010000000000000000",
-        "bonus_proposer_reward": "0.040000000000000000",
+        "base_proposer_reward": "0.000000000000000000",
+        "bonus_proposer_reward": "0.000000000000000000",
         "withdraw_addr_enabled": true
       },
       "fee_pool": {
@@ -449,12 +367,13 @@
         "avg_block_time": "6.00",
         "target_bond_ratio": "00.67",
         "validator_emission_percentage": "00.50",
-        "observer_emission_percentage": "00.25",
+        "observer_emission_percentage": "00.15",
         "tss_signer_emission_percentage": "00.25",
         "duration_factor_constant": "0.001877876953694702",
-        "observer_slash_amount": "0"
+        "observer_slash_amount": "0",
+        "tss_gas_emission_percentage": "00.10"
       },
-      "withdrawableEmissions": []
+      "withdrawable_emissions": []
     },
     "evidence": {
       "evidence": []
@@ -490,6 +409,16 @@
         "allow_unprotected_txs": false
       }
     },
+    "feegrant": {
+      "allowances": []
+    },
+    "feeibc": {
+      "identified_fees": [],
+      "fee_enabled_channels": [],
+      "registered_payees": [],
+      "registered_counterparty_payees": [],
+      "forward_relayers": []
+    },
     "feemarket": {
       "params": {
         "no_base_fee": false,
@@ -497,14 +426,10 @@
         "elasticity_multiplier": 2,
         "enable_height": "0",
         "base_fee": "1000000000",
-        "min_gas_price": "10000000000.0000",
+        "min_gas_price": "0.0001",
         "min_gas_multiplier": "0.500000000000000000"
       },
       "block_gas": "0"
-    },
-    "fungible": {
-      "foreignCoinsList": [],
-      "systemContract": null
     },
     "genutil": {
       "gen_txs": [
@@ -526,11 +451,11 @@
                   "max_change_rate": "0.010000000000000000"
                 },
                 "min_self_delegation": "1",
-                "delegator_address": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-                "validator_address": "pellvaloper1hyuyjg3uq6w4qezr00ff0ek9rp9nlne37f6rtg",
+                "delegator_address": "",
+                "validator_address": "pellvaloper1s2hhrat4pud4p2czlst77usqqc6lp7zpgu84r2",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "7d3Je0g+MJTbApP5z8y9dYwuzZwV84wu5KTFcF/pihc="
+                  "key": "/IZqzshSNyb1yOYhzZGdmvEWQZxo2nmJtPrviBSAiC4="
                 },
                 "value": {
                   "denom": "apell",
@@ -538,7 +463,7 @@
                 }
               }
             ],
-            "memo": "3b81ee48be8bf402cc53aaaf239fb69a677912c2@172.20.0.12:26656",
+            "memo": "1d3fe72a84c15b4217722304ab162d44d4720bea@172.18.0.2:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -548,7 +473,7 @@
               {
                 "public_key": {
                   "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "Amw41Er3IoCP4SNIlc+zsndAgcCYLp1MBrNMjEDDbMcj"
+                  "key": "ApF2tdsglRFxOOBaRWZCnflcKWwyTxj/b0MSribky5WZ"
                 },
                 "mode_info": {
                   "single": {
@@ -567,7 +492,7 @@
             "tip": null
           },
           "signatures": [
-            "QOYjZmW4WpEqtW7RmpvqxEanite8Hv2JQrI08SsVekhCu6XqnJ03u+IAM4wqf806d2N0V8fOPYrYqvezVf1Jbw=="
+            "xdB1Hrc2KPQMK8NGcHHpYUGYn1RrckbUi8eG7OmSHp07zyImWw0zSNXpgDKUSs2xFQwfQgqrRZAn0fjULdc1rQ=="
           ]
         },
         {
@@ -588,11 +513,11 @@
                   "max_change_rate": "0.010000000000000000"
                 },
                 "min_self_delegation": "1",
-                "delegator_address": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-                "validator_address": "pellvaloper19g7gkxhwz2fysq2z9739tuqxypxukyn9ke0w6l",
+                "delegator_address": "",
+                "validator_address": "pellvaloper1kq3yfm3t7ehu3gdgp93lsqukx8534hvu3yyfpd",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "RShvtuFnbQcQKx6+mSzKdUVKo2XmLBxm1o2GNLGk3pY="
+                  "key": "Tyy4xy5/Yi9VioD0SCJrmXprh3BMQLfL2aXPDMGAnmE="
                 },
                 "value": {
                   "denom": "apell",
@@ -600,7 +525,7 @@
                 }
               }
             ],
-            "memo": "e3abea7feb928a0470dfb06962213a2fb48bbbed@172.20.0.11:26656",
+            "memo": "6f204d45ddb4749fb1d265ab359ff2a6ff29ad29@172.18.0.2:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -610,7 +535,7 @@
               {
                 "public_key": {
                   "@type": "/cosmos.crypto.secp256k1.PubKey",
-                  "key": "A95qflYmdxvJAHrDIYhZgmTORt8ttfQtc8aCzdhhZi1J"
+                  "key": "A3+wepWDhDzxf2/e0tPS44uLrRUpV0GYWvZjcIr+nV6p"
                 },
                 "mode_info": {
                   "single": {
@@ -621,12 +546,7 @@
               }
             ],
             "fee": {
-              "amount": [
-                {
-                  "denom": "apell",
-                  "amount": "4000000000000000"
-                }
-              ],
+              "amount": [],
               "gas_limit": "200000",
               "payer": "",
               "granter": ""
@@ -634,7 +554,7 @@
             "tip": null
           },
           "signatures": [
-            "vYa7VEUxMW62SIzqOS/FXbXnX/IJTpddiGJhSf5KuQpfjz0eFbce1x3Uvcvx5tDtSyYjaob8nitTsM7fTz9yoQ=="
+            "zxYfxuYlmK9AE47PJSpMbghdZ8uMidj0Ya2jkllzSFdwWYIr1m65I1AmXlYJQvgv5KU60H3FBy/MoJzYoiTf4w=="
           ]
         }
       ]
@@ -647,20 +567,43 @@
       "deposit_params": {
         "min_deposit": [
           {
-            "denom": "apell",
-            "amount": "10000000"
+            "denom": "apell"
           }
-        ],
-        "max_deposit_period": "172800s"
+        ]
       },
       "voting_params": {
         "voting_period": "100s"
       },
-      "tally_params": {
+      "tally_params": null,
+      "params": {
+        "min_deposit": [
+          {
+            "denom": "apell",
+            "amount": "100000000"
+          }
+        ],
+        "max_deposit_period": "172800s",
+        "voting_period": "172800s",
         "quorum": "0.334000000000000000",
         "threshold": "0.500000000000000000",
-        "veto_threshold": "0.334000000000000000"
-      }
+        "veto_threshold": "0.334000000000000000",
+        "min_initial_deposit_ratio": "0.000000000000000000",
+        "proposal_cancel_ratio": "0.500000000000000000",
+        "proposal_cancel_dest": "",
+        "expedited_voting_period": "86400s",
+        "expedited_threshold": "0.667000000000000000",
+        "expedited_min_deposit": [
+          {
+            "denom": "stake",
+            "amount": "500000000"
+          }
+        ],
+        "burn_vote_quorum": false,
+        "burn_proposal_deposit_prevote": false,
+        "burn_vote_veto": true,
+        "min_deposit_ratio": "0.010000000000000000"
+      },
+      "constitution": ""
     },
     "group": {
       "group_seq": "0",
@@ -672,104 +615,200 @@
       "proposals": [],
       "votes": []
     },
+    "ibc": {
+      "client_genesis": {
+        "clients": [],
+        "clients_consensus": [],
+        "clients_metadata": [],
+        "params": {
+          "allowed_clients": [
+            "*"
+          ]
+        },
+        "create_localhost": false,
+        "next_client_sequence": "0"
+      },
+      "connection_genesis": {
+        "connections": [],
+        "client_connection_paths": [],
+        "next_connection_sequence": "0",
+        "params": {
+          "max_expected_time_per_block": "30000000000"
+        }
+      },
+      "channel_genesis": {
+        "channels": [],
+        "acknowledgements": [],
+        "commitments": [],
+        "receipts": [],
+        "send_sequences": [],
+        "recv_sequences": [],
+        "ack_sequences": [],
+        "next_channel_sequence": "0",
+        "params": {
+          "upgrade_timeout": {
+            "height": {
+              "revision_number": "0",
+              "revision_height": "0"
+            },
+            "timestamp": "600000000000"
+          }
+        }
+      }
+    },
+    "interchainaccounts": {
+      "controller_genesis_state": {
+        "active_channels": [],
+        "interchain_accounts": [],
+        "ports": [],
+        "params": {
+          "controller_enabled": true
+        }
+      },
+      "host_genesis_state": {
+        "active_channels": [],
+        "interchain_accounts": [],
+        "port": "icahost",
+        "params": {
+          "host_enabled": true,
+          "allow_messages": [
+            "*"
+          ]
+        }
+      }
+    },
     "lightclient": {
       "block_headers": [],
       "chain_states": [],
       "verification_flags": {
-        "ethTypeChainEnabled": false,
-        "btcTypeChainEnabled": false
+        "eth_type_chain_enabled": false,
+        "btc_type_chain_enabled": false
       }
     },
     "mint": {
+      "minter": {
+        "inflation": "0.130000000000000000",
+        "annual_provisions": "0.000000000000000000"
+      },
       "params": {
-        "mint_denom": "apell"
+        "mint_denom": "apell",
+        "inflation_rate_change": "0.130000000000000000",
+        "inflation_max": "0.200000000000000000",
+        "inflation_min": "0.070000000000000000",
+        "goal_bonded": "0.670000000000000000",
+        "blocks_per_year": "6311520"
       }
     },
+    "nft": {
+      "classes": [],
+      "entries": []
+    },
     "observer": {
-      "observers": {
-        "observer_list": [
-          "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45"
-        ]
-      },
-      "nodeAccountList": [
-        {
-          "operator": "pell19g7gkxhwz2fysq2z9739tuqxypxukyn9ycr9yr",
-          "granteeAddress": "pell1vy2t5krlgycg9he9mfr6r26vc2p7sme49h6jh5",
-          "granteePubkey": {
-            "secp256k1": "pellpub1addwnpepq0a7kuj8c52t8j0qsg4msmf3app3yl43m05cxzwmxn2sged9lp4kuw2xhnl"
-          },
-          "nodeStatus": 4
-        },
-        {
-          "operator": "pell1hyuyjg3uq6w4qezr00ff0ek9rp9nlne3vgkg45",
-          "granteeAddress": "pell1papm5z0h9wfsutphup28lr2jdw0vwcazl6x0l8",
-          "granteePubkey": {
-            "secp256k1": "pellpub1addwnpepqd6nya522q3s4fuu4haju5yjf0mnfzemwz88k7crewzq5l0dy0x07tfar0j"
-          },
-          "nodeStatus": 4
-        }
-      ],
-      "crosschain_flags": {
-        "isInboundEnabled": true,
-        "isOutboundEnabled": true
-      },
       "params": {
-        "observer_params": [
-          {
-            "chain": {
-              "chain_name": 2,
-              "chain_id": 186
-            },
-            "ballot_threshold": "0.660000000000000000",
-            "min_observer_delegation": "1000000000000000000000.000000000000000000",
-            "is_supported": true
-          },
-          {
-            "chain": {
-              "chain_name": 2,
-              "chain_id": 186
-            },
-            "ballot_threshold": "0.660000000000000000",
-            "min_observer_delegation": "1000000000000000000000.000000000000000000",
-            "is_supported": true
-          },
-          {
-            "chain": {
-              "chain_name": 15,
-              "chain_id": 18444
-            },
-            "ballot_threshold": "0.660000000000000000",
-            "min_observer_delegation": "1000000000000000000000.000000000000000000",
-            "is_supported": true
-          },
-          {
-            "chain": {
-              "chain_name": 14,
-              "chain_id": 1337
-            },
-            "ballot_threshold": "0.660000000000000000",
-            "min_observer_delegation": "1000000000000000000000.000000000000000000",
-            "is_supported": true
-          }
-        ],
         "admin_policy": [
           {
             "address": "pell18z6s8y83ukj5hu48z2cpy3j2uanhrtd4ehw7xd"
           },
           {
-            "policy_type": 1,
             "address": "pell18z6s8y83ukj5hu48z2cpy3j2uanhrtd4ehw7xd"
+          }
+        ]
+      }
+    },
+    "pevm": {
+      "system_contract": null
+    },
+    "relayer": {
+      "observers": {
+        "relayer_list": [
+          "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak"
+        ]
+      },
+      "node_account_list": [
+        {
+          "operator": "pell1kq3yfm3t7ehu3gdgp93lsqukx8534hvur9gzl3",
+          "grantee_address": "pell1xy73wk5casw6cglmsskz2a4rsqgz2dnkkehaal",
+          "grantee_pubkey": {
+            "secp256k1": "pellpub1addwnpepqfwcmc50an7rgem7k3wmz0jsgkssvwxg7lsferxt0ycdwdetwkmw2336pze"
+          },
+          "node_status": 4
+        },
+        {
+          "operator": "pell1s2hhrat4pud4p2czlst77usqqc6lp7zp6at7ak",
+          "grantee_address": "pell13hwc60pf06f5gx25mglxns7pecd2a5sjcdfct9",
+          "grantee_pubkey": {
+            "secp256k1": "pellpub1addwnpepq27pnxr2pr6lwrtnfkyug30l38af3mfemtkg9vgqvsugarvpwnjavk5f954"
+          },
+          "node_status": 4
+        }
+      ],
+      "crosschain_flags": {
+        "is_inbound_enabled": true,
+        "is_outbound_enabled": true
+      },
+      "params": {
+        "observer_params": [
+          {
+            "chain": {
+              "id": 860,
+              "network": 1,
+              "network_type": 2,
+              "vm_type": 1
+            },
+            "ballot_threshold": "0.660000000000000000",
+            "min_relayer_delegation": "1000000000000000000000.000000000000000000",
+            "is_supported": true
+          },
+          {
+            "chain": {
+              "id": 186,
+              "network": 1,
+              "network_type": 2,
+              "vm_type": 1
+            },
+            "ballot_threshold": "0.660000000000000000",
+            "min_relayer_delegation": "1000000000000000000000.000000000000000000",
+            "is_supported": true
+          },
+          {
+            "chain": {
+              "id": 18444,
+              "network": 2,
+              "network_type": 2
+            },
+            "ballot_threshold": "0.660000000000000000",
+            "min_relayer_delegation": "1000000000000000000000.000000000000000000",
+            "is_supported": true
+          },
+          {
+            "chain": {
+              "id": 1337,
+              "network_type": 2,
+              "vm_type": 1
+            },
+            "ballot_threshold": "0.660000000000000000",
+            "min_relayer_delegation": "1000000000000000000000.000000000000000000",
+            "is_supported": true
+          }
+        ],
+        "admin_policy": [
+          {
+            "address": "pell14r8nqy53kuruf7pp6aau3d8029ncxnwer54weg"
+          },
+          {
+            "policy_type": 1,
+            "address": "pell14r8nqy53kuruf7pp6aau3d8029ncxnwer54weg"
           }
         ],
         "ballot_maturity_blocks": 100
       },
       "keygen": {
-        "granteePubkeys": [
-          "pellpub1addwnpepq0a7kuj8c52t8j0qsg4msmf3app3yl43m05cxzwmxn2sged9lp4kuw2xhnl",
-          "pellpub1addwnpepqd6nya522q3s4fuu4haju5yjf0mnfzemwz88k7crewzq5l0dy0x07tfar0j"
+        "grantee_pubkeys": [
+          "pellpub1addwnpepqfwcmc50an7rgem7k3wmz0jsgkssvwxg7lsferxt0ycdwdetwkmw2336pze",
+          "pellpub1addwnpepq27pnxr2pr6lwrtnfkyug30l38af3mfemtkg9vgqvsugarvpwnjavk5f954"
         ],
-        "blockNumber": 20
+        "block_number": 20
       },
       "chain_params_list": {},
       "tss": {},
@@ -778,9 +817,11 @@
       "blame_list": [],
       "pending_nonces": [],
       "chain_nonces": [],
-      "nonce_to_cctx": []
+      "nonce_to_xmsg": []
     },
-    "params": null,
+    "restaking": {
+      "operator_share": []
+    },
     "slashing": {
       "params": {
         "signed_blocks_window": "100",
@@ -809,7 +850,60 @@
       "redelegations": [],
       "exported": false
     },
+    "transfer": {
+      "port_id": "transfer",
+      "denom_traces": [],
+      "params": {
+        "send_enabled": true,
+        "receive_enabled": true
+      },
+      "total_escrowed": []
+    },
     "upgrade": {},
-    "vesting": {}
+    "vesting": {},
+    "wasm": {
+      "params": {
+        "code_upload_access": {
+          "permission": "Everybody",
+          "addresses": []
+        },
+        "instantiate_default_permission": "Everybody"
+      },
+      "codes": [],
+      "contracts": [],
+      "sequences": []
+    },
+    "xmsg": {
+      "out_tx_tracker_list": [],
+      "in_tx_hash_to_xmsg_list": [],
+      "in_tx_tracker_list": [],
+      "rate_limiter_flags": {
+        "rate": "0"
+      }
+    }
+  },
+  "consensus": {
+    "params": {
+      "block": {
+        "max_bytes": "22020096",
+        "max_gas": "-1"
+      },
+      "evidence": {
+        "max_age_num_blocks": "100000",
+        "max_age_duration": "172800000000000",
+        "max_bytes": "1048576"
+      },
+      "validator": {
+        "pub_key_types": [
+          "ed25519"
+        ]
+      },
+      "version": {
+        "app": "0"
+      },
+      "abci": {
+        "vote_extensions_enable_height": "0"
+      }
+    }
   }
 }
