@@ -44,6 +44,13 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
+WASMVM_VERSION=v2.1.2
+export LD_LIBRARY_PATH=~/.pellcored/lib
+mkdir -p $LD_LIBRARY_PATH
+wget "https://github.com/CosmWasm/wasmvm/releases/download/$WASMVM_VERSION/libwasmvm.$(uname -m).so" -O "$LD_LIBRARY_PATH/libwasmvm.$(uname -m).so"
+echo "export LD_LIBRARY_PATH=$HOME/.pellcored/lib:$LD_LIBRARY_PATH" >> $HOME/.bash_profile
+source ~/.bash_profile
+
 cd $HOME
 wget -O pellcored https://github.com/0xPellNetwork/network-config/releases/download/v1.0.20-ignite/pellcored-v1.0.20-linux-amd64
 chmod +x $HOME/pellcored
@@ -51,6 +58,9 @@ mv $HOME/pellcored $HOME/go/bin/pellcored
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
+pellcored config node tcp://localhost:${PELL_PORT}657
+pellcored config keyring-backend os
+pellcored config chain-id ignite_186-1
 pellcored init $MONIKER --chain-id $PELL_CHAIN_ID
 sleep 1
 echo done
@@ -98,6 +108,15 @@ sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.pellcored/config/conf
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.pellcored/config/config.toml
 sleep 1
 echo done
+
+printGreen "8. Downloading snapshot and starting node..." && sleep 1
+# reset and download snapshot
+pellcored tendermint unsafe-reset-all --home $HOME/.pellcored
+if curl -s --head curl https://server-5.itrocket.net/testnet/pell/pell_2024-12-13_110682_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-5.itrocket.net/testnet/pell/pell_2024-12-13_110682_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.pellcored
+    else
+  echo "no snapshot found"
+fi
 
 # create service file
 sudo tee /etc/systemd/system/pellcored.service > /dev/null <<EOF
