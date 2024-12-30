@@ -27,7 +27,7 @@ go version
 # Step 4: Download and Install Story-Geth Binary
 printGreen "Downloading and installing Story-Geth binary..." && sleep 1
 cd $HOME
-wget -O geth https://github.com/piplabs/story-geth/releases/download/v0.10.0/geth-linux-amd64
+wget -O geth geth https://github.com/piplabs/story-geth/releases/download/v0.11.0/geth-linux-amd64
 chmod +x $HOME/geth
 mv $HOME/geth ~/go/bin/
 [ ! -d "$HOME/.story/story" ] && mkdir -p "$HOME/.story/story"
@@ -40,7 +40,7 @@ cd $HOME
 rm -rf story
 git clone https://github.com/piplabs/story
 cd story
-git checkout v0.12.1
+git checkout v0.13.0
 go build -o story ./client 
 mv $HOME/story/story $HOME/go/bin/
 
