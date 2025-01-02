@@ -93,7 +93,7 @@ s%:9090%:${KOPI_PORT}090%g;
 s%:9091%:${KOPI_PORT}091%g;
 s%:8545%:${KOPI_PORT}545%g;
 s%:8546%:${KOPI_PORT}546%g;
-s%:6065%:${KOPI_PORT}065%g" $HOME/.mantrachain/config/app.toml
+s%:6065%:${KOPI_PORT}065%g" $HOME/.kopid/config/app.toml
 
 
 # set custom ports in config.toml file
