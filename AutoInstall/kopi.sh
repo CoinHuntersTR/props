@@ -61,6 +61,7 @@ echo done
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
 wget -O $HOME/.kopid/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/kopi/genesis.json
+wget -O $HOME/.kopid/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/kopi/addrbook.json
 
 sleep 1
 echo done
