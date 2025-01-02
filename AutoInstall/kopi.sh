@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export KOPI_CHAIN_ID="mantra-dukong-1"" >> $HOME/.bash_profile
+echo "export KOPI_CHAIN_ID="luwak-1"" >> $HOME/.bash_profile
 echo "export KOPI_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -51,10 +51,7 @@ mv $HOME/kopid $HOME/go/bin/kopid
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-kopid config node tcp://localhost:${KOPI_PORT}657
-mantrachaind config keyring-backend os
-mantrachaind config chain-id mantra-dukong-1
-mantrachaind init $MONIKER --chain-id mantra-dukong-1
+kopid init $MONIKER --chain-id luwak-1
 sleep 1
 echo done
 
