@@ -184,6 +184,10 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/head
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/PipeNetwork.sh)
 ```
 
+## Kopi Money Mainnet
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/kopi.sh)
+```
 
 
 
