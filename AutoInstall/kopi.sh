@@ -52,6 +52,19 @@ mv $HOME/kopid $HOME/go/bin/kopid
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
 kopid init $MONIKER --chain-id luwak-1
+sed -i \
+-e 's/timeout_propose = .*/timeout_propose = "300ms"/' \
+-e 's/timeout_propose_delta = .*/timeout_propose_delta = "50ms"/' \
+-e 's/timeout_prevote = .*/timeout_prevote = "100ms"/' \
+-e 's/timeout_prevote_delta = .*/timeout_prevote_delta = "50ms"/' \
+-e 's/timeout_precommit = .*/timeout_precommit = "100ms"/' \
+-e 's/timeout_precommit_delta = .*/timeout_precommit_delta = "50ms"/' \
+-e 's/timeout_commit = .*/timeout_commit = "500ms"/' \
+-e 's/^create_empty_blocks = .*/create_empty_blocks = true/' \
+-e 's/^create_empty_blocks_interval = .*/create_empty_blocks_interval = "15s"/' \
+-e 's/^timeout_broadcast_tx_commit = .*/timeout_broadcast_tx_commit = "151s"/' \
+-e 's/skip_timeout_commit = .*/skip_timeout_commit = false/' \
+  $HOME/.kopid/config/config.toml
 sleep 1
 echo done
 
@@ -65,7 +78,7 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://rpc.test.kopi.money/net_info"
+URL="https://kopi-rpc.polkachu.com/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
@@ -89,29 +102,29 @@ s%:26657%:${KOPI_PORT}657%g;
 s%:6060%:${KOPI_PORT}060%g;
 s%:26656%:${KOPI_PORT}656%g;
 s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${KOPI_PORT}656\"%;
-s%:26660%:${KOPI_PORT}660%g" $HOME/.mantrachain/config/config.toml
+s%:26660%:${KOPI_PORT}660%g" $HOME/.kopid/config/config.toml
 
 # config pruning
-sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.mantrachain/config/app.toml
-sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.mantrachain/config/app.toml
-sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.mantrachain/config/app.toml
+sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.kopid/config/app.toml
+sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.kopid/config/app.toml
+sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.kopid/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.0002uom"|g' $HOME/.mantrachain/config/app.toml
-sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.mantrachain/config/config.toml
-sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.mantrachain/config/config.toml
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0ukopi"|g' $HOME/.kopid/config/app.toml
+sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.kopid/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.kopid/config/config.toml
 sleep 1
 echo done
 
 # create service file
-sudo tee /etc/systemd/system/mantrachaind.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/kopid.service > /dev/null <<EOF
 [Unit]
-Description=mantra node
+Description=kopi node
 After=network-online.target
 [Service]
 User=$USER
-WorkingDirectory=$HOME/.mantrachain
-ExecStart=$(which mantrachaind) start --home $HOME/.mantrachain
+WorkingDirectory=$HOME/.kopid
+ExecStart=$(which kopid) start --home $HOME/.kopid
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
@@ -121,16 +134,18 @@ EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # Reset the blockchain data
-mantrachaind tendermint unsafe-reset-all --home $HOME/.mantrachain
+kopid tendermint unsafe-reset-all --home $HOME/.kopid
 
 # Check if the new snapshot URL is accessible
-if curl -s --head https://snapshots.coinhunterstr.com/testnet/mantrachain/snap_mantra.tar.zst | head -n 1 | grep "200" > /dev/null; then
-  # Download and extract the snapshot using zstd
-  curl https://snapshots.coinhunterstr.com/testnet/mantrachain/snap_mantra.tar.zst | zstd -dc - | tar -xf - -C $HOME/.mantrachain
-  echo "No snapshot available"
+if curl -s --head https://snapshots.polkachu.com/snapshots/kopi/kopi_2409446.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  # Snapshot mevcutsa indir ve çıkar
+  curl -s https://snapshots.polkachu.com/snapshots/kopi/kopi_2409446.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.kopid
+  echo "Snapshot başarıyla indirildi ve çıkarıldı."
+else
+  echo "Snapshot mevcut değil."
 fi
 
 # enable and start service
 sudo systemctl daemon-reload
-sudo systemctl enable mantrachaind
-sudo systemctl restart mantrachaind && sudo journalctl -u mantrachaind -f
+sudo systemctl enable kopid.service
+sudo systemctl restart kopid.service && sudo journalctl -fu kopid.service -o cat
