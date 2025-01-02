@@ -13,15 +13,15 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export MANTRA_CHAIN_ID="mantra-dukong-1"" >> $HOME/.bash_profile
-echo "export MANTRA_PORT="$PORT"" >> $HOME/.bash_profile
+echo "export KOPI_CHAIN_ID="mantra-dukong-1"" >> $HOME/.bash_profile
+echo "export KOPI_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
 printLine
 echo -e "Moniker:        \e[1m\e[32m$MONIKER\e[0m"
 echo -e "Wallet:         \e[1m\e[32m$WALLET\e[0m"
-echo -e "Chain id:       \e[1m\e[32m$MANTRA_CHAIN_ID\e[0m"
-echo -e "Node custom port:  \e[1m\e[32m$MANTRA_PORT\e[0m"
+echo -e "Chain id:       \e[1m\e[32m$KOPI_CHAIN_ID\e[0m"
+echo -e "Node custom port:  \e[1m\e[32m$KOPI_PORT\e[0m"
 printLine
 sleep 1
 
@@ -45,15 +45,13 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O mantrachaind-1.0.2-linux-amd64.tar.gz https://github.com/MANTRA-Chain/mantrachain/releases/download/v1.0.2/mantrachaind-1.0.2-linux-amd64.tar.gz
-tar -xzf mantrachaind-1.0.2-linux-amd64.tar.gz
-rm $HOME/mantrachaind-1.0.2-linux-amd64.tar.gz
-chmod +x $HOME/mantrachaind
-sudo mv $HOME/mantrachaind $HOME/go/bin/mantrachaind
+wget -O kopid https://github.com/kopi-money/kopi/releases/download/v0.6.5.2/kopid-v0.6.5.2-linux-amd64-static
+chmod +x $HOME/kopid
+mv $HOME/kopid $HOME/go/bin/kopid
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-mantrachaind config node tcp://localhost:${MANTRA_PORT}657
+kopid config node tcp://localhost:${KOPI_PORT}657
 mantrachaind config keyring-backend os
 mantrachaind config chain-id mantra-dukong-1
 mantrachaind init $MONIKER --chain-id mantra-dukong-1
@@ -62,38 +60,38 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.mantrachain/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/mantra/dukong/genesis.json
-wget -O $HOME/.mantrachain/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/mantra/dukong/addrbook.json
+wget -O $HOME/.kopid/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/kopi/genesis.json
+
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://mantra-dukong-rpc.chainad.org/net_info"
+URL="https://rpc.test.kopi.money/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
 
 # Update the persistent_peers in the config.toml file
-sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.mantrachain/config/config.toml
+sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.kopid/config/config.toml
 
 # set custom ports in app.toml
-sed -i.bak -e "s%:1317%:${MANTRA_PORT}317%g;
-s%:8080%:${MANTRA_PORT}080%g;
-s%:9090%:${MANTRA_PORT}090%g;
-s%:9091%:${MANTRA_PORT}091%g;
-s%:8545%:${MANTRA_PORT}545%g;
-s%:8546%:${MANTRA_PORT}546%g;
-s%:6065%:${MANTRA_PORT}065%g" $HOME/.mantrachain/config/app.toml
+sed -i.bak -e "s%:1317%:${KOPI_PORT}317%g;
+s%:8080%:${KOPI_PORT}080%g;
+s%:9090%:${KOPI_PORT}090%g;
+s%:9091%:${KOPI_PORT}091%g;
+s%:8545%:${KOPI_PORT}545%g;
+s%:8546%:${KOPI_PORT}546%g;
+s%:6065%:${KOPI_PORT}065%g" $HOME/.mantrachain/config/app.toml
 
 
 # set custom ports in config.toml file
-sed -i.bak -e "s%:26658%:${MANTRA_PORT}658%g;
-s%:26657%:${MANTRA_PORT}657%g;
-s%:6060%:${MANTRA_PORT}060%g;
-s%:26656%:${MANTRA_PORT}656%g;
-s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${MANTRA_PORT}656\"%;
-s%:26660%:${MANTRA_PORT}660%g" $HOME/.mantrachain/config/config.toml
+sed -i.bak -e "s%:26658%:${KOPI_PORT}658%g;
+s%:26657%:${KOPI_PORT}657%g;
+s%:6060%:${KOPI_PORT}060%g;
+s%:26656%:${KOPI_PORT}656%g;
+s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${KOPI_PORT}656\"%;
+s%:26660%:${KOPI_PORT}660%g" $HOME/.mantrachain/config/config.toml
 
 # config pruning
 sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.mantrachain/config/app.toml
