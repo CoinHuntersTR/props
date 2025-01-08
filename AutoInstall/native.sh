@@ -44,12 +44,12 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
-cd $HOME 
-rm -rf $HOME/gonative
-git clone https://github.com/gonative-cc/gonative.git
-cd $HOME/gonative 
-git checkout v0.1.1
-make build && mv $HOME/gonative/out/gonative $HOME/go/bin
+cd $HOME
+wget -O gonative-v0.1.1-linux-amd64.gz https://github.com/gonative-cc/gonative/releases/download/v0.1.1/gonative-v0.1.1-linux-amd64.gz
+tar -xzf gonative-v0.1.1-linux-amd64.gz
+rm $HOME/gonative-v0.1.1-linux-amd64.gz
+chmod +x $HOME/gonative
+sudo mv $HOME/gonative $HOME/go/bin/gonative
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
