@@ -46,8 +46,8 @@ printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
 wget -O gonative-v0.1.1-linux-amd64.gz https://github.com/gonative-cc/gonative/releases/download/v0.1.1/gonative-v0.1.1-linux-amd64.gz
-tar -xzf gonative-v0.1.1-linux-amd64.gz
-rm $HOME/gonative-v0.1.1-linux-amd64.gz
+gunzip gonative-v0.1.1-linux-amd64.gz
+mv gonative-v0.1.1-linux-amd64 gonative
 chmod +x $HOME/gonative
 sudo mv $HOME/gonative $HOME/go/bin/gonative
 
