@@ -102,27 +102,18 @@ sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.gonative/config/config.to
 sleep 1
 echo done
 
-# Install cosmovisor
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
-mkdir -p ~/.gonative/cosmovisor/genesis/bin
-mkdir -p ~/.gonative/cosmovisor/upgrades
-cp ~/go/bin/gonative ~/.gonative/cosmovisor/genesis/bin
-
-sudo tee /etc/systemd/system/gonatived.service > /dev/null << EOF
+# create service file
+sudo tee /etc/systemd/system/gonatived.service > /dev/null <<EOF
 [Unit]
-Description=Native Network Node
+Description=gonative node
 After=network-online.target
 [Service]
 User=$USER
-ExecStart=$(which cosmovisor) run start
+WorkingDirectory=$HOME/.gonative
+ExecStart=$(which gonative) start --home $HOME/.gonative
 Restart=on-failure
-RestartSec=3
-LimitNOFILE=10000
-Environment="DAEMON_NAME=gonative"
-Environment="DAEMON_HOME=$HOME/.gonative"
-Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
-Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
-Environment="UNSAFE_SKIP_BACKUP=true"
+RestartSec=5
+LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target
 EOF
