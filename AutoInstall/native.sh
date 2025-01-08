@@ -48,8 +48,10 @@ cd $HOME
 wget -O gonative-v0.1.1-linux-amd64.gz https://github.com/gonative-cc/gonative/releases/download/v0.1.1/gonative-v0.1.1-linux-amd64.gz
 gunzip gonative-v0.1.1-linux-amd64.gz
 mv gonative-v0.1.1-linux-amd64 gonative
-chmod +x $HOME/gonative
-sudo mv $HOME/gonative $HOME/go/bin/gonative
+chmod +x gonative
+mv gonative $HOME/go/bin/
+echo "export PATH=$PATH:$HOME/go/bin" >> ~/.bashrc
+source ~/.bashrc
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -81,7 +83,6 @@ s%:8545%:${NATIVE_PORT}545%g;
 s%:8546%:${NATIVE_PORT}546%g;
 s%:6065%:${NATIVE_PORT}065%g" $HOME/.gonative/config/app.toml
 
-
 # set custom ports in config.toml file
 sed -i.bak -e "s%:26658%:${NATIVE_PORT}658%g;
 s%:26657%:${NATIVE_PORT}657%g;
@@ -89,6 +90,11 @@ s%:6060%:${NATIVE_PORT}060%g;
 s%:26656%:${NATIVE_PORT}656%g;
 s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${NATIVE_PORT}656\"%;
 s%:26660%:${NATIVE_PORT}660%g" $HOME/.gonative/config/config.toml
+
+# Replace localhost with 0.0.0.0 in both config files
+sed -i 's/localhost/0.0.0.0/g' $HOME/.gonative/config/config.toml
+sed -i 's/127.0.0.1/0.0.0.0/g' $HOME/.gonative/config/config.toml
+sed -i 's/localhost/0.0.0.0/g' $HOME/.gonative/config/app.toml
 
 # config pruning
 sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.gonative/config/app.toml
@@ -107,20 +113,21 @@ sudo tee /etc/systemd/system/gonatived.service > /dev/null <<EOF
 [Unit]
 Description=gonative node
 After=network-online.target
+
 [Service]
 User=$USER
-WorkingDirectory=$HOME/.gonative
-ExecStart=$(which gonative) start --home $HOME/.gonative
-Restart=on-failure
-RestartSec=5
+ExecStart=$(which gonative) start
+Restart=always
+RestartSec=3
 LimitNOFILE=65535
+
 [Install]
 WantedBy=multi-user.target
 EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
-gonative tendermint unsafe-reset-all --home $HOME/.gonative
+gonative comet unsafe-reset-all --home $HOME/.gonative
 if curl -s --head curl https://snapshots-testnet.stake-town.com/native/native-t1_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
   curl https://snapshots-testnet.stake-town.com/native/native-t1_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.gonative
     else
