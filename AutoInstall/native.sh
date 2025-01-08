@@ -54,7 +54,7 @@ make build && mv $HOME/gonative/out/gonative $HOME/go/bin
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
 gonative config set client keyring-backend os
-gonative config set client chain-id native-t1
+gonative config set client chain-id $NATIVE_CHAIN_ID
 gonative init $MONIKER --chain-id $NATIVE_CHAIN_ID
 sleep 1
 echo done
