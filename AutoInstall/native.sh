@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export NATIVE_CHAIN_ID="sunrise-test-0.2"" >> $HOME/.bash_profile
+echo "export NATIVE_CHAIN_ID="native-t1"" >> $HOME/.bash_profile
 echo "export NATIVE_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -28,7 +28,7 @@ sleep 1
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.22.1"
+VER="1.23.1"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -126,11 +126,12 @@ Environment="UNSAFE_SKIP_BACKUP=true"
 [Install]
 WantedBy=multi-user.target
 EOF
+
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 gonative tendermint unsafe-reset-all --home $HOME/.gonative
 if curl -s --head curl https://snapshots-testnet.stake-town.com/native/native-t1_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots-testnet.stake-town.com/native/native-t1_latest.tar.lz4 | tar -xz -C $HOME/.gonative
+  curl https://snapshots-testnet.stake-town.com/native/native-t1_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.gonative
     else
   echo "no snapshot founded"
 fi
