@@ -44,15 +44,18 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
-cd $HOME
-wget -O sunrised wget https://github.com/sunriselayer/sunrise/releases/download/v0.2.5-rc1/sunrised
-chmod +x $HOME/sunrised
-mv $HOME/sunrised $HOME/go/bin/sunrised
-
+cd $HOME 
+rm -rf $HOME/gonative
+git clone https://github.com/gonative-cc/gonative.git
+cd $HOME/gonative 
+git checkout v0.1.1
+make build && mv $HOME/gonative/out/gonative $HOME/go/bin
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-sunrised init $MONIKER --chain-id $NATIVE_CHAIN_ID
+gonative config set client keyring-backend os
+gonative config set client chain-id native-t1
+gonative init $MONIKER --chain-id $NATIVE_CHAIN_ID
 sleep 1
 echo done
 
@@ -65,8 +68,8 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="0c0e0cf617c1c58297f53f3a82cea86a7c860396@a.gonative-test-1.cauchye.net:26656,db223ecc4fba0e7135ba782c0fd710580c5213a6@a-node.gonative-test-1.cauchye.net:26656,82bc2fdbfc735b1406b9da4181036ab9c44b63be@b-node.gonative-test-1.cauchye.net:26656"
-PEERS=""
+SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:30656"
+PEERS="612e6279e528c3fadfe0bb9916fd5532bc9be2cd@164.132.247.253:56406,d0e0d80be68cec942ad46b36419f0ba76d35d134@94.130.138.41:26444,2e2f0def6453e67a5d5872da7f73002caf55a010@195.3.221.110:52656,a7577f50cdefd9a7a5e4a673278d9004df9b4bb4@103.219.169.97:56406,236946946eacbf6ab8a6f15c99dac1c80db6f8a5@65.108.203.61:52656,49784fe6a1b812fd45f4ac7e5cf953c2a3630cef@136.243.17.170:38656,be5b6092815df2e0b2c190b3deef8831159bb9a2@64.225.109.119:26656,d856c6c6f195b791c54c18407a8ad4391bd30b99@142.132.156.99:24096,b80d0042f7096759ae6aada870b52edf0dcd74af@65.109.58.158:26056,2dacf537748388df80a927f6af6c4b976b7274cb@148.251.44.42:26656,2c1e6b6b54daa7646339fa9abede159519ca7cae@37.252.186.248:26656,7567880ef17ce8488c55c3256c76809b37659cce@161.35.157.54:26656,fbc51b668eb84ae14d430a3db11a5d90fc30f318@65.108.13.154:52656,5be5b41a6aef28a7779002f2af0989c7a7da5cfe@165.154.245.110:26656,48d0fdcc642690ede0ad774f3ba4dce6e549b4db@142.132.215.124:26656,b5f52d67223c875947161ea9b3a95dbec30041cb@116.202.42.156:32107"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.gonative/config/config.toml
 
 # set custom ports in app.toml
@@ -93,38 +96,38 @@ sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.go
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.gonative/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.002urise"|g' $HOME/.gonative/config/app.toml
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.08untiv"|g' $HOME/.gonative/config/app.toml
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.gonative/config/config.toml
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.gonative/config/config.toml
 sleep 1
 echo done
 
-# create service file
-sudo tee /etc/systemd/system/sunrised.service > /dev/null <<EOF
+# Install cosmovisor
+go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
+mkdir -p ~/.gonative/cosmovisor/genesis/bin
+mkdir -p ~/.gonative/cosmovisor/upgrades
+cp ~/go/bin/gonative ~/.gonative/cosmovisor/genesis/bin
+
+sudo tee /etc/systemd/system/gonatived.service > /dev/null << EOF
 [Unit]
-Description=sunrise node
+Description=Native Network Node
 After=network-online.target
 [Service]
 User=$USER
-WorkingDirectory=$HOME/.gonative
-ExecStart=$(which sunrised) start --home $HOME/.gonative
+ExecStart=$(which cosmovisor) run start
 Restart=on-failure
-RestartSec=5
-LimitNOFILE=65535
+RestartSec=3
+LimitNOFILE=10000
+Environment="DAEMON_NAME=gonative"
+Environment="DAEMON_HOME=$HOME/.gonative"
+Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
+Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
+Environment="UNSAFE_SKIP_BACKUP=true"
 [Install]
 WantedBy=multi-user.target
 EOF
 
-printGreen "8. Downloading snapshot and starting node..." && sleep 1
-# reset and download snapshot
-sunrised tendermint unsafe-reset-all --home $HOME/.gonative
-if curl -s --head curl https://snapshot.stir.network/sunrise/sunrise-test-0.2-v0.2.0.tar.gz | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshot.stir.network/sunrise/sunrise-test-0.2-v0.2.0.tar.gz | tar -xz -C $HOME/.gonative
-    else
-  echo "no snapshot founded"
-fi
-
 # enable and start service
 sudo systemctl daemon-reload
-sudo systemctl enable sunrised
-sudo systemctl restart sunrised && sudo journalctl -u sunrised -f
+sudo systemctl enable gonatived
+sudo systemctl restart gonatived && sudo journalctl -fu gonatived -o cat
