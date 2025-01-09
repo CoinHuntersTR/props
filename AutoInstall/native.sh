@@ -68,56 +68,106 @@ wget -O $HOME/.gonative/config/addrbook.json https://raw.githubusercontent.com/C
 sleep 1
 echo done
 
-printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
-# set seeds and peers
+printGreen "7. Setting up config files..." && sleep 1
+# Set seeds and peers
 SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:30656"
 PEERS="612e6279e528c3fadfe0bb9916fd5532bc9be2cd@164.132.247.253:56406,d0e0d80be68cec942ad46b36419f0ba76d35d134@94.130.138.41:26444,2e2f0def6453e67a5d5872da7f73002caf55a010@195.3.221.110:52656,a7577f50cdefd9a7a5e4a673278d9004df9b4bb4@103.219.169.97:56406,236946946eacbf6ab8a6f15c99dac1c80db6f8a5@65.108.203.61:52656,49784fe6a1b812fd45f4ac7e5cf953c2a3630cef@136.243.17.170:38656,be5b6092815df2e0b2c190b3deef8831159bb9a2@64.225.109.119:26656,d856c6c6f195b791c54c18407a8ad4391bd30b99@142.132.156.99:24096,b80d0042f7096759ae6aada870b52edf0dcd74af@65.109.58.158:26056,2dacf537748388df80a927f6af6c4b976b7274cb@148.251.44.42:26656,2c1e6b6b54daa7646339fa9abede159519ca7cae@37.252.186.248:26656,7567880ef17ce8488c55c3256c76809b37659cce@161.35.157.54:26656,fbc51b668eb84ae14d430a3db11a5d90fc30f318@65.108.13.154:52656,5be5b41a6aef28a7779002f2af0989c7a7da5cfe@165.154.245.110:26656,48d0fdcc642690ede0ad774f3ba4dce6e549b4db@142.132.215.124:26656,b5f52d67223c875947161ea9b3a95dbec30041cb@116.202.42.156:32107"
-sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.gonative/config/config.toml
 
-# set custom ports in app.toml
-sed -i.bak -e "s%:1317%:${NATIVE_PORT}317%g;
-s%:8080%:${NATIVE_PORT}080%g;
-s%:9090%:${NATIVE_PORT}090%g;
-s%:9091%:${NATIVE_PORT}091%g;
-s%:8545%:${NATIVE_PORT}545%g;
-s%:8546%:${NATIVE_PORT}546%g;
-s%:6065%:${NATIVE_PORT}065%g" $HOME/.gonative/config/app.toml
+# Update config.toml
+cat > $HOME/.gonative/config/config.toml << EOF
+minimum-gas-prices = "0.08untiv"
+pruning = "custom"
+pruning-keep-recent = "100"
+pruning-keep-every = "0"
+pruning-interval = "50"
+halt-height = 0
+halt-time = 0
+min-retain-blocks = 0
+inter-block-cache = true
+index-events = []
 
-# set custom ports in config.toml file
-sed -i.bak -e "s%:26658%:${NATIVE_PORT}658%g;
-s%:26657%:${NATIVE_PORT}657%g;
-s%:6060%:${NATIVE_PORT}060%g;
-s%:26656%:${NATIVE_PORT}656%g;
-s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${NATIVE_PORT}656\"%;
-s%:26660%:${NATIVE_PORT}660%g" $HOME/.gonative/config/config.toml
+[telemetry]
+enabled = true
+prometheus-retention-time = 60
 
-# Replace localhost with 0.0.0.0 in both config files
-sed -i 's/localhost/0.0.0.0/g' $HOME/.gonative/config/config.toml
-sed -i 's/127.0.0.1/0.0.0.0/g' $HOME/.gonative/config/config.toml
-sed -i 's/localhost/0.0.0.0/g' $HOME/.gonative/config/app.toml
+[api]
+enable = true
+swagger = true
+address = "tcp://0.0.0.0:${NATIVE_PORT}317"
+max-open-connections = 1000
 
-# config pruning
-sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.gonative/config/app.toml
-sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.gonative/config/app.toml
-sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.gonative/config/app.toml
+[grpc]
+enable = false
+address = "0.0.0.0:${NATIVE_PORT}090"
 
-# set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.08untiv"|g' $HOME/.gonative/config/app.toml
-sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.gonative/config/config.toml
-sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.gonative/config/config.toml
+[grpc-web]
+enable = false
+address = "0.0.0.0:${NATIVE_PORT}091"
 
-# Optimize timeout settings
-sed -i 's/timeout_commit = "5s"/timeout_commit = "3s"/g' $HOME/.gonative/config/config.toml
-sed -i 's/timeout_propose = "3s"/timeout_propose = "2s"/g' $HOME/.gonative/config/config.toml
+[state-sync]
+snapshot-interval = 0
+snapshot-keep-recent = 2
 
-# Disable gRPC
-sed -i.bak -e "s/^grpc.enable = true/grpc.enable = false/" $HOME/.gonative/config/app.toml
-sed -i.bak -e "s/^grpc-web.enable = true/grpc-web.enable = false/" $HOME/.gonative/config/app.toml
+[p2p]
+laddr = "tcp://0.0.0.0:${NATIVE_PORT}656"
+external-address = "$(wget -qO- eth0.me):${NATIVE_PORT}656"
+seeds = "${SEEDS}"
+persistent-peers = "${PEERS}"
+max-num-inbound-peers = 50
+max-num-outbound-peers = 50
+max-connections = 100
+handshake-timeout = "20s"
+dial-timeout = "3s"
 
-# Configure peer settings
-sed -i 's/max_num_inbound_peers =.*/max_num_inbound_peers = 50/g' $HOME/.gonative/config/config.toml
-sed -i 's/max_num_outbound_peers =.*/max_num_outbound_peers = 50/g' $HOME/.gonative/config/config.toml
-sed -i 's/max_connections =.*/max_connections = 100/g' $HOME/.gonative/config/config.toml
+[mempool]
+size = 5000
+max-tx-bytes = 1048576
+max-batch-bytes = 0
+
+[consensus]
+wal-file = "data/cs.wal/wal"
+timeout-propose = "2s"
+timeout-propose-delta = "500ms"
+timeout-prevote = "1s"
+timeout-prevote-delta = "500ms"
+timeout-precommit = "1s"
+timeout-precommit-delta = "500ms"
+timeout-commit = "3s"
+skip-timeout-commit = false
+create-empty-blocks = true
+create-empty-blocks-interval = "0s"
+peer-gossip-sleep-duration = "100ms"
+peer-query-maj23-sleep-duration = "2s"
+EOF
+
+# Update app.toml
+cat > $HOME/.gonative/config/app.toml << EOF
+minimum-gas-prices = "0.08untiv"
+pruning = "custom"
+pruning-keep-recent = "100"
+pruning-keep-every = "0"
+pruning-interval = "50"
+halt-height = 0
+halt-time = 0
+
+[telemetry]
+enabled = true
+prometheus-retention-time = 60
+
+[api]
+enable = true
+swagger = true
+address = "tcp://0.0.0.0:${NATIVE_PORT}317"
+max-open-connections = 1000
+
+[grpc]
+enable = false
+address = "0.0.0.0:${NATIVE_PORT}090"
+
+[state-sync]
+snapshot-interval = 0
+snapshot-keep-recent = 2
+EOF
 
 sleep 1
 echo done
