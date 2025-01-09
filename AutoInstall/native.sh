@@ -110,6 +110,15 @@ sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.gonative/config/config.to
 sed -i 's/timeout_commit = "5s"/timeout_commit = "3s"/g' $HOME/.gonative/config/config.toml
 sed -i 's/timeout_propose = "3s"/timeout_propose = "2s"/g' $HOME/.gonative/config/config.toml
 
+# Disable gRPC
+sed -i.bak -e "s/^grpc.enable = true/grpc.enable = false/" $HOME/.gonative/config/app.toml
+sed -i.bak -e "s/^grpc-web.enable = true/grpc-web.enable = false/" $HOME/.gonative/config/app.toml
+
+# Configure peer settings
+sed -i 's/max_num_inbound_peers =.*/max_num_inbound_peers = 50/g' $HOME/.gonative/config/config.toml
+sed -i 's/max_num_outbound_peers =.*/max_num_outbound_peers = 50/g' $HOME/.gonative/config/config.toml
+sed -i 's/max_connections =.*/max_connections = 100/g' $HOME/.gonative/config/config.toml
+
 sleep 1
 echo done
 
