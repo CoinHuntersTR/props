@@ -105,6 +105,11 @@ sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.gonative/
 sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.08untiv"|g' $HOME/.gonative/config/app.toml
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.gonative/config/config.toml
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.gonative/config/config.toml
+
+# Optimize timeout settings
+sed -i 's/timeout_commit = "5s"/timeout_commit = "3s"/g' $HOME/.gonative/config/config.toml
+sed -i 's/timeout_propose = "3s"/timeout_propose = "2s"/g' $HOME/.gonative/config/config.toml
+
 sleep 1
 echo done
 
@@ -133,6 +138,16 @@ if curl -s --head curl https://snapshots-testnet.stake-town.com/native/native-t1
     else
   echo "no snapshot founded"
 fi
+
+# Configure firewall
+sudo apt update
+sudo apt install ufw -y
+sudo ufw allow ${NATIVE_PORT}656
+sudo ufw allow ${NATIVE_PORT}657
+sudo ufw allow ${NATIVE_PORT}660
+sudo ufw allow ${NATIVE_PORT}090
+sudo ufw allow ${NATIVE_PORT}091
+sudo ufw enable
 
 # enable and start service
 sudo systemctl daemon-reload
