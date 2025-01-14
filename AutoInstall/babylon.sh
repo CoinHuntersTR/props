@@ -119,14 +119,6 @@ LimitNOFILE=65535
 WantedBy=multi-user.target
 EOF
 
-printGreen "8. Downloading snapshot and starting node..." && sleep 1
-# reset and download snapshot
-babylond tendermint unsafe-reset-all --home ~/.babylond/ --keep-addr-book
-if curl -s --head curl https://snapshots.polkachu.com/testnet-snapshots/babylon/babylon_38675.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.polkachu.com/testnet-snapshots/babylon/babylon_38675.tar.lz4 | tar -xz -C $HOME/.babylond
-    else
-  echo "no snapshot founded"
-fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable babylond
