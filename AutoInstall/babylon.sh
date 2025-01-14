@@ -59,7 +59,7 @@ babylond init $MONIKER --chain-id $BABYLON_CHAIN_ID
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
 wget -O $HOME/.babylond/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/babylon/genesis.json
-wget -O $HOME/.babylond/config/addrbook.json https://ss-t.babylon.nodestake.org/addrbook.json
+wget -O $HOME/.babylond/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/babylon/addrbook.json
 sleep 1
 echo done
 
