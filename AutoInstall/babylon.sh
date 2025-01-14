@@ -65,7 +65,8 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://rpc-t.babylon.nodestake.org/net_info"
+PEERS="be232be53f7ac3c4a6628f98becb48fd25df1adf@babylon-testnet-seed.nodes.guru:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:20656"
+URL="https://babylon-testnet-rpc.polkachu.com/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
