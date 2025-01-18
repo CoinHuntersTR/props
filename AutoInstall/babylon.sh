@@ -48,8 +48,8 @@ cd $HOME
 rm -rf babylon
 git clone https://github.com/babylonlabs-io/babylon.git
 cd babylon
-git checkout v1.0.0-rc.1
-make install
+git checkout v1.0.0-rc.3
+BABYLON_BUILD_OPTIONS="testnet" make install
 babylond version
 
 printGreen "5. Configuring and init app..." && sleep 1
@@ -65,13 +65,10 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://rpc-t.babylon.nodestake.org/net_info"
-response=$(curl -s $URL)
-PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
-echo "PEERS=\"$PEERS\""
-
-# Update the persistent_peers in the config.toml file
-sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.babylond/config/config.toml
+SEEDS="be232be53f7ac3c4a6628f98becb48fd25df1adf@babylon-testnet-seed.nodes.guru:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:20656,59df4b3832446cd0f9c369da01f2aa5fe9647248@65.109.49.115:16256"
+PEERS="fe62e0a38eb7694080c83a84225a6bb33be01fed@babylon-testnet-rpc-pruned-1.nodes.guru:55706,4a3dd7deb4770c06e05849a4128fea1a7439a9d9@65.109.106.210:20656,5e83cc27be007d8944b5424e2141bca51dd9121a@46.4.91.76:30556,4a3dd7deb4770c06e05849a4128fea1a7439a9d9@65.109.106.210:20656"
+sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
+       -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" $HOME/.babylond/config/config.toml
 
 # set custom ports in app.toml
 sed -i.bak -e "s%:1317%:${BABYLON_PORT}317%g;
