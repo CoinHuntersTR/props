@@ -92,11 +92,16 @@ s%:26660%:${BABYLON_PORT}660%g" $HOME/.babylond/config/config.toml
 sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.babylond/config/app.toml
 sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.babylond/config/app.toml
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.babylond/config/app.toml
+sed -i -e 's|^iavl-cache-size *=.*|iavl-cache-size = 0|' $HOME/.babylond/config/app.toml
+sed -i -e 's|^iavl-disable-fastnode *=.*|iavl-disable-fastnode = true|' $HOME/.babylond/config/app.toml
+sed -i -e '/^$btc-config$/,/^$/{s|^network *=.*|network = "signet"|}' $HOME/.babylond/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
 sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.002ubbn"|g' $HOME/.babylond/config/app.toml
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.babylond/config/config.toml
-sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.babylond/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"kv\"/" $HOME/.babylond/config/config.toml
+sed -i -e '/^$consensus$/,/^$/{s|^timeout_commit *=.*|timeout_commit = "10s"|}' $HOME/.babylond/config/config.toml
+
 sleep 1
 echo done
 
