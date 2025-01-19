@@ -106,8 +106,8 @@ Description=babylond Node Service
 After=network-online.target
 [Service]
 Type=simple
-User=$(whoami)
-ExecStart=$(pwd)/go/bin/babylond start --home $(pwd)/.babylond
+User=$USER
+ExecStart=$(which babylond) start --chain-id bbn-test-5 --x-crisis-skip-assert-invariants
 Restart=always
 RestartSec=3
 LimitNOFILE=65535
