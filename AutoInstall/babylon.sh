@@ -54,7 +54,7 @@ babylond version
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-babylond init $MONIKER bn254 --chain-id $BABYLON_CHAIN_ID --home $HOME/.babylond
+babylond init $MONIKER --chain-id $BABYLON_CHAIN_ID --home $HOME/.babylond
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
