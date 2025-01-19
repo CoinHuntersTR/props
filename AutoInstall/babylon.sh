@@ -108,15 +108,16 @@ echo done
 # create service file
 sudo tee /etc/systemd/system/babylond.service > /dev/null <<EOF
 [Unit]
-Description=babylond node
+Description=Babylon Node
 After=network-online.target
+
 [Service]
 User=$USER
-WorkingDirectory=$HOME/.babylond
-ExecStart=$(which babylond) start --home $HOME/.babylond
-Restart=on-failure
-RestartSec=5
+ExecStart=$(which babylond) start --chain-id bbn-test-5 --x-crisis-skip-assert-invariants
+Restart=always
+RestartSec=3
 LimitNOFILE=65535
+
 [Install]
 WantedBy=multi-user.target
 EOF
