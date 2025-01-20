@@ -48,7 +48,7 @@ cd $HOME
 rm -rf babylon
 git clone https://github.com/babylonlabs-io/babylon.git
 cd babylon
-git checkout v1.0.0-rc.1
+git checkout v1.0.0-rc.3
 BABYLON_BUILD_OPTIONS="testnet" make install
 babylond version
 
@@ -119,7 +119,7 @@ EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
-lavad tendermint unsafe-reset-all --home $HOME/.babylond
+babylond tendermint unsafe-reset-all --home $HOME/.babylond
 if curl -s --head curl https://snapshots.polkachu.com/testnet-snapshots/babylon/babylon_94430.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
   curl https://snapshots.polkachu.com/testnet-snapshots/babylon/babylon_94430.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.babylond
     else
