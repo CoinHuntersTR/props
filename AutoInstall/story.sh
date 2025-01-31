@@ -103,7 +103,7 @@ After=network.target
 
 [Service]
 User=$USER
-ExecStart=$HOME/go/bin/geth --story --syncmode full --http --http.api eth,net,web3,engine --http.vhosts '*' --http.addr 0.0.0.0 --http.port ${STORY_PORT}545 --authrpc.port ${STORY_PORT}551 --ws --ws.api eth,web3,net,txpool --ws.addr 0.0.0.0 --ws.port ${STORY_PORT}546
+ExecStart=/root/go/bin/story-geth --story --syncmode full
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=4096
