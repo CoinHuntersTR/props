@@ -135,3 +135,4 @@ printGreen "starting node..." && sleep 1
 sudo systemctl daemon-reload
 sudo systemctl enable story story-geth
 sudo systemctl restart story-geth && sleep 5 && sudo systemctl restart story
+sudo journalctl -u story-geth -u story -f
