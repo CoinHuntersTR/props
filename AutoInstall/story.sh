@@ -25,10 +25,10 @@ printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
 VER="1.22.3"
-wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
+wget "https://golang.org/dl/go$VER.linux-arm64.tar.gz"
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
-rm "go$VER.linux-amd64.tar.gz"
+sudo tar -C /usr/local -xzf "go$VER.linux-arm64.tar.gz"
+rm "go$VER.linux-arm64.tar.gz"
 [ ! -f ~/.bash_profile ] && touch ~/.bash_profile
 echo "export PATH=$PATH:/usr/local/go/bin:~/go/bin" >> ~/.bash_profile
 source $HOME/.bash_profile
