@@ -1,152 +1,147 @@
 #!/bin/bash
-
-# Load and print logo
 source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
+
 printLogo
 
-# Step 1: Update and Upgrade VPS
-printGreen "Updating and upgrading VPS..." && sleep 1
-sudo apt update && sudo apt upgrade -y
 
-# Step 2: Install Required Packages
-printGreen "Installing required packages..." && sleep 1
-sudo apt install -y curl git make jq build-essential gcc unzip wget lz4 aria2 gh
+read -p "Enter your MONIKER :" MONIKER
+echo 'export MONIKER='$MONIKER
+read -p "Enter your PORT (for example 17, default port=26):" PORT
+echo 'export PORT='$PORT
 
-# Step 3: Install Go
-printGreen "Installing Go..." && sleep 1
+# set vars
+echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
+echo "export STORY_CHAIN_ID="story"" >> $HOME/.bash_profile
+echo "export STORY_PORT="$PORT"" >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+printLine
+echo -e "Moniker:        \e[1m\e[32m$MONIKER\e[0m"
+echo -e "Chain id:       \e[1m\e[32m$STORY_CHAIN_ID\e[0m"
+echo -e "Node custom port:  \e[1m\e[32m$STORY_PORT\e[0m"
+printLine
+sleep 1
+
+printGreen "1. Installing go..." && sleep 1
+# install go, if needed
 cd $HOME
-ver="1.22.3"
-wget "https://go.dev/dl/go$ver.linux-amd64.tar.gz"
+VER="1.22.3"
+wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
-go version
+sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
+rm "go$VER.linux-amd64.tar.gz"
+[ ! -f ~/.bash_profile ] && touch ~/.bash_profile
+echo "export PATH=$PATH:/usr/local/go/bin:~/go/bin" >> ~/.bash_profile
+source $HOME/.bash_profile
+[ ! -d ~/go/bin ] && mkdir -p ~/go/bin
 
-# Step 4: Download and Install Story-Geth Binary
-printGreen "Downloading and installing Story-Geth binary..." && sleep 1
+
+echo $(go version) && sleep 1
+
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads/main/dependencies_install.sh)
+
+printGreen "4. Installing binary..." && sleep 1
+# download binary
 cd $HOME
-wget -O geth geth https://github.com/piplabs/story-geth/releases/download/v1.0.1/geth-linux-amd64
+wget -O geth https://github.com/piplabs/story-geth/releases/download/v1.0.1/geth-linux-amd64
 chmod +x $HOME/geth
 mv $HOME/geth ~/go/bin/
 [ ! -d "$HOME/.story/story" ] && mkdir -p "$HOME/.story/story"
 [ ! -d "$HOME/.story/geth" ] && mkdir -p "$HOME/.story/geth"
 
-
-# Step 5: Download and Install Story Binary
 # install Story
 cd $HOME
-wget https://github.com/piplabs/story/releases/download/v1.0.0/story-linux-amd64
-sudo mv story-linux-amd64 story
-sudo chmod +x story
-sudo mv ./story $HOME/go/bin/story
-source $HOME/.bashrc
-story version
+rm -rf story
+git clone https://github.com/piplabs/story
+cd story
+git checkout v1.0.0
+go build -o story ./client 
+mv $HOME/story/story $HOME/go/bin/
 
-# Step 6: Initialize the odyssey Network Node
-printGreen "Initializing odyssey network node..." && sleep 1
-$HOME/go/bin/story init --network story
 
-# Step 7: Create and Configure systemd Service for Story-Geth
-printGreen "Creating systemd service for Story-Geth..." && sleep 1
-sudo tee /etc/systemd/system/story-geth.service > /dev/null <<EOF
-[Unit]
-Description=Story Geth Client
-After=network.target
 
-[Service]
-User=root
-ExecStart=$HOME/go/bin/geth --story --syncmode full
-Restart=on-failure
-RestartSec=3
-LimitNOFILE=4096
+printGreen "5. Configuring and init app..." && sleep 1
 
-[Install]
-WantedBy=multi-user.target
-EOF
+# init story app
+story init $MONIKER --network story
 
-# Step 8: Create and Configure systemd Service for Story
-printGreen "Creating systemd service for Story..." && sleep 1
-sudo tee /etc/systemd/system/story.service > /dev/null <<EOF
-[Unit]
-Description=Story Consensus Client
-After=network.target
 
-[Service]
-User=root
-ExecStart=$HOME/go/bin/story run
-Restart=on-failure
-RestartSec=3
-LimitNOFILE=4096
+printGreen "6. Downloading genesis and addrbook..." && sleep 1
+# download genesis and addrbook
+# download genesis and addrbook
+wget -O $HOME/.story/story/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/story/genesis.json
 
-[Install]
-WantedBy=multi-user.target
-EOF
 
-# Step 9: Ask for Moniker and Update config.toml
-printGreen "Please enter the moniker for your node (e.g., your node's name):" && sleep 1
-read -r moniker
-
-# Step 10: Update Ports in config.toml Based on User Input
-printGreen "Please enter the starting port number (between 11 and 64). Default is 26:" && sleep 1
-read -r start_port
-
-# Default value check for port
-if [ -z "$start_port" ]; then
-  start_port=26
-elif ! [[ "$start_port" =~ ^[0-9]+$ ]] || [ "$start_port" -lt 11 ] || [ "$start_port" -gt 64 ]; then
-  printGreen "Invalid input. Please enter a number between 11 and 64."
-  exit 1
-fi
-
-# Calculate new ports based on start_port
-rpc_port=$((start_port * 1000 + 657))
-p2p_port=$((start_port * 1000 + 656))
-proxy_app_port=$((start_port * 1000 + 658))
-prometheus_port=$((start_port * 1000 + 660))
-
-# Update config.toml with new port values and moniker
-config_path="/root/.story/story/config/config.toml"
-
-# Update ports
-sed -i "s|laddr = \"tcp://127.0.0.1:26657\"|laddr = \"tcp://127.0.0.1:$rpc_port\"|g" "$config_path"
-sed -i "s|laddr = \"tcp://0.0.0.0:26656\"|laddr = \"tcp://0.0.0.0:$p2p_port\"|g" "$config_path"
-sed -i "s|proxy_app = \"tcp://127.0.0.1:26658\"|proxy_app = \"tcp://127.0.0.1:$proxy_app_port\"|g" "$config_path"
-sed -i "s|prometheus_listen_addr = \":26660\"|prometheus_listen_addr = \":$prometheus_port\"|g" "$config_path"
-
-# Update moniker
-sed -i "s|moniker = \"[^\"]*\"|moniker = \"$moniker\"|g" "$config_path"
-
-printBlue "Configuration updated successfully in config.toml:" && sleep 1
-
-printLine
-echo -e "Moniker:        \e[1m\e[32m$moniker\e[0m"
-echo -e "RPC Port:         \e[1m\e[32m$rpc_port\e[0m"
-echo -e "P2P Port:       \e[1m\e[32m$p2p_port\e[0m"
-echo -e "Proxy App Port:  \e[1m\e[32m$proxy_app_port\e[0m"
-echo -e "Prometheus Port:  \e[1m\e[32m$prometheus_port\e[0m"
-printLine
 sleep 1
+echo done
 
-
-# Step 11: Update Persistent Peers in config.toml
-printGreen "Fetching peers and updating persistent_peers in config.toml..." && sleep 1
-URL="http://localhost:26657/net_info"
+printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
+# set seeds and peers
+# set seeds and peers
+URL="http://localhost:${STORY_PORT}657/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
 
 # Update the persistent_peers in the config.toml file
-sed -i 's|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $CONFIG_PATH
-
-echo "Persistent peers updated in $CONFIG_PATH."
+sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.story/story/config/config.toml
 
 
-# Step 12: Reload systemd, Enable, and Start Services
-printGreen "Reloading systemd, enabling, and starting Story-Geth and Story services..." && sleep 1
+# set custom ports in story.toml file
+sed -i.bak -e "s%:1317%:${STORY_PORT}317%g;
+s%:8551%:${STORY_PORT}551%g" $HOME/.story/story/config/story.toml
+
+# set custom ports in config.toml file
+sed -i.bak -e "s%:26658%:${STORY_PORT}658%g;
+s%:26657%:${STORY_PORT}657%g;
+s%:26656%:${STORY_PORT}656%g;
+s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${STORY_PORT}656\"%;
+s%:26660%:${STORY_PORT}660%g" $HOME/.story/story/config/config.toml
+
+# enable prometheus and disable indexing
+sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.story/story/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.story/story/config/config.toml
+
+# create geth servie file
+sudo tee /etc/systemd/system/story-geth.service > /dev/null <<EOF
+[Unit]
+Description=Story Geth daemon
+After=network-online.target
+
+[Service]
+User=$USER
+ExecStart=$HOME/go/bin/geth --odyssey --syncmode full --http --http.api eth,net,web3,engine --http.vhosts '*' --http.addr 0.0.0.0 --http.port ${STORY_PORT}545 --authrpc.port ${STORY_PORT}551 --ws --ws.api eth,web3,net,txpool --ws.addr 0.0.0.0 --ws.port ${STORY_PORT}546
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# create story service file
+sudo tee /etc/systemd/system/story.service > /dev/null <<EOF
+[Unit]
+Description=Story Service
+After=network.target
+
+[Service]
+User=$USER
+WorkingDirectory=$HOME/.story/story
+ExecStart=$(which story) run
+
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+[Install]
+WantedBy=multi-user.target
+EOF
+
+
+# enable and start geth, story
 sudo systemctl daemon-reload
-sudo systemctl enable story-geth story
-sudo systemctl start story-geth story
+sudo systemctl enable story story-geth
+sudo systemctl restart story-geth && sleep 5 && sudo systemctl restart story
 
-printGreen "Installation and setup complete!" && sleep 1
+# check logs
+journalctl -u story -u story-geth -f
