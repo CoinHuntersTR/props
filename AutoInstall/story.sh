@@ -10,7 +10,7 @@ sudo apt update && sudo apt upgrade -y
 
 # Step 2: Install Required Packages
 printGreen "Installing required packages..." && sleep 1
-sudo apt install -y wget curl lz4 jq
+sudo apt install -y curl git make jq build-essential gcc unzip wget lz4 aria2 gh
 
 # Step 3: Install Go
 printGreen "Installing Go..." && sleep 1
@@ -27,7 +27,7 @@ go version
 # Step 4: Download and Install Story-Geth Binary
 printGreen "Downloading and installing Story-Geth binary..." && sleep 1
 cd $HOME
-wget -O geth geth https://github.com/piplabs/story-geth/releases/download/v0.11.0/geth-linux-amd64
+wget -O geth geth https://github.com/piplabs/story-geth/releases/download/v1.0.1/geth-linux-amd64
 chmod +x $HOME/geth
 mv $HOME/geth ~/go/bin/
 [ ! -d "$HOME/.story/story" ] && mkdir -p "$HOME/.story/story"
@@ -37,16 +37,16 @@ mv $HOME/geth ~/go/bin/
 # Step 5: Download and Install Story Binary
 # install Story
 cd $HOME
-rm -rf story
-git clone https://github.com/piplabs/story
-cd story
-git checkout v0.13.0
-go build -o story ./client 
-mv $HOME/story/story $HOME/go/bin/
+wget https://github.com/piplabs/story/releases/download/v1.0.0/story-linux-amd64
+sudo mv story-linux-amd64 story
+sudo chmod +x story
+sudo mv ./story $HOME/go/bin/story
+source $HOME/.bashrc
+story version
 
 # Step 6: Initialize the odyssey Network Node
 printGreen "Initializing odyssey network node..." && sleep 1
-$HOME/go/bin/story init --network odyssey
+$HOME/go/bin/story init --network story
 
 # Step 7: Create and Configure systemd Service for Story-Geth
 printGreen "Creating systemd service for Story-Geth..." && sleep 1
@@ -57,7 +57,7 @@ After=network.target
 
 [Service]
 User=root
-ExecStart=$HOME/go/bin/geth --iliad --syncmode full
+ExecStart=$HOME/go/bin/geth --story --syncmode full
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=4096
@@ -132,7 +132,7 @@ sleep 1
 
 # Step 11: Update Persistent Peers in config.toml
 printGreen "Fetching peers and updating persistent_peers in config.toml..." && sleep 1
-URL="https://story-testnet-rpc.itrocket.net/net_info"
+URL="http://localhost:26657/net_info"
 response=$(curl -s $URL)
 PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
 echo "PEERS=\"$PEERS\""
