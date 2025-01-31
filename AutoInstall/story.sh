@@ -80,7 +80,8 @@ sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
        -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" $HOME/.story/story/config/config.toml
 
 # set custom ports in story.toml file
-sed -i.bak -e "s%:1317%:${STORY_PORT}317%g;
+sed -i.bak -e "s%localhost:1317%localhost:${STORY_PORT}317%g;
+s%localhost:8551%localhost:${STORY_PORT}551%g;
 s%:8551%:${STORY_PORT}551%g" $HOME/.story/story/config/story.toml
 
 # set custom ports in config.toml file
@@ -103,7 +104,8 @@ After=network.target
 
 [Service]
 User=$USER
-ExecStart=/root/go/bin/story-geth --story --syncmode full
+Environment="STORY_PORT=$STORY_PORT"
+ExecStart=/root/go/bin/story-geth --story --syncmode full --http.port \${STORY_PORT}551 --authrpc.port \${STORY_PORT}551
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=4096
@@ -121,6 +123,7 @@ After=network.target
 [Service]
 Type=simple
 User=$USER
+Environment="STORY_PORT=$STORY_PORT"
 ExecStart=$(which story) run
 Restart=on-failure
 RestartSec=3
@@ -131,8 +134,10 @@ WantedBy=multi-user.target
 EOF
 
 printGreen "starting node..." && sleep 1
-# enable and start geth, story
+# servisleri yeniden başlat
 sudo systemctl daemon-reload
 sudo systemctl enable story story-geth
-sudo systemctl restart story-geth && sleep 5 && sudo systemctl restart story
+sudo systemctl restart story-geth 
+sleep 10
+sudo systemctl restart story
 sudo journalctl -u story-geth -u story -f
