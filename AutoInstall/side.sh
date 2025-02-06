@@ -124,8 +124,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 sided tendermint unsafe-reset-all --home $HOME/.side
-if curl -s --head curl https://server-2.itrocket.net/mainnet/side/side_2025-02-06_192619_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-2.itrocket.net/mainnet/side/side_2025-02-06_192619_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.side
+if curl -s --head curl https://snapshots.coinhunterstr.com/mainnet/side/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.coinhunterstr.com/mainnet/side/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.side
     else
   echo "no snapshot found"
 fi
