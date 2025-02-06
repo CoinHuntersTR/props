@@ -69,7 +69,7 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="9355d3fe49475485444f64db4745dd8a970d7a72@side-mainnet-seed.itrocket.net:18656"
+SEEDS="9355d3fe49475485444f64db4745dd8a970d7a72@side-mainnet-seed.itrocket.net:18656,a1c99cc234a524e53db8eb44e0c7df7115edd1b4@rpc.side.nodestake.org:666,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@seeds.polkachu.com:26356"
 PEERS="cfc22ac13d20a6f3bd394a8a2dba787bc10c1b32@side-mainnet-peer.itrocket.net:14656,973538e4eb39bac08c9675830239a6358a1e442c@195.201.59.216:26656,8f5a8d7d6c29cd24bc2f844494c75d5044913b53@176.9.124.52:26356,db1df6aed42324c975209edceeba0daf6e8b0bab@160.202.131.55:24656,fc4192d1f80d783dec495abe4101169183d94190@8.52.153.92:14656,4192e340dc7a5e297143e271daf6b52e9e6aea0d@195.14.6.192:26656,24224badba137eb775916d9d5c4ff8f3ceff874b@[2a03:cfc0:8000:13::b910:27be]:11056,05cb5856192b389cff8c3851e0d30ae6a400187d@143.198.41.115:26656,75da8087bdc75ba0eed3c20a0c7a055721ecdb00@46.232.248.39:18656,b34c1431376443769554d89a3737ad65015a16a7@91.134.9.162:26356"
 sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
        -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" \
