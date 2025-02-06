@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export SIDE_CHAIN_ID="sidechain-testnet-4"" >> $HOME/.bash_profile
+echo "export SIDE_CHAIN_ID="sidechain-1"" >> $HOME/.bash_profile
 echo "export SIDE_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -48,34 +48,32 @@ cd $HOME
 rm -rf side
 git clone https://github.com/sideprotocol/side.git
 cd side
-git checkout v0.9.4
+git checkout v1.0.0
 make install
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
 sided config node tcp://localhost:${SIDE_PORT}657
 sided config keyring-backend os
-sided config chain-id sidechain-testnet-4
-sided init $MONIKER --chain-id sidechain-testnet-4
+sided config chain-id sidechain-1
+sided init $MONIKER --chain-id sidechain-1
 sleep 1
 echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.side/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/Side/genesis.json
-wget -O $HOME/.side/config/addrbook.json  https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/Side/addrbook.json
+wget -O $HOME/.side/config/genesis.json https://server-2.itrocket.net/mainnet/side/genesis.json
+wget -O $HOME/.side/config/addrbook.json  https://server-2.itrocket.net/mainnet/side/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://side-testnet-rpc.itrocket.net/net_info"
-response=$(curl -s $URL)
-PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
-echo "PEERS=\"$PEERS\""
-
-# Update the persistent_peers in the config.toml file
-sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.side/config/config.toml
+SEEDS="9355d3fe49475485444f64db4745dd8a970d7a72@side-mainnet-seed.itrocket.net:18656"
+PEERS="cfc22ac13d20a6f3bd394a8a2dba787bc10c1b32@side-mainnet-peer.itrocket.net:14656,973538e4eb39bac08c9675830239a6358a1e442c@195.201.59.216:26656,8f5a8d7d6c29cd24bc2f844494c75d5044913b53@176.9.124.52:26356,db1df6aed42324c975209edceeba0daf6e8b0bab@160.202.131.55:24656,fc4192d1f80d783dec495abe4101169183d94190@8.52.153.92:14656,4192e340dc7a5e297143e271daf6b52e9e6aea0d@195.14.6.192:26656,24224badba137eb775916d9d5c4ff8f3ceff874b@[2a03:cfc0:8000:13::b910:27be]:11056,05cb5856192b389cff8c3851e0d30ae6a400187d@143.198.41.115:26656,75da8087bdc75ba0eed3c20a0c7a055721ecdb00@46.232.248.39:18656,b34c1431376443769554d89a3737ad65015a16a7@91.134.9.162:26356"
+sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
+       -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" \
+       $HOME/.side/config/config.toml
 
 # set custom ports in app.toml
 sed -i.bak -e "s%:1317%:${SIDE_PORT}317%g;
@@ -126,19 +124,13 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 sided tendermint unsafe-reset-all --home $HOME/.side
-
-# Automatically find the latest snapshot
-SNAPSHOT_URL="https://server-5.itrocket.net/testnet/side/"
-LATEST_SNAPSHOT=$(curl -s $SNAPSHOT_URL | grep -oP 'side_\d{4}-\d{2}-\d{2}_\d+_snap.tar.lz4' | sort | tail -n 1)
-
-if [ -n "$LATEST_SNAPSHOT" ]; then
-  echo "Downloading latest snapshot: $LATEST_SNAPSHOT"
-  curl "${SNAPSHOT_URL}${LATEST_SNAPSHOT}" | lz4 -dc - | tar -xf - -C $HOME/.side
-else
-  echo "No snapshot found"
+if curl -s --head curl https://server-2.itrocket.net/mainnet/side/side_2025-02-06_192619_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-2.itrocket.net/mainnet/side/side_2025-02-06_192619_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.side
+    else
+  echo "no snapshot found"
 fi
 
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable sided
-sudo systemctl restart sided && sudo journalctl -u sided -f
+sudo systemctl restart sided && sudo journalctl -u sided -fo cat
