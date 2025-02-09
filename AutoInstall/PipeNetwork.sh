@@ -1,109 +1,57 @@
 #!/bin/bash
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
 
-# Önce curl'ü yükleyelim
-apt-get update > /dev/null 2>&1
-apt-get install curl -y > /dev/null 2>&1
+printLogo
 
-# Logo
-echo '
-  ____      _         _   _             _
- / ___|___ (_)_ __   | | | |_   _ _ __ | |_ ___ _ __ ___
-| |   / _ \| | "_ \  | |_| | | | | "_ \| __/ _ \ "__/ __|
-| |__| (_) | | | | | |  _  | |_| | | | | ||  __/ |  \__ \
- \____\___/|_|_| |_| |_| |_|\__,_|_| |_|\__\___|_|  |___/
+# Solana wallet adresi isteme
+read -p "Enter your Solana wallet address: " SOLANA_WALLET
 
- ⋆ ——————————————————————————————————————————————————— ⋆
-   X : https://x.com/CoinHuntersTR ▪️ TG : https://t.me/CoinHuntersTR
- ⋆ ——————————————————————————————————————————————————— ⋆
-'
+# Sistem güncellemelerini yükleme
+echo "System updating..."
+sudo apt update && sudo apt upgrade -y
+sudo apt install curl iptables build-essential git wget lz4 jq make gcc nano automake autoconf tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang aria2 bsdmainutils ncdu unzip libleveldb-dev -y
 
-# Renk tanımlamaları
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+# Dizinleri oluşturma
+echo "Creating directories..."
+mkdir -p /root/pipenetwork
+mkdir -p /root/pipenetwork/download_cache
+cd /root/pipenetwork
 
-# Hata kontrolü
-check_error() {
-    if [ $? -ne 0 ]
-    then
-        echo -e "${RED}Hata: \$1${NC}"
-        exit 1
-    fi
-}
+# Port açma
+echo "Opening port 8003..."
+ufw allow 8003/tcp
 
-# Kullanıcı onayı fonksiyonu
-wait_for_confirmation() {
-    while true
-    do
-        read -p "\$1 (evet/hayır): " yn
-        case $yn in
-            [Ee]* ) return 0;;
-            [Hh]* ) return 1;;
-            * ) echo "Lütfen 'evet' veya 'hayır' yazın.";;
-        esac
-    done
-}
+# Waitlist kontrolü
+echo "Did you receive a waitlist email from Pipe Network?"
+echo "1) Yes"
+echo "2) No"
+read -p "Enter your choice (1 or 2): " choice
 
-sleep 1
-clear
-echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║     Pipe Network Kurulum Scripti       ║${NC}"
-echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
+if [ "$choice" = "1" ]; then
+    read -p "Enter the URL from email: " EMAIL_URL
+    curl -L -o pop "$EMAIL_URL"
+else
+    wget -O pop "https://dl.pipecdn.app/v0.2.4/pop"
+fi
 
-# Sistem güncellemesi
-echo -e "\n${YELLOW}[1/11]${NC} Sistem güncelleniyor..."
-sudo apt update -y && sudo apt upgrade -y
-check_error "Sistem güncellemesi başarısız"
+# Çalıştırma izni verme
+chmod +x pop
 
-# Port açma
-echo -e "\n${YELLOW}[2/11]${NC} Gerekli portlar açılıyor..."
-sudo ufw allow 8002/tcp
-sudo ufw allow 8003/tcp
-check_error "Port açma işlemi başarısız"
+# Kaydolma
+./pop --signup-by-referral-route def5b8424373f8f8
 
-# Kullanıcıdan mail linklerini alma
-echo -e "\n${YELLOW}[3/11]${NC} Mail bilgileri giriliyor..."
-echo -e "${GREEN}Lütfen mail ile gelen linkleri giriniz:${NC}"
-read -p "PIPE linki: " PIPE
-read -p "DCDND linki: " DCDND
-
-# Dizin oluşturma
-echo -e "\n${YELLOW}[4/11]${NC} Dizinler oluşturuluyor..."
-sudo mkdir -p $HOME/opt/dcdn
-check_error "Dizin oluşturma başarısız"
-
-# Dosyaları indirme
-echo -e "\n${YELLOW}[5/11]${NC} Gerekli dosyalar indiriliyor..."
-sudo wget -O $HOME/opt/dcdn/pipe-tool "$PIPE"
-check_error "pipe-tool indirme başarısız"
-sudo wget -O $HOME/opt/dcdn/dcdnd "$DCDND"
-check_error "dcdnd indirme başarısız"
-
-# İzinleri ayarlama
-echo -e "\n${YELLOW}[6/11]${NC} İzinler ayarlanıyor..."
-sudo chmod +x $HOME/opt/dcdn/pipe-tool
-sudo chmod +x $HOME/opt/dcdn/dcdnd
-sudo ln -s $HOME/opt/dcdn/pipe-tool /usr/local/bin/pipe-tool -f
-sudo ln -s $HOME/opt/dcdn/dcdnd /usr/local/bin/dcdnd -f
-check_error "İzin ayarlama başarısız"
-
-# Service dosyası oluşturma
-echo -e "\n${YELLOW}[7/11]${NC} Service dosyası oluşturuluyor..."
-sudo cat > /etc/systemd/system/dcdnd.service << 'EOF'
+# Servis dosyası oluşturma
+echo "Creating service file..."
+cat > /etc/systemd/system/pipe-pop.service << EOF
 [Unit]
-Description=DCDN Node Service
+Description=Pipe POP Node Service
 After=network.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/opt/dcdn/dcdnd \
-                --grpc-server-url=0.0.0.0:8002 \
-                --http-server-url=0.0.0.0:8003 \
-                --node-registry-url="https://rpc.pipedev.network" \
-                --cache-max-capacity-mb=1024 \
-                --credentials-dir=/root/.permissionless \
-                --allow-origin=*
+User=root
+Group=root
+ExecStart=/root/pipenetwork/pop --ram=12 --pubKey $SOLANA_WALLET --max-disk 300 --cache-dir /var/cache/pop/download_cache
 Restart=always
 RestartSec=5
 LimitNOFILE=65536
@@ -111,72 +59,24 @@ LimitNPROC=4096
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=dcdn-node
-WorkingDirectory=/opt/dcdn
+WorkingDirectory=/root/pipenetwork
 
 [Install]
 WantedBy=multi-user.target
 EOF
-check_error "Service dosyası oluşturma başarısız"
 
-# Login işlemi
-echo -e "\n${YELLOW}[8/11]${NC} Login işlemi başlatılıyor..."
-echo -e "${YELLOW}ÖNEMLİ ADIMLAR:${NC}"
-echo -e "1. Aşağıda bir QR kod ve 6 haneli kod gösterilecek"
-echo -e "2. Gösterilen web sitesini tarayıcınızda açın"
-echo -e "3. 6 haneli kodu girin"
-echo -e "4. Mail adresinizle giriş yapın"
-echo -e "5. Register işlemini tamamlayın\n"
-echo -e "${GREEN}Hazır olduğunuzda devam etmek için enter'a basın...${NC}"
-read
+# Servisi başlatma
+echo "Starting service..."
+sudo systemctl daemon-reload
+sudo systemctl enable pipe-pop
+sudo systemctl start pipe-pop
 
-pipe-tool login --node-registry-url="https://rpc.pipedev.network"
-check_error "Login işlemi başarısız"
+# Durum kontrolü
+echo "Checking service status..."
+sudo systemctl status pipe-pop
 
-if ! wait_for_confirmation "Register işlemini tamamladınız mı?"; then
-    echo -e "${RED}İşlem kullanıcı tarafından iptal edildi${NC}"
-    exit 1
-fi
+# Puan ve uptime kontrolü
+echo "Checking score and uptime..."
+./pop --status
 
-# Registration token oluşturma
-echo -e "\n${YELLOW}[9/11]${NC} Registration token oluşturuluyor..."
-pipe-tool generate-registration-token --node-registry-url="https://rpc.pipedev.network"
-check_error "Token oluşturma başarısız"
-
-if ! wait_for_confirmation "Registration token oluşturuldu mu?"; then
-    echo -e "${RED}İşlem kullanıcı tarafından iptal edildi${NC}"
-    exit 1
-fi
-
-# Servisi başlatma
-echo -e "\n${YELLOW}[10/11]${NC} Servis başlatılıyor..."
-sudo systemctl daemon-reload
-sudo systemctl enable dcdnd
-sudo systemctl restart dcdnd
-check_error "Servis başlatma başarısız"
-
-# Cüzdan oluşturma
-echo -e "\n${YELLOW}[11/11]${NC} Cüzdan oluşturuluyor..."
-echo -e "${YELLOW}NOT: Şifre oluşturmak opsiyoneldir, boş bırakabilirsiniz${NC}"
-pipe-tool generate-wallet --node-registry-url="https://rpc.pipedev.network" --key-path=$HOME/.permissionless/key.json
-check_error "Cüzdan oluşturma başarısız"
-
-# Cüzdan bilgilerini gösterme
-echo -e "\n${GREEN}╔════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║          Cüzdan Bilgileriniz           ║${NC}"
-echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
-
-echo -e "\n${YELLOW}Private Key:${NC}"
-pipe-tool show-private-key --key-path=$HOME/.permissionless/key.json
-
-echo -e "\n${YELLOW}Public Key:${NC}"
-pipe-tool show-public-key --key-path=$HOME/.permissionless/key.json
-
-# Node durumunu kontrol etme
-echo -e "\n${YELLOW}Node durumu kontrol ediliyor...${NC}"
-pipe-tool list-nodes --node-registry-url="https://rpc.pipedev.network"
-
-echo -e "\n${GREEN}╔════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║          Kurulum Tamamlandı!           ║${NC}"
-echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
-echo -e "\n${YELLOW}Log kayıtlarını görüntülemek için:${NC}"
-echo -e "sudo journalctl -f -u dcdnd.service"
+echo "Installation completed! You can check logs with: journalctl -u pipe-pop -f"
