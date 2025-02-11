@@ -48,9 +48,9 @@ cd $HOME
 rm -rf $HOME/bin
 mkdir $HOME/bin
 cd $HOME/bin
-wget https://github.com/NibiruChain/nibiru/releases/download/v1.5.0/nibid_1.5.0_linux_amd64.tar.gz
-tar -xvf nibid_1.5.0_linux_amd64.tar.gz
-rm nibid_1.5.0_linux_amd64.tar.gz
+wget https://github.com/NibiruChain/nibiru/releases/download/v2.0.0/nibid_2.0.0_linux_amd64.tar.gz
+tar -xvf nibid_2.0.0_linux_amd64.tar.gz
+rm nibid_2.0.0_linux_amd64.tar.gz
 chmod +x $HOME/bin/nibid
 sudo mv $HOME/bin/nibid $HOME/go/bin
 
@@ -60,8 +60,8 @@ nibid init $MONIKER --chain-id $NIBIRU_CHAIN_ID
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.nibid/config/genesis.json https://snapshots.polkachu.com/genesis/nibiru/genesis.json
-wget -O $HOME/.nibid/config/addrbook.json https://snapshots.polkachu.com/addrbook/nibiru/addrbook.json
+wget -O $HOME/.nibid/config/genesis.json https://file.node39.top/Mainnet/Nibiru/genesis.json
+wget -O $HOME/.nibid/config/addrbook.json https://file.node39.top/Mainnet/Nibiru/addrbook.json
 sleep 1
 echo done
 
@@ -97,6 +97,9 @@ s%:26660%:${NIBIRU_PORT}660%g" $HOME/.nibid/config/config.toml
 sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.nibid/config/app.toml
 sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.nibid/config/app.toml
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.nibid/config/app.toml
+sed -i "s|db_backend =.*|db_backend=\"goleveldb\"|g" "$HOME/.nibid/config/config.toml"
+sed -i "s|app-db-backend =.*|app-db-backend=\"goleveldb\"|g" "$HOME/.nibid/config/app.toml"
+
 
 # set minimum gas price, enable prometheus and disable indexing
 sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.025unibi"|g' $HOME/.nibid/config/app.toml
@@ -124,8 +127,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nibid tendermint unsafe-reset-all --home $HOME/.nibid
-if curl -s --head curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241127114221-pruned-pebbledb.tar.gz | head -n 1 | grep "200" > /dev/null; then
-  curl https://storage.googleapis.com/cataclysm-1-snapshots/cataclysm-1-20241127114221-pruned-pebbledb.tar.gz | tar -xz -C $HOME/.nibid
+if curl -s --head curl https://file.node39.top/Mainnet/Nibiru/snapshot-nibiru-18540250.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://file.node39.top/Mainnet/Nibiru/snapshot-nibiru-18540250.tar.lz4 | tar -xz -C $HOME/.nibid
     else
   echo "no snapshot founded"
 fi
