@@ -24,7 +24,7 @@ source $HOME/.bashrc
 # Function to install Story
 install_story() {
 cd $HOME
-wget https://github.com/piplabs/story/releases/download/v1.0.0/story-linux-arm64
+wget https://github.com/piplabs/story/releases/download/v1.1.0/story-linux-arm64
 sudo mv story-linux-arm64 story
 sudo chmod +x story
 sudo mv ./story $HOME/go/bin/story
