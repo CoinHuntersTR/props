@@ -97,8 +97,8 @@ s%:26660%:${NIBIRU_PORT}660%g" $HOME/.nibid/config/config.toml
 sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.nibid/config/app.toml
 sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.nibid/config/app.toml
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.nibid/config/app.toml
-sed -i "s|db_backend =.*|db_backend=\"goleveldb\"|g" "$HOME/.nibid/config/config.toml"
-sed -i "s|app-db-backend =.*|app-db-backend=\"goleveldb\"|g" "$HOME/.nibid/config/app.toml"
+sed -i "s|db_backend =.*|db_backend=\"rocksdb\"|g" "$HOME/.nibid/config/config.toml"
+sed -i "s|app-db-backend =.*|app-db-backend=\"rocksdb\"|g" "$HOME/.nibid/config/app.toml"
 
 
 # set minimum gas price, enable prometheus and disable indexing
@@ -127,12 +127,12 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 nibid tendermint unsafe-reset-all --home $HOME/.nibid
-if curl -s --head curl https://file.node39.top/Mainnet/Nibiru/snapshot-nibiru-18540250.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://file.node39.top/Mainnet/Nibiru/snapshot-nibiru-18540250.tar.lz4 | tar -xz -C $HOME/.nibid
+if curl -s --head curl https://ss.nibiru.nodestake.org/2025-02-13_nibiru_18626056.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://ss.nibiru.nodestake.org/2025-02-13_nibiru_18626056.tar.lz4 | tar -x -C $HOME/.nibid
     else
   echo "no snapshot founded"
 fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable nibid
-sudo systemctl restart nibid && sudo journalctl -u nibid -f
+sudo systemctl restart nibid && sudo journalctl -fu nibid -o cat
