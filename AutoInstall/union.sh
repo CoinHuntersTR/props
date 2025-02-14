@@ -51,8 +51,14 @@ mv uniond $HOME/go/bin/
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-uniond config chain-id union-testnet-9
-uniond --home $HOME/.union init $MONIKER --chain-id union-testnet-9
+
+# Workaround mandatory home argument
+alias uniond='uniond --home=$HOME/.union/'
+
+# Set node configuration
+uniond config set client chain-id union-testnet-9
+uniond config set client keyring-backend test
+uniond config set client node tcp://localhost:${UNION_PORT}157
 sleep 1
 echo done
 
@@ -65,7 +71,7 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:24656"
+SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:24656,3f472746f46493309650e5a033076689996c8881@union-testnet.rpc.kjnodes.com:17159"
 PEERS="ea80b3d17264ddd25f0fe7b5b72b06a785be0be7@167.235.1.51:24656,3aee03b96615e601cd9814427e8bf61ffe85f916@109.123.247.139:26676,4d174c7e7b65f0c2794e70128e3c82845be74b91@185.239.209.46:26676,f10f294f12d30cdd2f7547a8b5f527fe02645ae7@62.84.189.221:26676,b876cdb1e88e3ee5051a57171b651ce2d4edf90e@195.201.110.148:26676,2e44e20b8c183d66ab7d3891a5cec2e4352bc26b@81.17.99.121:26676,91725d5dd47c84ab1b710b90945d511e0db29a4f@38.242.239.89:26676,06de8a52cd5fcf6144d534129e3bc5b8ca2966b7@65.108.105.48:24656,39b18c2be0a3d3e286c1a0ec050bc3ec2c513da9@159.69.107.234:26656,1caf96832c13260a3c4cf51854b001f95a2f05e5@77.237.245.144:26676,e32580e23c56acecd91c474f17abb62ab2ded2b7@81.17.99.138:26676,8286a9df6b3d9466f5a1f22283ddb574c28988b6@23.88.101.17:26656,651b3698131a9c32f46556846017ce013c5c2980@167.235.115.23:24656,0dcca130568caa282646f8be453fb024fabf0888@94.130.54.216:24656,57d817a99049c963e1adaed7735cbd1ce388e912@16.62.79.119:26656,224d5e36f4bb6e47ff1633d09c3c122dfe64d256@158.220.111.164:26676,4eedbf8e9d31b933e7aee23b917c100d986fbe83@185.225.232.58:26676,aa65aaa93e2821e20cf4a98d0db91f7f95b0894c@62.84.189.205:26676,88b8722e2553d86f558511ccf1341a235e97ace1@212.132.127.92:17156,0af46a138c052681ec5207eafd12ef6d1a4fe923@116.203.244.7:443,fc298834ad65b495cd8162e0ec97c3adf0a14739@62.84.189.199:26676,c51bbe61ee15320533837b37268c16393d8d8b54@94.130.105.107:26656,4b81ca0a131659f316cfb8f7c755b2ada3e276ea@157.90.170.177:26656,fa8ea2656c30daf4f8cb6061de48858658abe955@109.199.98.235:26676,472cbc6f3c3106f3af83f1725253f435ac12f4ec@62.84.189.204:26676,7d689e93d212768ed97861562bedb08233efc182@45.84.138.63:26676,bc3219af3428306fac33fa1ad12367834ef175ab@77.237.245.131:26676"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.union/config/config.toml
 
@@ -123,9 +129,9 @@ printGreen "8. Downloading snapshot and starting node..." && sleep 1
 uniond tendermint unsafe-reset-all --home $HOME/.union
 
 # Snapshot kontrolü ve indirme işlemi
-if curl -s --head https://t-ss.nodeist.net/union/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+if curl -s --head https://snapshots.kjnodes.com/union-testnet/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
     echo "Snapshot indiriliyor..."
-    curl -L https://t-ss.nodeist.net/union/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.union
+    curl -L https://snapshots.kjnodes.com/union-testnet/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.union
 else
     echo "Snapshot bulunamadı!"
 fi
