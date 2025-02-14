@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export UNION_CHAIN_ID="union-testnet-8"" >> $HOME/.bash_profile
+echo "export UNION_CHAIN_ID="union-testnet-9"" >> $HOME/.bash_profile
 echo "export UNION_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -28,7 +28,7 @@ sleep 1
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.21.3"
+VER="1.22.3"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -45,27 +45,28 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O uniond https://snapshots.kjnodes.com/union-testnet/uniond-v0.24.0-linux-amd64
+wget -O uniond https://snapshots.kjnodes.com/union-testnet/uniond-v0.25.0-linux-amd64
 chmod +x uniond
 mv uniond $HOME/go/bin/
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
-uniond --home $HOME/.union init $MONIKER --chain-id union-testnet-8
+uniond config chain-id union-testnet-9
+uniond --home $HOME/.union init $MONIKER --chain-id union-testnet-9
 sleep 1
 echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.union/config/genesis.json https://server-4.itrocket.net/testnet/union/genesis.json
-wget -O $HOME/.union/config/addrbook.json https://server-4.itrocket.net/testnet/union/addrbook.json
+wget -O $HOME/.union/config/genesis.json https://t-ss.nodeist.net/union/genesis.json
+wget -O $HOME/.union/config/addrbook.json https://t-ss.nodeist.net/union/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="2812a4ae3ebfba02973535d05d2bbcc80b7d215f@union-testnet-seed.itrocket.net:23656"
-PEERS="a05dde8737e66c99260edfd45180055fe7f8bd9d@union-testnet-peer.itrocket.net:23656,8ac7ea528b1bb6255022eae6c62dfb2ffefa534f@162.250.127.226:26656,4761850effbd601ca6bee5f79d53aca02da4e3dc@88.99.3.158:24656,d4bf3b30d1ea83dc339b2122a68dfa4f2ce26687@135.181.134.151:24656,224f6319a9f478d43a91ccfa712fd252a207a273@65.109.68.87:26656,6527b4e4a8e2a2b37d95517ac38c431ca271cd31@45.159.220.106:26656,c5ba0247be935b7d6fcc30585c86f00eb43f113c@45.159.220.112:26656,e16bf70fcd8d2945e43244c92feba2e1e27afe5f@144.76.76.176:3000"
+SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:24656"
+PEERS="ea80b3d17264ddd25f0fe7b5b72b06a785be0be7@167.235.1.51:24656,3aee03b96615e601cd9814427e8bf61ffe85f916@109.123.247.139:26676,4d174c7e7b65f0c2794e70128e3c82845be74b91@185.239.209.46:26676,f10f294f12d30cdd2f7547a8b5f527fe02645ae7@62.84.189.221:26676,b876cdb1e88e3ee5051a57171b651ce2d4edf90e@195.201.110.148:26676,2e44e20b8c183d66ab7d3891a5cec2e4352bc26b@81.17.99.121:26676,91725d5dd47c84ab1b710b90945d511e0db29a4f@38.242.239.89:26676,06de8a52cd5fcf6144d534129e3bc5b8ca2966b7@65.108.105.48:24656,39b18c2be0a3d3e286c1a0ec050bc3ec2c513da9@159.69.107.234:26656,1caf96832c13260a3c4cf51854b001f95a2f05e5@77.237.245.144:26676,e32580e23c56acecd91c474f17abb62ab2ded2b7@81.17.99.138:26676,8286a9df6b3d9466f5a1f22283ddb574c28988b6@23.88.101.17:26656,651b3698131a9c32f46556846017ce013c5c2980@167.235.115.23:24656,0dcca130568caa282646f8be453fb024fabf0888@94.130.54.216:24656,57d817a99049c963e1adaed7735cbd1ce388e912@16.62.79.119:26656,224d5e36f4bb6e47ff1633d09c3c122dfe64d256@158.220.111.164:26676,4eedbf8e9d31b933e7aee23b917c100d986fbe83@185.225.232.58:26676,aa65aaa93e2821e20cf4a98d0db91f7f95b0894c@62.84.189.205:26676,88b8722e2553d86f558511ccf1341a235e97ace1@212.132.127.92:17156,0af46a138c052681ec5207eafd12ef6d1a4fe923@116.203.244.7:443,fc298834ad65b495cd8162e0ec97c3adf0a14739@62.84.189.199:26676,c51bbe61ee15320533837b37268c16393d8d8b54@94.130.105.107:26656,4b81ca0a131659f316cfb8f7c755b2ada3e276ea@157.90.170.177:26656,fa8ea2656c30daf4f8cb6061de48858658abe955@109.199.98.235:26676,472cbc6f3c3106f3af83f1725253f435ac12f4ec@62.84.189.204:26676,7d689e93d212768ed97861562bedb08233efc182@45.84.138.63:26676,bc3219af3428306fac33fa1ad12367834ef175ab@77.237.245.131:26676"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.union/config/config.toml
 
 # set custom ports in app.toml
@@ -87,13 +88,16 @@ s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${UNION_POR
 s%:26660%:${UNION_PORT}660%g" $HOME/.union/config/config.toml
 
 # config pruning
-sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.union/config/app.toml
-sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.union/config/app.toml
-sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.union/config/app.toml
+sed -i 's|^pruning *=.*|pruning = "custom"|g' $HOME/.union/config/app.toml
+sed -i 's|^pruning-keep-recent  *=.*|pruning-keep-recent = "100"|g' $HOME/.union/config/app.toml
+sed -i 's|^pruning-interval *=.*|pruning-interval = "10"|g' $HOME/.union/config/app.toml
+sed -i 's|^snapshot-interval *=.*|snapshot-interval = 0|g' $HOME/.union/config/app.toml
+
+
 
 # set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.0muno"|g' $HOME/.union/config/app.toml
-sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.union/config/config.toml
+sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0muno\"|" $HOME/.union/config/app.toml
+sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.union/config/config.toml
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.union/config/config.toml
 sleep 1
 echo done
@@ -115,15 +119,18 @@ WantedBy=multi-user.target
 EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
-# reset and download snapshot
-uniond tendermint unsafe-reset-all --home $HOME/.union --home $HOME/.union
-if curl -s --head curl https://server-4.itrocket.net/testnet/union/union_2024-08-02_2096218_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-4.itrocket.net/testnet/union/union_2024-08-02_2096218_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.union
-    else
-  echo no have snap
+# Önce unsafe-reset işlemi
+uniond tendermint unsafe-reset-all --home $HOME/.union
+
+# Snapshot kontrolü ve indirme işlemi
+if curl -s --head https://t-ss.nodeist.net/union/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+    echo "Snapshot indiriliyor..."
+    curl -L https://t-ss.nodeist.net/union/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.union
+else
+    echo "Snapshot bulunamadı!"
 fi
 
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable uniond
-sudo systemctl restart uniond && sudo journalctl -u uniond -f
+sudo systemctl restart uniond && sudo journalctl -fu uniond -o cat
