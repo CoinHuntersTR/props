@@ -56,9 +56,8 @@ printGreen "5. Configuring and init app..." && sleep 1
 alias uniond='uniond --home=$HOME/.union/'
 
 # Set node configuration
-uniond config set client chain-id union-testnet-9
-uniond config set client keyring-backend test
-uniond config set client node tcp://localhost:${UNION_PORT}157
+uniond config chain-id $UNION_CHAIN_ID
+uniond init $MONIKER --chain-id $UNION_CHAIN_ID
 sleep 1
 echo done
 
