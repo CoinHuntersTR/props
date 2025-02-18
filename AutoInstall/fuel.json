@@ -1,5 +1,5 @@
 #!/bin/bash
-source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/main/utils/common.sh)
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/common.sh)
 
 printLogo
 
@@ -40,7 +40,7 @@ source $HOME/.bash_profile
 
 echo $(go version) && sleep 1
 
-source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/main/utils/dependencies_install)
+source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads/main/dependencies_install.sh)
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
@@ -68,7 +68,7 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="7e4d77ee264919f0e6dc4fde226278020418ea46@fuel-mainnet-seed.itrocket.net:63656"
+SEEDS="dc7b01b0379f660fb59223b9862cef0db11f14d9@152.53.121.42:19656,7e4d77ee264919f0e6dc4fde226278020418ea46@fuel-mainnet-seed.itrocket.net:63656"
 PEERS="b3052ca64950786499d56ade68593a555e383ad4@fuel-mainnet-peer.itrocket.net:63656,d48507eb9c8fc6cab278da8b64548496134562dc@141.95.11.200:26656,9584099276b4baf2d6fdf07d4eb9dec40564bba5@185.107.68.171:26656,a419a5e73a3ac2e8ed81841b7a0f7ba6fb2cf78a@82.223.5.79:26656,bbb5f1939278b75efbc213067cc8226591353fc4@65.108.133.32:26656,cb6ae22e1e89d029c55f2cb400b0caa19cbe5523@38.132.56.24:32680,7198cf1a7a7da216444bf9e6fc5b43fd123e8a0a@57.129.38.180:58456,5d75cca90b178f2b782ce57b0067c0ec8512354c@65.109.70.89:41656,0d7efe1a993e548acccba23358de50a87f5ac841@176.103.222.150:26656,9eb2801d1dde4b9ff0be3427092cc2548e973d71@176.103.222.162:26656,40369a07f904d01262141353b5b8fcc8fae2b9da@65.109.53.189:26656"
 sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
        -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" \
