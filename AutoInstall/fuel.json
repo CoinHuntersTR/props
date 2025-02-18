@@ -123,8 +123,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 fuelsequencerd tendermint unsafe-reset-all --home $HOME/.fuelsequencer
-if curl -s --head curl https://server-7.itrocket.net/mainnet/fuel/fuel_2025-02-18_1326476_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-7.itrocket.net/mainnet/fuel/fuel_2025-02-18_1326476_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.fuelsequencer
+if curl -s --head curl https://snapshots.coinhunterstr.com/mainnet/fuel/snapshot_latest.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.coinhunterstr.com/mainnet/fuel/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.fuelsequencer
     else
   echo "no snapshot found"
 fi
@@ -132,4 +132,4 @@ fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable fuelsequencerd
-sudo systemctl restart fuelsequencerd && sudo journalctl -u fuelsequencerd -f
+sudo systemctl restart fuelsequencerd && sudo journalctl -fu fuelsequencerd -o cat
