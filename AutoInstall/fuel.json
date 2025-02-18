@@ -61,8 +61,8 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.fuelsequencer/config/genesis.json https://server-7.itrocket.net/mainnet/fuel/genesis.json
-wget -O $HOME/.fuelsequencer/config/addrbook.json  https://server-7.itrocket.net/mainnet/fuel/addrbook.json
+wget -O $HOME/.fuelsequencer/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/fuel/genesis.json
+wget -O $HOME/.fuelsequencer/config/addrbook.json  https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/fuel/addrbook.json
 sleep 1
 echo done
 
