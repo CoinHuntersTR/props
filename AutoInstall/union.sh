@@ -46,11 +46,8 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 printGreen "3. Installing binary..." && sleep 1
 # Download and install binary for ARM64
 mkdir -p $HOME/.union/cosmovisor/genesis/bin
-wget -O uniond https://github.com/unionlabs/union/releases/download/uniond%2Fv0.25.0/uniond.aarch64-linux.tar.gz
-tar -xzf uniond
-chmod +x uniond
-mv uniond $HOME/.union/cosmovisor/genesis/bin/
-rm uniond.tar.gz
+wget -O uniond http://snapshots.coinhunterstr.com/site/testnet/union/uniond
+chmod +x $HOME/.union/cosmovisor/genesis/bin/uniond
 
 # Create application symlinks
 ln -s $HOME/.union/cosmovisor/genesis $HOME/.union/cosmovisor/current -f
