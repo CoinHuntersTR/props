@@ -47,7 +47,8 @@ printGreen "3. Installing binary..." && sleep 1
 # Download and install binary for ARM64
 mkdir -p $HOME/.union/cosmovisor/genesis/bin
 wget -O uniond http://snapshots.coinhunterstr.com/site/testnet/union/uniond
-chmod +x $HOME/.union/cosmovisor/genesis/bin/uniond
+chmod +x uniond
+mv uniond $HOME/.union/cosmovisor/genesis/bin/
 
 # Create application symlinks
 ln -s $HOME/.union/cosmovisor/genesis $HOME/.union/cosmovisor/current -f
