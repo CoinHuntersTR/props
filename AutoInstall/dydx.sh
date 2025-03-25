@@ -64,13 +64,10 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-URL="https://dydx-rpc.polkachu.com/net_info"
-response=$(curl -s $URL)
-PEERS=$(echo $response | jq -r '.result.peers[] | "\(.node_info.id)@\(.remote_ip):" + (.node_info.listen_addr | capture("(?<ip>.+):(?<port>[0-9]+)$").port)' | paste -sd "," -)
-echo "PEERS=\"$PEERS\""
-
-# Update the persistent_peers in the config.toml file
-sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|; s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.dydxprotocol/config/config.toml
+SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@seeds.polkachu.com:23856"
+PEERS="4ff0c15c2b0ef78549a5f078409c14aff0cb9540@13.230.249.214:26656,6052d395761de94ea6e36b24f9de356b64370fc6@161.35.69.195:26180,1b413f344eeff3ad974e0021b18ae71127d49305@62.169.26.97:26656,072bfdd8dad500ec1bdf1c879c5afb08907bc09b@47.241.186.147:26656,0ac2a2600a89a3ef042f8454018ef932d2ad9e5b@65.108.137.22:26656"
+sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
+       -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" $HOME/.dydxprotocol/config/config.toml
 
 # set custom ports in app.toml
 sed -i.bak -e "s%:1317%:${DYDX_PORT}317%g;
@@ -110,7 +107,7 @@ After=network-online.target
 [Service]
 User=$USER
 WorkingDirectory=$HOME/.dydxprotocol
-ExecStart=$(which dydxprotocold) start --home $HOME/.dydxprotocol
+ExecStart=$(which dydxprotocold) start --home $HOME/.dydxprotocol --bridge-daemon-enabled=false
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
