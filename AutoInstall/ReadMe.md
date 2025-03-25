@@ -198,3 +198,8 @@ bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/head
 ```
 bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/babylon.sh)
 ```
+
+## DYDX Network Testnet
+```
+bash <(wget -qO- https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/AutoInstall/dydx.sh)
+```
