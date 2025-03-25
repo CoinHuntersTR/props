@@ -44,10 +44,10 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
-git clone https://github.com/dydxprotocol/v4-chain dydx
-cd dydx
-git checkout v8.0.7
-make install
+wget -O dydxprotocold http://snapshots.coinhunterstr.com/dydxprotocold-v8.0.9-linux-amd64
+chmod +x $HOME/dydxprotocold
+mv $HOME/dydxprotocold $HOME/go/bin/dydxprotocold
+
 printGreen "5. Configuring and init app..." && sleep 1
 
 # config and init app
