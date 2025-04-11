@@ -9,19 +9,26 @@ read -p "Enter your MONIKER :" MONIKER
 echo 'export MONIKER='$MONIKER
 read -p "Enter your PORT (for example 17, default port=26):" PORT
 echo 'export PORT='$PORT
+read -p "Enter your BLS password:" BLS_PASSWORD
+echo 'export BLS_PASSWORD='$BLS_PASSWORD
 
 # set vars
-echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
-echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export BABYLON_CHAIN_ID="bbn-1"" >> $HOME/.bash_profile
-echo "export BABYLON_PORT="$PORT"" >> $HOME/.bash_profile
+echo "export WALLET=\"$WALLET\"" >> $HOME/.bash_profile
+echo "export MONIKER=\"$MONIKER\"" >> $HOME/.bash_profile
+echo "export BABYLON_CHAIN_ID=\"bbn-1\"" >> $HOME/.bash_profile
+echo "export BABYLON_PORT=\"$PORT\"" >> $HOME/.bash_profile
+echo "export BABYLON_BLS_PASSWORD=\"$BLS_PASSWORD\"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
+
+# Create BLS password file
+echo "$BLS_PASSWORD" > $HOME/bls_password.txt
 
 printLine
 echo -e "Moniker:        \e[1m\e[32m$MONIKER\e[0m"
 echo -e "Wallet:         \e[1m\e[32m$WALLET\e[0m"
 echo -e "Chain id:       \e[1m\e[32m$BABYLON_CHAIN_ID\e[0m"
 echo -e "Node custom port:  \e[1m\e[32m$BABYLON_PORT\e[0m"
+echo -e "BLS Password:   \e[1m\e[32mSaved\e[0m"
 printLine
 sleep 1
 
@@ -64,7 +71,6 @@ echo done
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
 SEEDS="42fad8afbf7dfca51020c3c6e1a487ce17c4c218@babylon-seed-1.nodes.guru:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@seeds.polkachu.com:20656"
-PEERS="42fad8afbf7dfca51020c3c6e1a487ce17c4c218@babylon-seed-1.nodes.guru:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@seeds.polkachu.com:20656"
 PEERS="f0d280c08608400cac0ccc3d64d67c63fabc8bcc@91.134.70.52:55706,4c1406cb6867232b7ea130ed3a3d25996ca06844@23.88.6.237:20656,b40a147910a608018c47a0e0225106d00d2651ed@5.9.99.42:20656,184db83783c9158a3e99809ffed3752e180597be@65.108.205.121:20656,1f06b55dfbae181fa40ec08fe145b3caef6d3c83@5.9.81.54:2080,7d728de314f9746e499034bfcfc5a9023c672df5@84.32.32.149:18800"
 sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
        -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" $HOME/.babylond/config/config.toml
@@ -112,30 +118,40 @@ sed -i '/\[consensus\]/,/\[/ s/^timeout_commit *=.*/timeout_commit = "9200ms"/' 
 sleep 1
 echo done
 
-# create service file
+# create service file with BLS password environment variable
 sudo tee /etc/systemd/system/babylond.service > /dev/null <<EOF
 [Unit]
 Description=babylond.service
 After=network-online.target
+
 [Service]
 User=$USER
 WorkingDirectory=$HOME/.babylond
+Environment="BABYLON_BLS_PASSWORD=$BLS_PASSWORD"
 ExecStart=$(which babylond) start --home $HOME/.babylond
 Restart=on-failure
 RestartSec=5
 LimitNOFILE=65535
+
 [Install]
 WantedBy=multi-user.target
 EOF
 
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
+# Remove any existing BLS key to avoid decryption issues
+if [ -f $HOME/.babylond/config/bls_key.json ]; then
+  rm $HOME/.babylond/config/bls_key.json
+  printGreen "Removed existing BLS key file to avoid decryption issues"
+fi
+
 # reset and download snapshot
 babylond tendermint unsafe-reset-all --home $HOME/.babylond
 if curl -s --head curl https://snapshots.polkachu.com/snapshots/babylon/babylon_26504.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
   curl https://snapshots.polkachu.com/snapshots/babylon/babylon_26504.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.babylond
-    else
-  echo no have snap
+else
+  echo "No snapshot found"
 fi
+
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable babylond
