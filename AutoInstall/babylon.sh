@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export BABYLON_CHAIN_ID="bbn-test-5"" >> $HOME/.bash_profile
+echo "export BABYLON_CHAIN_ID="bbn-1"" >> $HOME/.bash_profile
 echo "export BABYLON_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -44,12 +44,10 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 
 printGreen "4. Installing binary..." && sleep 1
 # download binary
-cd $HOME
-rm -rf babylon
-git clone https://github.com/babylonlabs-io/babylon.git
+git clone https://github.com/babylonlabs-io/babylon.git babylon
 cd babylon
-git checkout v1.0.0-rc.3
-BABYLON_BUILD_OPTIONS="testnet" make install
+git checkout v1.0.1
+make install
 babylond version
 
 printGreen "5. Configuring and init app..." && sleep 1
@@ -58,15 +56,16 @@ babylond init $MONIKER --chain-id $BABYLON_CHAIN_ID --home $HOME/.babylond
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.babylond/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/babylon/genesis.json
-wget -O $HOME/.babylond/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/refs/heads/main/babylon/addrbook.json
+wget -O $HOME/.babylond/config/genesis.json https://snapshots.polkachu.com/genesis/babylon/genesis.json
+wget -O $HOME/.babylond/config/addrbook.json  https://snapshots.polkachu.com/addrbook/babylon/addrbook.json
 sleep 1
 echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="be232be53f7ac3c4a6628f98becb48fd25df1adf@babylon-testnet-seed.nodes.guru:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@testnet-seeds.polkachu.com:20656"
-PEERS="868730197ee267db3c772414ec1cd2085cc036d4@148.251.235.130:17656,4784d430cd347114043794156ce4d7f56b9e1675@15.235.53.222:26656,2b14dff282b316876d7a365eb1f53e53c17b97a1@167.235.94.74:26656,ff72eaeba708051e334b4bb5b8fa37c1791564fe@47.52.109.182:26656,be232be53f7ac3c4a6628f98becb48fd25df1adf@139.59.151.125:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@176.9.82.221:20656,868730197ee267db3c772414ec1cd2085cc036d4@148.251.235.130:17656"
+SEEDS="42fad8afbf7dfca51020c3c6e1a487ce17c4c218@babylon-seed-1.nodes.guru:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@seeds.polkachu.com:20656"
+PEERS="42fad8afbf7dfca51020c3c6e1a487ce17c4c218@babylon-seed-1.nodes.guru:55706,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@seeds.polkachu.com:20656"
+PEERS="f0d280c08608400cac0ccc3d64d67c63fabc8bcc@91.134.70.52:55706,4c1406cb6867232b7ea130ed3a3d25996ca06844@23.88.6.237:20656,b40a147910a608018c47a0e0225106d00d2651ed@5.9.99.42:20656,184db83783c9158a3e99809ffed3752e180597be@65.108.205.121:20656,1f06b55dfbae181fa40ec08fe145b3caef6d3c83@5.9.81.54:2080,7d728de314f9746e499034bfcfc5a9023c672df5@84.32.32.149:18800"
 sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
        -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" $HOME/.babylond/config/config.toml
 
@@ -89,14 +88,26 @@ s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${BABYLON_P
 s%:26660%:${BABYLON_PORT}660%g" $HOME/.babylond/config/config.toml
 
 # config pruning
-sed -i -e 's|^iavl-cache-size *=.*|iavl-cache-size = 0|' $HOME/.babylond/config/app.toml
-sed -i -e 's|^iavl-disable-fastnode *=.*|iavl-disable-fastnode = true|' $HOME/.babylond/config/app.toml
-sed -i -e '/^$btc-config$/,/^$/{s|^network *=.*|network = "signet"|}' $HOME/.babylond/config/app.toml
-sed -i -e "s/^pruning *=.*/pruning = \"everything\"/" $HOME/.babylond/config/app.toml
+sed -i -e "s/^pruning *=.*/pruning = \"custom\"/" $HOME/.babylond/config/app.toml 
+sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.babylond/config/app.toml
+sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"19\"/" $HOME/.babylond/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
 sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.002ubbn"|g' $HOME/.babylond/config/app.toml
-sed -i -e '/^$consensus$/,/^$/{s|^timeout_commit *=.*|timeout_commit = "10s"|}' $HOME/.babylond/config/config.toml
+sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.babylond/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.babylond/config/config.toml
+
+# set additional requested configurations for app.toml
+sed -i '/\[mempool\]/,/\[/ s/^max-txs *=.*/max-txs = 0/' $HOME/.babylond/config/app.toml
+# Add btc-config if it doesn't exist
+if ! grep -q "\[btc-config\]" $HOME/.babylond/config/app.toml; then
+  echo -e "\n[btc-config]\nnetwork = \"mainnet\"" >> $HOME/.babylond/config/app.toml
+else
+  sed -i '/\[btc-config\]/,/\[/ s/^network *=.*/network = "mainnet"/' $HOME/.babylond/config/app.toml
+fi
+
+# set timeout_commit in config.toml
+sed -i '/\[consensus\]/,/\[/ s/^timeout_commit *=.*/timeout_commit = "9200ms"/' $HOME/.babylond/config/config.toml
 
 sleep 1
 echo done
@@ -120,12 +131,12 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 babylond tendermint unsafe-reset-all --home $HOME/.babylond
-if curl -s --head curl https://snapshots.polkachu.com/testnet-snapshots/babylon/babylon_118282.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshots.polkachu.com/testnet-snapshots/babylon/babylon_118282.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.babylond
+if curl -s --head curl https://snapshots.polkachu.com/snapshots/babylon/babylon_26504.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://snapshots.polkachu.com/snapshots/babylon/babylon_26504.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.babylond
     else
   echo no have snap
 fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable babylond
-sudo systemctl restart babylond && sudo journalctl -u babylond -f
+sudo systemctl restart babylond && sudo journalctl -u babylond -fo cat
