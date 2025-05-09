@@ -24,7 +24,7 @@ source $HOME/.bashrc
 # Function to install Story
 install_story() {
 cd $HOME
-wget https://github.com/piplabs/story/releases/download/v1.1.1/story-linux-arm64
+wget https://github.com/piplabs/story/releases/download/v1.2.0/story-linux-arm64
 sudo mv story-linux-arm64 story
 sudo chmod +x story
 sudo mv ./story $HOME/go/bin/story
@@ -40,7 +40,7 @@ cd story && \
 git checkout v1.0.0 && \
 go build -o story ./client  && \
 sudo systemctl stop story-geth && \
-wget -O $(which geth)  https://github.com/piplabs/story-geth/releases/download/v1.0.1/geth-linux-arm64 && \
+wget -O $(which geth)  https://github.com/piplabs/story-geth/releases/download/v1.0.2/geth-linux-arm64 && \
 chmod +x $(which geth) && \
 sudo systemctl start story-geth && \
 old_bin_path=$(which story) && \
