@@ -98,7 +98,7 @@ sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"100\"/" $HOME/.lu
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"50\"/" $HOME/.lumera/config/app.toml
 
 # set minimum gas price, enable prometheus and disable indexing
-sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.00001ulura"|g' $HOME/.lumera/config/app.toml
+sed -i 's|minimum-gas-prices =.*|minimum-gas-prices = "0.025ulume"|g' $HOME/.lumera/config/app.toml
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.lumera/config/config.toml
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.lumera/config/config.toml
 sleep 1
