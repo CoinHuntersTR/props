@@ -45,7 +45,7 @@ source <(curl -s https://raw.githubusercontent.com/itrocket-team/testnet_guides/
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O pellcored https://github.com/0xPellNetwork/network-config/releases/download/v1.3.0/pellcored-1.3.0-linux-amd64
+wget -O pellcored https://github.com/0xPellNetwork/aegis/releases/download/v1.4.2/pellcored-v1.4.2-linux-amd64
 chmod +x pellcored
 mv pellcored ~/go/bin/
 WASMVM_VERSION=v2.1.2
@@ -128,8 +128,8 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 pellcored tendermint unsafe-reset-all --home $HOME/.pellcored
-if curl -s --head curl https://server-5.itrocket.net/testnet/pell/pell_2025-06-10_2707129_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
-  curl https://server-5.itrocket.net/testnet/pell/pell_2025-06-10_2707129_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.pellcored
+if curl -s --head curl https://server-5.itrocket.net/testnet/pell/pell_2025-06-12_2726841_snap.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://server-5.itrocket.net/testnet/pell/pell_2025-06-12_2726841_snap.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.pellcored
     else
   echo "no snapshot found"
 fi
