@@ -4,7 +4,7 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/commo
 # Flag for autosnap
 from_autoinstall=true
 
-upgrade_height=329623
+upgrade_height=1751934608
 STORY_CHAIN_ID=story
 VER=1.22.3
 SEEDS="c1d973eea1b2c637777ab32783b3d37f2b52ba36@b1.storyrpc.io:26656,78db197dbbffb97a5c851b87b1df4cc51e99d4f9@b2.storyrpc.io:26656"
@@ -37,17 +37,17 @@ cd $HOME && \
 rm -rf story && \
 git clone https://github.com/piplabs/story && \
 cd story && \
-git checkout v1.0.0 && \
+git checkout v1.2.1 && \
 go build -o story ./client  && \
 sudo systemctl stop story-geth && \
-wget -O $(which geth)  https://github.com/piplabs/story-geth/releases/download/v1.0.2/geth-linux-arm64 && \
+wget -O $(which geth)  https://github.com/piplabs/story-geth/releases/download/v1.1.0/geth-linux-arm64 && \
 chmod +x $(which geth) && \
 sudo systemctl start story-geth && \
 old_bin_path=$(which story) && \
 home_path=$HOME && \
 rpc_port=$(grep -m 1 -oP '^laddr = "\K[^"]+' "$HOME/.story/story/config/config.toml" | cut -d ':' -f 3) && \
 [[ -z "$rpc_port" ]] && rpc_port=$(grep -oP 'node = "tcp://[^:]+:\K\d+' "$HOME/.story/story/config/client.toml") ; \
-tmux new -s story-upgrade "sudo bash -c 'curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads/main/autoupgrade/upgrade.sh | bash -s -- -u \"2065886\" -b story -n \"$HOME/story/story\" -o \"$old_bin_path\" -h \"$home_path\" -p \"undefined\" -r \"$rpc_port\"'"
+tmux new -s story-upgrade "sudo bash -c 'curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads/main/autoupgrade/upgrade.sh | bash -s -- -u \"1751934608\" -b story -n \"$HOME/story/story\" -o \"$old_bin_path\" -h \"$home_path\" -p \"undefined\" -r \"$rpc_port\"'"
 }
 
 # Function to prompt user to continue or exit
