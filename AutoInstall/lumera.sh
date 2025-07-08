@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export LUMERA_CHAIN_ID="lumera-testnet-1"" >> $HOME/.bash_profile
+echo "export LUMERA_CHAIN_ID="lumera-testnet-2"" >> $HOME/.bash_profile
 echo "export LUMERA_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -49,11 +49,11 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/refs/heads
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget https://github.com/LumeraProtocol/lumera/releases/download/v0.4.1/lumera_v0.4.1_linux_amd64.tar.gz
-tar -xvf lumera_v0.4.1_linux_amd64.tar.gz
-rm lumera_v0.4.1_linux_amd64.tar.gz
-rm -f install.sh
-sudo mv libwasmvm.x86_64.so /usr/lib/
+wget https://github.com/LumeraProtocol/lumera/releases/download/v1.6.0/lumera_v1.6.0_linux_amd64.tar.gz
+tar -xvf lumera_v1.6.0_linux_amd64.tar.gz
+rm lumera_v1.6.0_linux_amd64.tar.gz
+rm install.sh
+mv libwasmvm.x86_64.so /usr/lib/
 chmod +x lumerad
 mv lumerad $HOME/go/bin/
 lumerad version
@@ -69,8 +69,8 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-curl -Ls https://ss-t.lumera.nodestake.org/genesis.json > $HOME/.lumera/config/genesis.json 
-curl -Ls https://ss-t.lumera.nodestake.org/addrbook.json > $HOME/.lumera/config/addrbook.json
+curl -Ls https://snapshots.polkachu.com/testnet-genesis/lumera/genesis.json > $HOME/.lumera/config/genesis.json 
+curl -Ls https://snapshots.polkachu.com/testnet-addrbook/lumera/addrbook.json > $HOME/.lumera/config/addrbook.json
 sleep 1
 echo done
 
