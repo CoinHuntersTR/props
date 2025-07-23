@@ -2,6 +2,7 @@
 
 # Union Testnet Kurulumu - Cosmovisor Olmadan
 # Port: 26, Moniker: CoinHunters
+# Polkachu snapshot ayarlarına uygun
 
 echo "=== Union Testnet Kurulumu Başlıyor ==="
 
@@ -52,15 +53,18 @@ sed -i -e "s|^seeds *=.*|seeds = \"3f472746f46493309650e5a033076689996c8881@unio
 PEERS="39f02482a6b4de484174fd24c0ba86bde4a9cfc5@23.111.23.233:16656,a884f78b3b026847e8cbbde9073e2c53377ab6cb@89.58.24.181:26656,2bd4ff5345920f6a41ecd46ace99dc1f239fdf38@157.180.42.128:26656,629ed307bbfeeaddb26d2ff48f377fa2bc8e7ffa@95.217.200.98:22656,ce78c5255a5070eec0f2b1191534ebbebd53e482@184.107.57.139:57200"
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.union/config/config.toml
 
+# Indexer'ı null yap (Polkachu ayarları)
+sed -i -e "s|^indexer *=.*|indexer = \"null\"|" $HOME/.union/config/config.toml
+
 # Minimum gas price ayarla
 sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0muno\"|" $HOME/.union/config/app.toml
 
-# Pruning ayarları
+# Polkachu snapshot uyumlu pruning ayarları
 sed -i \
   -e 's|^pruning *=.*|pruning = "custom"|' \
   -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|' \
   -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
-  -e 's|^pruning-interval *=.*|pruning-interval = "19"|' \
+  -e 's|^pruning-interval *=.*|pruning-interval = "10"|' \
   $HOME/.union/config/app.toml
 
 # Port 26 ayarları (default portlar)
@@ -89,9 +93,40 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable union-testnet.service
 
-# Snapshot indir
-echo "Snapshot indiriliyor..."
+# Snapshot işlemi - Polkachu metoduna göre
+echo "Snapshot indiriliyor ve kurulumu yapılıyor..."
+
+# Eğer node çalışıyorsa durdur
+sudo systemctl stop union-testnet.service 2>/dev/null || true
+
+# priv_validator_state.json'u backup al
+if [ -f "$HOME/.union/data/priv_validator_state.json" ]; then
+    echo "priv_validator_state.json backup alınıyor..."
+    cp $HOME/.union/data/priv_validator_state.json $HOME/.union/priv_validator_state.json
+fi
+
+# Node'u reset et
+echo "Node reset ediliyor..."
+uniond tendermint unsafe-reset-all --home $HOME/.union --keep-addr-book
+
+# WASM klasörünü sil (Union WASM desteği var)
+echo "WASM klasörü temizleniyor..."
+rm -rf $HOME/.union/wasm
+
+# Snapshot indir ve çıkart
+echo "Snapshot indiriliyor ve açılıyor..."
 curl -o - -L https://snapshots.polkachu.com/testnet-snapshots/union/union_2096193.tar.lz4 | lz4 -c -d - | tar -x -C $HOME/.union
+
+# priv_validator_state.json'u geri koy
+if [ -f "$HOME/.union/priv_validator_state.json" ]; then
+    echo "priv_validator_state.json geri yükleniyor..."
+    cp $HOME/.union/priv_validator_state.json $HOME/.union/data/priv_validator_state.json
+fi
+
+# WASM klasörünün boş olmadığını kontrol et
+if [ ! -d "$HOME/.union/wasm" ] || [ -z "$(ls -A $HOME/.union/wasm)" ]; then
+    echo "UYARI: WASM klasörü boş veya mevcut değil!"
+fi
 
 # Service'i başlat
 echo "Service başlatılıyor..."
@@ -103,3 +138,6 @@ echo "sudo journalctl -u union-testnet.service -f --no-hostname -o cat"
 echo ""
 echo "Sync durumunu kontrol etmek için:"
 echo "uniond status --home=$HOME/.union 2>&1 | jq .SyncInfo"
+echo ""
+echo "Node status kontrol:"
+echo "sudo systemctl status union-testnet.service"
