@@ -1,143 +1,101 @@
 #!/bin/bash
 
-# Union Testnet Kurulumu - Cosmovisor Olmadan
-# Port: 26, Moniker: CoinHunters
-# Polkachu snapshot ayarlarına uygun
+# Union Node Installation Script
+# Moniker: CoinHunters
 
-echo "=== Union Testnet Kurulumu Başlıyor ==="
+echo "Starting Union Node installation..."
 
-# Moniker ayarla
-MONIKER="CoinHunters"
+# Update system and install required tools
+echo "Updating system and installing required tools..."
+sudo apt update
+sudo apt-get install git curl build-essential make jq gcc snapd chrony lz4 tmux unzip bc -y
 
-# Sistem güncellemesi ve gerekli araçları kur
-echo "Sistem güncelleniyor ve gerekli araçlar kuruluyor..."
-sudo apt -q update
-sudo apt -qy install curl git jq lz4 build-essential
-sudo apt -qy upgrade
+# Install Go
+echo "Installing Go..."
+cd $HOME
+curl https://dl.google.com/go/go1.23.1.linux-amd64.tar.gz | sudo tar -C/usr/local -zxvf -
 
-# Go kurulumu
-echo "Go kuruluyor..."
-sudo rm -rf /usr/local/go
-curl -Ls https://go.dev/dl/go1.24.2.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
-eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
+# Update environment variables
+echo "Setting up Go environment variables..."
+cat <<'EOF' >>$HOME/.profile
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export GO111MODULE=on
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+EOF
 
-# Union binary indir ve kur
-echo "Union binary indiriliyor ve kuruluyor..."
-wget -O uniond https://github.com/unionlabs/union/releases/download/uniond%2Fv1.2.0-rc2.alpha1/uniond-release-x86_64-linux
+source $HOME/.profile
+
+# Check Go version
+echo "Checking Go version..."
+go version
+
+# Install Union node
+echo "Installing Union node..."
+wget -O uniond https://support.synergynodes.com/misc/uniond
 chmod +x uniond
-sudo mv uniond /usr/local/bin/
+mv uniond ~/go/bin/
+uniond version
 
-# Node'u initialize et
-echo "Node initialize ediliyor..."
-uniond init $MONIKER --chain-id union-testnet-10 --home=$HOME/.union
+# Initialize the Node
+echo "Initializing the node with moniker: CoinHunters..."
+cd
+mkdir $HOME/.union
+uniond init CoinHunters --chain-id=union-testnet-10 --home $HOME/.union
 
-# Client konfigürasyonu
-echo "Client konfigürasyonu yapılıyor..."
-uniond config set client chain-id union-testnet-10 --home=$HOME/.union
-uniond config set client keyring-backend test --home=$HOME/.union
-uniond config set client node tcp://localhost:26657 --home=$HOME/.union
+# Download Genesis file
+echo "Downloading Genesis file..."
+curl -Ls https://support.synergynodes.com/genesis2/union_testnet/genesis.json > $HOME/.union/config/genesis.json
 
-# Genesis ve addrbook indir
-echo "Genesis ve addrbook indiriliyor..."
-curl -Ls https://snapshots.kjnodes.com/union-testnet/genesis.json > $HOME/.union/config/genesis.json
-curl -Ls https://snapshots.kjnodes.com/union-testnet/addrbook.json > $HOME/.union/config/addrbook.json
+# Download Addrbook file
+echo "Downloading Addrbook file..."
+curl -Ls https://support.synergynodes.com/addrbook/union_testnet/addrbook.json > $HOME/.union/config/addrbook.json
 
-# Konfigürasyon ayarları
-echo "Konfigürasyon ayarları yapılıyor..."
+# Add / Update Persistent Peers
+echo "Adding persistent peers..."
+PEERS=ea80b3d17264ddd25f0fe7b5b72b06a785be0be7@167.235.1.51:24656,57d817a99049c963e1adaed7735cbd1ce388e912@16.62.79.119:26656,651b3698131a9c32f46556846017ce013c5c2980@167.235.115.23:24656,232b01bad118d54cb6c50c2005252b4ed6a272b3@173.231.40.186:24656,2e4338eb94b6a04f5acd80d935f043be2a73a858@62.84.190.33:26676,3ca744ee6b3871cf45bb23a6ecefd9a11dcee294@62.84.190.37:26676,4b81ca0a131659f316cfb8f7c755b2ada3e276ea@157.90.170.177:26656,acee1549c9ba5d69228d054532a1d5864e12faac@31.220.75.27:26676,1c70431e4126fd793669b4313f914a256e489c50@51.91.116.146:36656,06de8a52cd5fcf6144d534129e3bc5b8ca2966b7@65.108.105.48:24656
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.union/config/config.toml
 
-# Seeds ekle
-sed -i -e "s|^seeds *=.*|seeds = \"3f472746f46493309650e5a033076689996c8881@union-testnet.rpc.kjnodes.com:17159\"|" $HOME/.union/config/config.toml
+# Download & decompress Snapshot
+echo "Downloading and decompressing snapshot..."
+cd $HOME
+sudo systemctl stop uniond 2>/dev/null || true
+cp $HOME/.union/data/priv_validator_state.json $HOME/.union/priv_validator_state.json.backup 2>/dev/null || true
+rm -rf $HOME/.union/data
+wget -O union_testnet_2097968.tar.lz4 https://support.synergynodes.com/snapshots/union_testnet/union_testnet_2097968.tar.lz4
+lz4 -c -d union_testnet_2097968.tar.lz4 | tar -x -C $HOME/.union
+mv $HOME/.union/priv_validator_state.json.backup $HOME/.union/data/priv_validator_state.json 2>/dev/null || true
 
-# Live peers ekle
-PEERS="39f02482a6b4de484174fd24c0ba86bde4a9cfc5@23.111.23.233:16656,a884f78b3b026847e8cbbde9073e2c53377ab6cb@89.58.24.181:26656,2bd4ff5345920f6a41ecd46ace99dc1f239fdf38@157.180.42.128:26656,629ed307bbfeeaddb26d2ff48f377fa2bc8e7ffa@95.217.200.98:22656,ce78c5255a5070eec0f2b1191534ebbebd53e482@184.107.57.139:57200"
-sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.union/config/config.toml
-
-# Indexer'ı null yap (Polkachu ayarları)
-sed -i -e "s|^indexer *=.*|indexer = \"null\"|" $HOME/.union/config/config.toml
-
-# Minimum gas price ayarla
-sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0muno\"|" $HOME/.union/config/app.toml
-
-# Polkachu snapshot uyumlu pruning ayarları
-sed -i \
-  -e 's|^pruning *=.*|pruning = "custom"|' \
-  -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "100"|' \
-  -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
-  -e 's|^pruning-interval *=.*|pruning-interval = "10"|' \
-  $HOME/.union/config/app.toml
-
-# Port 26 ayarları (default portlar)
-sed -i -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:26658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:26657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:26060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:26656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":26660\"%" $HOME/.union/config/config.toml
-
-sed -i -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:26317\"%; s%^address = \":8080\"%address = \":26080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:26090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:26091\"%; s%:8545%:26545%; s%:8546%:26546%; s%:6065%:26065%" $HOME/.union/config/app.toml
-
-# Systemd service oluştur
-echo "Systemd service oluşturuluyor..."
-sudo tee /etc/systemd/system/union-testnet.service > /dev/null << EOF
+# Create Service File
+echo "Creating systemd service file..."
+sudo tee /etc/systemd/system/uniond.service > /dev/null <<EOF
 [Unit]
-Description=Union Testnet Node
-After=network-online.target
+Description=uniond Daemon
+After=network.target
+StartLimitInterval=350
+StartLimitBurst=10
 
 [Service]
+Type=simple
 User=$USER
-ExecStart=/usr/local/bin/uniond start --home=$HOME/.union
-Restart=on-failure
-RestartSec=10
-LimitNOFILE=65535
+ExecStart=$HOME/go/bin/uniond start --home $HOME/.union
+Restart=on-abort
+RestartSec=30
+LimitNOFILE=1048576
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
+# Start the Node
+echo "Starting the node..."
 sudo systemctl daemon-reload
-sudo systemctl enable union-testnet.service
+sudo systemctl enable uniond
+sudo systemctl start uniond
 
-# Snapshot işlemi - Polkachu metoduna göre
-echo "Snapshot indiriliyor ve kurulumu yapılıyor..."
-
-# Eğer node çalışıyorsa durdur
-sudo systemctl stop union-testnet.service 2>/dev/null || true
-
-# priv_validator_state.json'u backup al
-if [ -f "$HOME/.union/data/priv_validator_state.json" ]; then
-    echo "priv_validator_state.json backup alınıyor..."
-    cp $HOME/.union/data/priv_validator_state.json $HOME/.union/priv_validator_state.json
-fi
-
-# Node'u reset et
-echo "Node reset ediliyor..."
-uniond tendermint unsafe-reset-all --home $HOME/.union --keep-addr-book
-
-# WASM klasörünü sil (Union WASM desteği var)
-echo "WASM klasörü temizleniyor..."
-rm -rf $HOME/.union/wasm
-
-# Snapshot indir ve çıkart
-echo "Snapshot indiriliyor ve açılıyor..."
-curl -o - -L https://snapshots.polkachu.com/testnet-snapshots/union/union_2096193.tar.lz4 | lz4 -c -d - | tar -x -C $HOME/.union
-
-# priv_validator_state.json'u geri koy
-if [ -f "$HOME/.union/priv_validator_state.json" ]; then
-    echo "priv_validator_state.json geri yükleniyor..."
-    cp $HOME/.union/priv_validator_state.json $HOME/.union/data/priv_validator_state.json
-fi
-
-# WASM klasörünün boş olmadığını kontrol et
-if [ ! -d "$HOME/.union/wasm" ] || [ -z "$(ls -A $HOME/.union/wasm)" ]; then
-    echo "UYARI: WASM klasörü boş veya mevcut değil!"
-fi
-
-# Service'i başlat
-echo "Service başlatılıyor..."
-sudo systemctl start union-testnet.service
-
-echo "=== Union Testnet Kurulumu Tamamlandı ==="
-echo "Node durumunu kontrol etmek için:"
-echo "sudo journalctl -u union-testnet.service -f --no-hostname -o cat"
+echo "Union Node installation completed!"
+echo "Moniker: CoinHunters"
+echo "Chain ID: union-testnet-10"
 echo ""
-echo "Sync durumunu kontrol etmek için:"
-echo "uniond status --home=$HOME/.union 2>&1 | jq .SyncInfo"
-echo ""
-echo "Node status kontrol:"
-echo "sudo systemctl status union-testnet.service"
+echo "To check logs, run: sudo journalctl -fu uniond"
+echo "To check status, run: sudo systemctl status uniond"
