@@ -20,7 +20,7 @@ sudo apt install curl git wget htop tmux build-essential jq make lz4 gcc unzip -
 
 echo "Installing Go..."
 cd $HOME
-VER="1.22.11"
+VER="1.22.5"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -35,7 +35,7 @@ cd $HOME
 rm -rf story-geth
 git clone https://github.com/piplabs/story-geth.git
 cd story-geth
-git checkout v1.0.2
+git checkout v1.1.0
 go build -v ./cmd/geth
 mv ./geth $HOME/go/bin/story-geth
 cd $HOME
@@ -47,7 +47,7 @@ cd $HOME
 rm -rf story
 git clone https://github.com/piplabs/story
 cd story
-git checkout v1.1.0
+git checkout v1.3.0
 go build -o story ./client 
 mv ./story $HOME/go/bin/story
 cd $HOME
@@ -70,8 +70,8 @@ sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.story/story/config/co
 sed -i -e "s/^indexer *=.*/indexer = \"null\"/" $HOME/.story/story/config/config.toml
 
 echo "Setting seeds & peers..."
-SEEDS="944e8889ecd7c13623ef1081aae4555d6f525041@b1-b.odyssey-devnet.storyrpc.io:26656"
-PEERS="3b1aaa03f996d619cb2f4230ebace45686ab3b8a@34.140.167.127:26656,36ca8b119bf5851cd1e37060af914cb07dec24f9@34.79.40.193:26656,2a28bd1a6ecb0a1d8ceade599b311d202447d635@193.122.141.78:26656,b540a4a88399bee252207ab9cf783c14fcefd4dc@65.108.30.59:26656,b21b772ca2e4067844f881e8a79a7447dc435217@65.108.141.109:29456,6c89fb9e0791ffa67468b9f9923891a2bfcad80f@141.94.143.203:56356,1ff566a5ac0bd3605e8af09e92cacc43927aed7f@161.35.70.64:26656,2e00c3e558f382e48fe7511f50c069fde44a6468@150.136.128.196:26656,20a1a828469c42047601529a50f527ecf9301251@35.211.53.224:26656,b965eed902107d29df3669b2ff9a93859db236a3@49.12.92.82:56356,817a54d7ed4f3b618d37ea80448c135b20fc34e1@34.143.143.252:26656,0eda723784a874798b173df8f17545f9984b86e6@35.211.230.141:26656,155bcba7d521ced31042bd99100841c6cf057f36@35.211.9.151:26656,7e311e22cff1a0d39c3758e342fa4c2ee1aea461@188.166.224.194:28656,59201fade719c1e4ded98b2304e555377d2b4cef@116.202.217.20:28656,9d34ab3819aa8baa75589f99138318acfa0045f5@95.217.119.251:30900,45938d3dfe2877e1eb45cbce10f2d02c676f50a0@198.244.176.117:33656,580be4f3e5f505ed0ea15510997aeeb74e35408e@35.211.167.181:26656,944e8889ecd7c13623ef1081aae4555d6f525041@35.211.57.203:26656"
+SEEDS="944e8889ecd7c13623ef1081aae4555d6f525041@b1-b.odyssey-devnet.storyrpc.io:26656,46b7995b0b77515380000b7601e6fc21f783e16f@story-testnet-seed.itrocket.net:52656"
+PEERS="d0bd5c23b0a707104b0b7e4411f539573039fe22@144.91.107.167:656,dfb96be7e47cd76762c1dd45a5f76e536be47faa@65.108.45.34:32655,b1b89c9edb7ae45a19cac9c08d86c329bb146e4f@152.53.163.158:26656,7160dec63da82b56e1ce59a93c057c05e361cf85@135.181.117.37:64656,9308260b6cb4ca1faa9f3025bac0bc2636c4b020@185.232.68.94:26656,01f8a2148a94f0267af919d2eab78452c90d9864@story-testnet-rpc.itrocket.net:52656,01f8a2148a94f0267af919d2eab78452c90d9864@207.120.52.220:52656,85e39bd2820f16f023289ff7f2a3e57b60d03dcb@198.244.176.206:22136,fbf163ec501eb2acdfe90317dd06c3bad7acaf26@65.21.192.60:62656,e97c0185a7b609736138ed9275d9071a798c420b@148.72.141.31:26686,dd4a2150198b059baf511f4058c60b14a62617d9@15.235.112.107:22136"
 sed -i -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*seeds *=.*/seeds = \"$SEEDS\"/}" \
        -e "/^\[p2p\]/,/^\[/{s/^[[:space:]]*persistent_peers *=.*/persistent_peers = \"$PEERS\"/}" $HOME/.story/story/config/config.toml
 
