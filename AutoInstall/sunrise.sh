@@ -13,7 +13,7 @@ echo 'export PORT='$PORT
 # set vars
 echo "export WALLET="$WALLET"" >> $HOME/.bash_profile
 echo "export MONIKER="$MONIKER"" >> $HOME/.bash_profile
-echo "export SUNRISE_CHAIN_ID="sunrise-test-0.2"" >> $HOME/.bash_profile
+echo "export SUNRISE_CHAIN_ID="sunrise-1"" >> $HOME/.bash_profile
 echo "export SUNRISE_PORT="$PORT"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
@@ -28,7 +28,7 @@ sleep 1
 printGreen "1. Installing go..." && sleep 1
 # install go, if needed
 cd $HOME
-VER="1.22.1"
+VER="1.24.5"
 wget "https://golang.org/dl/go$VER.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "go$VER.linux-amd64.tar.gz"
@@ -45,10 +45,12 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-wget -O sunrised wget https://github.com/sunriselayer/sunrise/releases/download/v0.2.5-rc1/sunrised
-chmod +x $HOME/sunrised
-mv $HOME/sunrised $HOME/go/bin/sunrised
-
+rm -rf sunrise-app
+git clone https://github.com/SunriseLayer/sunrise-app.git
+cd sunrise-app
+git checkout v1.0.0
+make install
+sunrised version
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -68,8 +70,8 @@ echo done
 
 printGreen "6. Downloading genesis and addrbook..." && sleep 1
 # download genesis and addrbook
-wget -O $HOME/.sunrise/config/genesis.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/sunrise/genesis.json
-wget -O $HOME/.sunrise/config/addrbook.json https://raw.githubusercontent.com/CoinHuntersTR/props/main/sunrise/addrbook.json
+wget -O $HOME/.sunrise/config/genesis.json https://ss.sunrise.nodestake.org/genesis.json
+wget -O $HOME/.sunrise/config/addrbook.json https://ss.sunrise.nodestake.org/addrbook.json
 sleep 1
 echo done
 
