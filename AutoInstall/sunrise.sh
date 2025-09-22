@@ -45,12 +45,9 @@ source <(curl -s https://raw.githubusercontent.com/CoinHuntersTR/Logo/main/depen
 printGreen "4. Installing binary..." && sleep 1
 # download binary
 cd $HOME
-rm -rf sunrise-app
-git clone https://github.com/SunriseLayer/sunrise-app.git
-cd sunrise-app
-git checkout v1.1.0
-make install
-sunrised version
+wget -O sunrised https://github.com/sunriselayer/sunrise/releases/download/v1.1.0/sunrised-linux-amd64
+chmod +x $HOME/sunrised
+sudo mv $HOME/sunrised $(which sunrised)
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
