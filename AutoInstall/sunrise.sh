@@ -47,7 +47,16 @@ printGreen "4. Installing binary..." && sleep 1
 cd $HOME
 wget -O sunrised https://github.com/sunriselayer/sunrise/releases/download/v1.1.0/sunrised-linux-amd64
 chmod +x $HOME/sunrised
-sudo mv $HOME/sunrised $(which sunrised)
+sudo mv $HOME/sunrised /usr/local/bin/sunrised
+
+# Verify installation
+if command -v sunrised &> /dev/null; then
+    echo "sunrised successfully installed"
+    sunrised version
+else
+    echo "Error: sunrised installation failed"
+    exit 1
+fi
 
 printGreen "5. Configuring and init app..." && sleep 1
 # config and init app
@@ -86,7 +95,6 @@ s%:9091%:${SUNRISE_PORT}091%g;
 s%:8545%:${SUNRISE_PORT}545%g;
 s%:8546%:${SUNRISE_PORT}546%g;
 s%:6065%:${SUNRISE_PORT}065%g" $HOME/.sunrise/config/app.toml
-
 
 # set custom ports in config.toml file
 sed -i.bak -e "s%:26658%:${SUNRISE_PORT}658%g;
@@ -136,4 +144,4 @@ fi
 # enable and start service
 sudo systemctl daemon-reload
 sudo systemctl enable sunrised
-sudo systemctl restart sunrised && sudo journalctl -u sunrised -f
+sudo systemctl restart sunrised && sudo journalctl -u sunrised -fo cat
