@@ -48,7 +48,7 @@ cd $HOME
 rm -rf sunrise-app
 git clone https://github.com/SunriseLayer/sunrise-app.git
 cd sunrise-app
-git checkout v1.0.0
+git checkout v1.1.0
 make install
 sunrised version
 
@@ -77,8 +77,8 @@ echo done
 
 printGreen "7. Adding seeds, peers, configuring custom ports, pruning, minimum gas price..." && sleep 1
 # set seeds and peers
-SEEDS="0c0e0cf617c1c58297f53f3a82cea86a7c860396@a.sunrise-test-1.cauchye.net:26656,db223ecc4fba0e7135ba782c0fd710580c5213a6@a-node.sunrise-test-1.cauchye.net:26656,82bc2fdbfc735b1406b9da4181036ab9c44b63be@b-node.sunrise-test-1.cauchye.net:26656"
-PEERS=""
+SEEDS="0c0e0cf617c1c58297f53f3a82cea86a7c860396@a.sunrise-test-1.cauchye.net:26656,db223ecc4fba0e7135ba782c0fd710580c5213a6@a-node.sunrise-test-1.cauchye.net:26656,82bc2fdbfc735b1406b9da4181036ab9c44b63be@b-node.sunrise-test-1.cauchye.net:26656,327fb4151de9f78f29ff10714085e347a4e3c836@rpc.sunrise.nodestake.org:666"
+PEERS="34447c658f69fa1bc56125e991c207da1efbf137@65.109.59.22:28356,34e39405f02872a4a9403f241066cf0875a66ce2@65.108.7.249:28356,045eedb6b5d36056dc779e484e8a7e53750c22fa@65.109.122.90:28656,2404dca4d4b0831e69dd010539f0c391bcd0523a@95.217.128.50:26656,e776df4c573785a3416da430fb9c90be72ea795e@23.129.20.120:28356,7db7f656d36c420f39a8eab76c50c41cff440fa9@65.109.58.158:28356,2d712853b8aeca55161a71f1f5ca8bb27cc499d2@38.146.3.231:28356,bb69adc6246d31899055c2da852ef5c3fd5bbfe3@51.195.60.23:28356,f82a5e12227f6703a614263d61f0f88486ea7f98@51.68.248.230:26656,8b13908c44911f9797798e951557c17ef2490ee8@95.217.203.185:26656,2a30964e07118a0cb03bb1cae9185d37a967230a@207.148.68.35:26656,2494005ba072167d29e6f55a9b378a781872a49e@65.109.145.247:26656,13c1a5edd2e09c8ec3998fdc2c8ede330c6224bf@65.108.204.225:28356,60a83f51c20d39b7e69594f538513a80521eb0e8@45.32.30.169:26656,49be16d94c586f3ebd15f7cc7174d56765043b11@64.185.226.202:28356,366ef5ffeb16a2d8f018f483bf163bf75563d556@94.130.35.120:19656,401d10017915a9f217cb7e9ae9c888556c81e6da@65.108.230.75:18656"
 sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.sunrise/config/config.toml
 
 # set custom ports in app.toml
@@ -130,10 +130,10 @@ EOF
 printGreen "8. Downloading snapshot and starting node..." && sleep 1
 # reset and download snapshot
 sunrised tendermint unsafe-reset-all --home $HOME/.sunrise
-if curl -s --head curl https://snapshot.stir.network/sunrise/sunrise-test-0.2-v0.2.0.tar.gz | head -n 1 | grep "200" > /dev/null; then
-  curl https://snapshot.stir.network/sunrise/sunrise-test-0.2-v0.2.0.tar.gz | tar -xz -C $HOME/.sunrise
-    else
-  echo "no snapshot founded"
+if curl -s --head https://ss.sunrise.nodestake.org/2025-09-22_sunrise_753073.tar.lz4 | head -n 1 | grep "200" > /dev/null; then
+  curl https://ss.sunrise.nodestake.org/2025-09-22_sunrise_753073.tar.lz4 | lz4 -d | tar -x -C $HOME/.sunrise
+else
+  echo "no snapshot found"
 fi
 
 # enable and start service
